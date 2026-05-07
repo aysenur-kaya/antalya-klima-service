@@ -1,0 +1,64 @@
+@import "tailwindcss";
+
+@theme {
+  --color-brand-red: #c81e1e;
+  --color-brand-dark: #111111;
+  --color-brand-gray: #1f1f1f;
+  --color-brand-light: #f9f9f9;
+  
+  --font-sans: "Inter", "system-ui", "sans-serif";
+}
+
+@layer base {
+  :root {
+    --background: #ffffff;
+    --foreground: #111111;
+    --primary: #c81e1e;
+    --primary-foreground: #ffffff;
+    --card: #ffffff;
+    --card-foreground: #111111;
+    --border: #e5e5e5;
+  }
+
+  .dark {
+    --background: #111111;
+    --foreground: #f9f9f9;
+    --primary: #c81e1e;
+    --primary-foreground: #ffffff;
+    --card: #1f1f1f;
+    --card-foreground: #f9f9f9;
+    --border: #333333;
+  }
+
+  body {
+    background-color: var(--background);
+    color: var(--foreground);
+    font-family: var(--font-sans);
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
+  }
+}
+
+@layer utilities {
+  .text-balance {
+    text-wrap: balance;
+  }
+  
+  .glass-card {
+    background: rgba(255, 255, 255, 0.05);
+    backdrop-filter: blur(10px);
+    -webkit-backdrop-filter: blur(10px);
+    border: 1px solid rgba(255, 255, 255, 0.1);
+  }
+
+  .premium-gradient {
+    background: linear-gradient(135deg, #111111 0%, #1a1a1a 100%);
+  }
+
+  .text-gradient {
+    background: linear-gradient(to right, #ffffff, #a3a3a3);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    background-clip: text;
+  }
+}
