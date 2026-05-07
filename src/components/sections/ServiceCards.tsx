@@ -79,7 +79,7 @@ export default function ServiceCards({ type, locationSlug }: { type?: string, lo
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
           {filteredServices.map((service, idx) => {
             const Icon = service.icon;
-            const href = locationSlug ? `/${locationSlug}/${service.slug}` : `/${service.slug}`;
+            const href = locationSlug ? `/${locationSlug}/${service.slug}` : `/antalya-${service.slug}`;
             return (
               <Link
                 key={idx}

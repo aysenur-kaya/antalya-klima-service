@@ -17,6 +17,7 @@ export interface Ilce {
 export interface Brand {
   name: string;
   slug: string;
+  type: "klima" | "beyaz-esya";
 }
 
 // Transform Data
@@ -32,11 +33,13 @@ export const ilceler: Ilce[] = antalyaData.ilceler.map((ilce) => ({
 export const klimaMarkalari: Brand[] = klimaData.klima_markalari.map((marka) => ({
   name: marka,
   slug: slugify(marka),
+  type: "klima"
 }));
 
 export const beyazEsyaMarkalari: Brand[] = beyazEsyaData.beyaz_esya_markalari.map((marka) => ({
   name: marka,
   slug: slugify(marka),
+  type: "beyaz-esya"
 }));
 
 export const hizmetTipleri = [

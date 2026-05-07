@@ -1,12 +1,12 @@
 import Link from "next/link";
 import { Phone, MessageCircle, MapPin, Clock } from "lucide-react";
-import { hizmetTipleri, ilceler, allBrands } from "@/lib/data";
+import { hizmetTipleri, ilceler, klimaMarkalari, beyazEsyaMarkalari } from "@/lib/data";
 
 export default function Footer() {
   // Get highlighted data for footer
   const popularIlceler = ilceler.slice(0, 9);
-  const popularKlimaMarkalari = allBrands.filter(b => ["mitsubishi", "daikin", "arcelik", "beko", "bosch", "samsung"].includes(b.slug));
-  const popularBeyazEsyaMarkalari = allBrands.filter(b => ["bosch", "siemens", "profilo", "arcelik", "beko", "vestel"].includes(b.slug));
+  const popularKlimaMarkalari = klimaMarkalari.filter(b => ["mitsubishi", "daikin", "arcelik", "beko", "bosch", "samsung"].includes(b.slug));
+  const popularBeyazEsyaMarkalari = beyazEsyaMarkalari.filter(b => ["bosch", "siemens", "profilo", "arcelik", "beko", "vestel"].includes(b.slug));
 
   return (
     <footer className="relative bg-brand-dark pt-20 pb-10 overflow-hidden text-gray-300">
@@ -98,8 +98,8 @@ export default function Footer() {
               <div>
                 <p className="text-xs text-gray-500 uppercase font-bold mb-2 tracking-wider">Klima</p>
                 <div className="flex flex-wrap gap-2">
-                  {popularKlimaMarkalari.map(b => (
-                    <Link key={`klima-${b.slug}`} href={`/antalya/${b.slug}-klima-servisi`} className="text-xs border border-white/10 hover:border-brand-red hover:text-white px-2 py-1 rounded transition-colors bg-white/5">
+                  {popularKlimaMarkalari.map((b, index) => (
+                    <Link key={`footer-klima-${b.slug}-${index}`} href={`/antalya/${b.slug}-klima-servisi`} className="text-xs border border-white/10 hover:border-brand-red hover:text-white px-2 py-1 rounded transition-colors bg-white/5">
                       {b.name}
                     </Link>
                   ))}
@@ -108,8 +108,8 @@ export default function Footer() {
               <div>
                 <p className="text-xs text-gray-500 uppercase font-bold mb-2 tracking-wider">Beyaz Eşya</p>
                 <div className="flex flex-wrap gap-2">
-                  {popularBeyazEsyaMarkalari.map(b => (
-                    <Link key={`beyaz-${b.slug}`} href={`/antalya/${b.slug}-beyaz-esya-servisi`} className="text-xs border border-white/10 hover:border-brand-red hover:text-white px-2 py-1 rounded transition-colors bg-white/5">
+                  {popularBeyazEsyaMarkalari.map((b, index) => (
+                    <Link key={`footer-beyaz-${b.slug}-${index}`} href={`/antalya/${b.slug}-beyaz-esya-servisi`} className="text-xs border border-white/10 hover:border-brand-red hover:text-white px-2 py-1 rounded transition-colors bg-white/5">
                       {b.name}
                     </Link>
                   ))}

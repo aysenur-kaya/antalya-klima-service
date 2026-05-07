@@ -22,6 +22,13 @@ export default function Header() {
   const topBölgeler = ilceler.slice(0, 5);
   const topMarkalar = allBrands.slice(0, 5);
 
+  // Mobile accordion state
+  const [openAccordion, setOpenAccordion] = useState<string | null>(null);
+
+  const toggleAccordion = (name: string) => {
+    setOpenAccordion(openAccordion === name ? null : name);
+  };
+
   return (
     <header
       className={cn(
@@ -141,33 +148,105 @@ export default function Header() {
       {/* Mobile Menu */}
       <div
         className={cn(
-          "lg:hidden absolute top-full left-0 right-0 bg-[#111111] border-b border-white/10 transition-all duration-300 overflow-hidden",
-          isMobileMenuOpen ? "max-h-[500px] opacity-100" : "max-h-0 opacity-0"
+          "lg:hidden absolute top-full left-0 right-0 bg-[#111111] border-b border-white/10 transition-all duration-300 overflow-y-auto",
+          isMobileMenuOpen 
+            ? "opacity-100 visible pointer-events-auto h-[calc(100vh_-_70px)]" 
+            : "opacity-0 invisible pointer-events-none h-0"
         )}
       >
-        <div className="p-4 flex flex-col gap-4">
-          <div className="flex flex-col gap-2">
-            <h3 className="text-gray-400 text-xs font-bold uppercase tracking-wider mb-2">Hizmetler</h3>
-            {hizmetTipleri.map((hizmet) => (
-              <Link
-                key={hizmet.slug}
-                href={`/${hizmet.slug}`}
-                className="text-white font-medium py-2 px-4 rounded-lg hover:bg-white/5"
-                onClick={() => setIsMobileMenuOpen(false)}
-              >
-                {hizmet.name}
+        <div className="p-4 flex flex-col gap-4 min-h-[calc(100vh_-_80px)]">
+          
+          {/* Hizmetler Accordion */}
+          <div className="flex flex-col border-b border-white/10">
+            <button 
+              onClick={() => toggleAccordion('hizmetler')}
+              className="flex items-center justify-between py-4 text-white font-medium"
+            >
+              Hizmetler
+              <ChevronDown className={cn("w-5 h-5 text-gray-400 transition-transform duration-300", openAccordion === 'hizmetler' ? "rotate-180" : "")} />
+            </button>
+            <div className={cn("flex flex-col gap-2 overflow-hidden transition-all duration-300", openAccordion === 'hizmetler' ? "max-h-[500px] pb-4 opacity-100" : "max-h-0 opacity-0")}>
+              {hizmetTipleri.map((hizmet) => (
+                <Link
+                  key={hizmet.slug}
+                  href={`/${hizmet.slug}`}
+                  className="text-gray-300 text-sm py-2 px-4 rounded-lg hover:bg-white/5 hover:text-white transition-colors"
+                  onClick={() => setIsMobileMenuOpen(false)}
+                >
+                  {hizmet.name}
+                </Link>
+              ))}
+            </div>
+          </div>
+
+          {/* Bölgeler Accordion */}
+          <div className="flex flex-col border-b border-white/10">
+            <button 
+              onClick={() => toggleAccordion('bolgeler')}
+              className="flex items-center justify-between py-4 text-white font-medium"
+            >
+              Bölgeler
+              <ChevronDown className={cn("w-5 h-5 text-gray-400 transition-transform duration-300", openAccordion === 'bolgeler' ? "rotate-180" : "")} />
+            </button>
+            <div className={cn("flex flex-col gap-2 overflow-hidden transition-all duration-300", openAccordion === 'bolgeler' ? "max-h-[500px] pb-4 opacity-100" : "max-h-0 opacity-0")}>
+              {topBölgeler.map((bolge) => (
+                <Link
+                  key={bolge.slug}
+                  href={`/${bolge.slug}-klima-servisi`}
+                  className="text-gray-300 text-sm py-2 px-4 rounded-lg hover:bg-white/5 hover:text-white transition-colors"
+                  onClick={() => setIsMobileMenuOpen(false)}
+                >
+                  {bolge.name}
+                </Link>
+              ))}
+              <Link href="/" className="text-brand-red font-medium text-sm py-2 px-4 hover:text-red-400" onClick={() => setIsMobileMenuOpen(false)}>
+                Tüm Bölgeler &rarr;
               </Link>
-            ))}
+            </div>
+          </div>
+
+          {/* Markalar Accordion */}
+          <div className="flex flex-col border-b border-white/10">
+            <button 
+              onClick={() => toggleAccordion('markalar')}
+              className="flex items-center justify-between py-4 text-white font-medium"
+            >
+              Markalar
+              <ChevronDown className={cn("w-5 h-5 text-gray-400 transition-transform duration-300", openAccordion === 'markalar' ? "rotate-180" : "")} />
+            </button>
+            <div className={cn("flex flex-col gap-2 overflow-hidden transition-all duration-300", openAccordion === 'markalar' ? "max-h-[500px] pb-4 opacity-100" : "max-h-0 opacity-0")}>
+              {topMarkalar.map((marka) => (
+                <Link
+                  key={marka.slug}
+                  href={`/antalya/${marka.slug}-${marka.type}-servisi`}
+                  className="text-gray-300 text-sm py-2 px-4 rounded-lg hover:bg-white/5 hover:text-white transition-colors"
+                  onClick={() => setIsMobileMenuOpen(false)}
+                >
+                  {marka.name}
+                </Link>
+              ))}
+            </div>
+          </div>
+
+          {/* İletişim Link */}
+          <div className="flex flex-col border-b border-white/10">
+            <Link 
+              href="#iletisim"
+              className="py-4 text-white font-medium flex items-center"
+              onClick={() => setIsMobileMenuOpen(false)}
+            >
+              İletişim
+            </Link>
           </div>
           
-          <div className="h-px bg-white/10" />
+          <div className="flex-1" />
           
-          <div className="flex flex-col gap-3">
-            <a href="tel:+905555555555" className="flex items-center justify-center gap-2 bg-white/10 text-white p-3 rounded-xl font-medium">
+          <div className="flex flex-col gap-3 mt-6 pb-6">
+            <a href="tel:+905555555555" className="flex items-center justify-center gap-2 bg-white/10 text-white p-3 rounded-xl font-medium transition-all active:scale-95">
               <Phone className="w-5 h-5 text-brand-red" />
               Hemen Ara: 0555 555 55 55
             </a>
-            <a href="https://wa.me/905555555555" className="flex items-center justify-center gap-2 bg-[#25D366] text-white p-3 rounded-xl font-medium">
+            <a href="https://wa.me/905555555555" className="flex items-center justify-center gap-2 bg-[#25D366] text-white p-3 rounded-xl font-medium transition-all active:scale-95">
               <MessageCircle className="w-5 h-5" />
               WhatsApp'tan Yaz
             </a>

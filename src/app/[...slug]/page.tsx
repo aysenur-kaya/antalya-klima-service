@@ -24,52 +24,53 @@ interface PageProps {
 }
 
 function parseSlug(slugs: string[]) {
-  const fullPath = slugs.join("/");
   const lastPart = slugs[slugs.length - 1];
   
-  let serviceType: "klima" | "beyaz-esya" | null = null;
-  let serviceName = "";
-  let baseLastPart = lastPart;
+  const serviceMap = [
+    { suffix: "klima-bakim-servisi", type: "klima", name: "Klima Bakım Servisi" },
+    { suffix: "klima-tamir-servisi", type: "klima", name: "Klima Tamir Servisi" },
+    { suffix: "klima-montaj-servisi", type: "klima", name: "Klima Montaj Servisi" },
+    { suffix: "klima-gaz-dolumu-servisi", type: "klima", name: "Klima Gaz Dolumu Servisi" },
+    { suffix: "klima-gaz-dolumu", type: "klima", name: "Klima Gaz Dolumu Servisi" },
+    { suffix: "klima-ariza-servisi", type: "klima", name: "Klima Arıza Servisi" },
+    { suffix: "camasir-makinesi-servisi", type: "beyaz-esya", name: "Çamaşır Makinesi Servisi" },
+    { suffix: "bulasik-makinesi-servisi", type: "beyaz-esya", name: "Bulaşık Makinesi Servisi" },
+    { suffix: "buzdolabi-servisi", type: "beyaz-esya", name: "Buzdolabı Servisi" },
+    { suffix: "firin-servisi", type: "beyaz-esya", name: "Fırın Servisi" },
+    { suffix: "derin-dondurucu-servisi", type: "beyaz-esya", name: "Derin Dondurucu Servisi" },
+    { suffix: "kurutma-makinesi-servisi", type: "beyaz-esya", name: "Kurutma Makinesi Servisi" },
+    { suffix: "klima-servisi", type: "klima", name: "Klima Servisi" },
+    { suffix: "beyaz-esya-servisi", type: "beyaz-esya", name: "Beyaz Eşya Servisi" }
+  ] as const;
 
-  if (lastPart.endsWith("-klima-servisi")) {
-    serviceType = "klima";
-    serviceName = "Klima Servisi";
-    baseLastPart = lastPart.replace("-klima-servisi", "");
-  } else if (lastPart.endsWith("-beyaz-esya-servisi")) {
-    serviceType = "beyaz-esya";
-    serviceName = "Beyaz Eşya Servisi";
-    baseLastPart = lastPart.replace("-beyaz-esya-servisi", "");
-  } else if (lastPart === "klima-servisi") {
-    return { serviceType: "klima", serviceName: "Klima Servisi", isValid: true };
-  } else if (lastPart === "beyaz-esya-servisi") {
-    return { serviceType: "beyaz-esya", serviceName: "Beyaz Eşya Servisi", isValid: true };
+  let matchedService = serviceMap.find(s => lastPart.endsWith("-" + s.suffix));
+  let baseLastPart = "";
+
+  if (matchedService) {
+    baseLastPart = lastPart.substring(0, lastPart.length - matchedService.suffix.length - 1);
+  } else {
+    matchedService = serviceMap.find(s => lastPart === s.suffix);
+    if (matchedService) {
+      baseLastPart = "";
+    }
   }
 
-  if (!serviceType) return { isValid: false, serviceName: "" };
+  if (!matchedService) return { isValid: false, serviceName: "" };
 
-  // Parse ilce, mahalle, marka from slugs
-  // Variations:
-  // 1. /antalya-[service]
-  // 2. /[ilce]-[service]
-  // 3. /[ilce]-[marka]-[service] (e.g. kemer-mitsubishi-klima-servisi)
-  // 4. /[ilce]/[mahalle]-[service]
-  // 5. /[ilce]/[marka]-[service]
-  // 6. /[ilce]/[mahalle]/[marka]-[service]
-  
+  const serviceType = matchedService.type;
+  const serviceName = matchedService.name;
+
   let ilce: Ilce | undefined;
   let mahalle: Mahalle | undefined;
   let marka: Brand | undefined;
 
   if (slugs.length === 1) {
-    if (baseLastPart === "antalya") {
-      // Just antalya
+    if (baseLastPart === "antalya" || baseLastPart === "") {
+      // Just antalya or global service
     } else {
-      // Try to find if baseLastPart is ilce
       ilce = getIlceBySlug(baseLastPart);
       if (!ilce) {
-        // Try to split by '-' to see if it's ilce-marka
         const parts = baseLastPart.split("-");
-        // We might need to iterate to find valid ilce and marka since names can have hyphens
         for (let i = 1; i < parts.length; i++) {
           const potentialIlce = parts.slice(0, i).join("-");
           const potentialMarka = parts.slice(i).join("-");
@@ -81,25 +82,30 @@ function parseSlug(slugs: string[]) {
             break;
           }
         }
+        if (!ilce && !marka) {
+          marka = getBrandBySlug(baseLastPart);
+        }
       }
     }
   } else if (slugs.length === 2) {
-    // [ilce]/[something]
-    ilce = getIlceBySlug(slugs[0]);
-    if (ilce) {
-      // Something can be mahalle or marka
-      mahalle = getMahalleBySlug(ilce.slug, baseLastPart);
+    if (slugs[0] !== "antalya") {
+      ilce = getIlceBySlug(slugs[0]);
+    }
+    
+    if (baseLastPart !== "") {
+      mahalle = ilce ? getMahalleBySlug(ilce.slug, baseLastPart) : undefined;
       if (!mahalle) {
         marka = getBrandBySlug(baseLastPart);
       }
     }
   } else if (slugs.length === 3) {
-    // [ilce]/[mahalle]/[marka]
-    ilce = getIlceBySlug(slugs[0]);
+    if (slugs[0] !== "antalya") {
+      ilce = getIlceBySlug(slugs[0]);
+    }
     if (ilce) {
       mahalle = getMahalleBySlug(ilce.slug, slugs[1]);
-      marka = getBrandBySlug(baseLastPart);
     }
+    marka = getBrandBySlug(baseLastPart);
   }
 
   return { ilce, mahalle, marka, serviceType, serviceName, isValid: true };

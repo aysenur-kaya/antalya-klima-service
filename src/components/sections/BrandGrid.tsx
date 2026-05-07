@@ -28,7 +28,7 @@ export default function BrandGrid({
           {brands.map((brand, idx) => (
             <Link
               key={idx}
-              href={`${basePath}/${brand.slug}-servisi`} 
+              href={`${basePath}/${brand.slug}-${brand.type}-servisi`}
               className="px-4 py-2 md:px-6 md:py-3 bg-white border border-gray-200 rounded-lg shadow-sm hover:border-brand-red hover:shadow-md hover:text-brand-red font-medium text-gray-700 transition-all text-sm md:text-base"
             >
               {brand.name}
