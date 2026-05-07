@@ -10,6 +10,9 @@ const inter = Inter({ subsets: ["latin"] });
 export const metadata: Metadata = {
   title: "Antalya Servisi - Klima ve Beyaz Eşya Teknik Servisi",
   description: "Antalya bölgesinde klima ve beyaz eşya servisi için hızlı, güvenilir ve garantili teknik destek.",
+  verification: {
+    google: "MwzSgDXu_x4ylgE8xGrHxqNSvXiBcHjx3A5rmBrA_S4",
+  },
 };
 
 export default function RootLayout({
