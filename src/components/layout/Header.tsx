@@ -261,13 +261,17 @@ export default function Header() {
                   {bolge.name}
                 </Link>
               ))}
-              <Link
-                href="/#tum-bolgeler"
-                className="text-brand-red font-medium text-sm py-2 px-4 hover:text-red-400"
-                onClick={() => setIsMobileMenuOpen(false)}
+              <button
+                type="button"
+                onClick={scrollToBolgeSection}
+                className="text-left text-brand-red font-medium text-sm py-2 px-4 hover:text-red-400"
               >
                 Tüm Bölgeler &rarr;
-              </Link>
+              </button>
+
+
+
+
             </div>
           </div>
 
