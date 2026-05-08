@@ -8,7 +8,7 @@ export default function HeroSection({
   subtitle: string; 
 }) {
   return (
-    <section className="relative premium-gradient text-white py-20 lg:py-32 overflow-hidden">
+    <section className="relative premium-gradient text-white pt-[128px] pb-20 lg:pt-[164px] lg:pb-32 overflow-hidden">
       {/* Background Decor */}
       <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[800px] h-[800px] bg-brand-red/20 blur-[150px] rounded-full pointer-events-none" />
       

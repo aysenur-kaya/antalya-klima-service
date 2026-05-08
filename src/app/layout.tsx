@@ -22,7 +22,7 @@ export default function RootLayout({
 }>) {
   return (
     <html lang="tr" className="scroll-smooth" suppressHydrationWarning>
-      <body suppressHydrationWarning className={`${inter.className} min-h-screen bg-brand-light text-brand-dark flex flex-col pt-[88px] md:pt-[104px]`}>
+      <body suppressHydrationWarning className={`${inter.className} min-h-screen bg-brand-light text-brand-dark flex flex-col`}>
         <Header />
         <main className="flex-1">{children}</main>
         <Footer />
