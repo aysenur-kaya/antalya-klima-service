@@ -241,7 +241,7 @@ export default function Header() {
                 </Link>
               ))}
               <Link
-                href="/"
+                href="/#tum-bolgeler"
                 className="text-brand-red font-medium text-sm py-2 px-4 hover:text-red-400"
                 onClick={() => setIsMobileMenuOpen(false)}
               >
