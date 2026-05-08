@@ -1,4 +1,5 @@
 import { Phone, CheckCircle2 } from "lucide-react";
+import { CONTACT_INFO } from "@/lib/constants";
 
 export default function HeroSection({ 
   title, 
@@ -23,16 +24,16 @@ export default function HeroSection({
             {title}
           </h1>
           
-          <p className="text-lg md:text-xl text-gray-300 mb-10 max-w-2xl mx-auto">
+          <p className="text-lg md:text-xl text-gray-300 mb-10 max-w-2xl mx-auto leading-relaxed md:leading-loose opacity-90">
             {subtitle}
           </p>
           
-          <div className="flex flex-col sm:flex-row gap-4 justify-center items-center mb-12">
-            <a href="tel:+905555555555" className="w-full sm:w-auto bg-brand-red hover:bg-red-700 text-white px-8 py-4 rounded-xl font-medium flex items-center justify-center gap-2 transition-all hover:scale-105 shadow-[0_10px_20px_rgba(200,30,30,0.3)] text-lg">
+          <div className="flex flex-col sm:flex-row gap-6 justify-center items-center mb-12">
+            <a href={`tel:${CONTACT_INFO.phone}`} className="w-full sm:w-auto bg-brand-red hover:bg-red-700 text-white px-8 py-4 rounded-xl font-bold flex items-center justify-center gap-3 transition-all hover:scale-105 shadow-[0_10px_20px_rgba(200,30,30,0.3)] text-lg">
               <Phone className="w-6 h-6" />
               Hemen Servis Çağır
             </a>
-            <a href="https://wa.me/905555555555" className="w-full sm:w-auto bg-[#25D366] hover:bg-[#20b858] text-white px-8 py-4 rounded-xl font-medium flex items-center justify-center transition-all hover:scale-105 shadow-[0_10px_20px_rgba(37,211,102,0.3)] text-lg">
+            <a href={CONTACT_INFO.whatsapp} className="w-full sm:w-auto bg-[#25D366] hover:bg-[#20b858] text-white px-8 py-4 rounded-xl font-bold flex items-center justify-center gap-3 transition-all hover:scale-105 shadow-[0_10px_20px_rgba(37,211,102,0.3)] text-lg">
               WhatsApp'tan Yaz
             </a>
           </div>

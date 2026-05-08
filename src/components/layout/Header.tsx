@@ -5,6 +5,7 @@ import Link from "next/link";
 import { Menu, X, Phone, MessageCircle, ChevronDown } from "lucide-react";
 import { cn } from "@/lib/utils";
 import { ilceler, klimaMarkalari, beyazEsyaMarkalari } from "@/lib/data";
+import { CONTACT_INFO } from "@/lib/constants";
 
 // Extended service menu items (all valid routes in the dynamic catch-all)
 const hizmetMenuItems = [
@@ -31,6 +32,16 @@ export default function Header() {
     window.addEventListener("scroll", handleScroll);
     return () => window.removeEventListener("scroll", handleScroll);
   }, []);
+
+  useEffect(() => {
+    if (isMobileMenuOpen) {
+      document.body.classList.add("mobile-menu-open");
+      document.body.style.overflow = "hidden";
+    } else {
+      document.body.classList.remove("mobile-menu-open");
+      document.body.style.overflow = "";
+    }
+  }, [isMobileMenuOpen]);
 
   // Top items for dropdowns
   const topBölgeler = ilceler.slice(0, 6);
@@ -181,12 +192,12 @@ export default function Header() {
 
           {/* Desktop CTA */}
           <div className="hidden lg:flex items-center gap-4">
-            <a href="tel:+905555555555" className="flex items-center gap-2 text-white font-medium hover:text-brand-red transition-colors">
+            <a href={`tel:${CONTACT_INFO.phone}`} className="flex items-center gap-2 text-white font-medium hover:text-brand-red transition-colors">
               <Phone className="w-5 h-5 text-brand-red" />
-              <span>0555 555 55 55</span>
+              <span>{CONTACT_INFO.phoneFormatted}</span>
             </a>
             <a
-              href="https://wa.me/905555555555"
+              href={CONTACT_INFO.whatsapp}
               target="_blank"
               rel="noreferrer"
               className="bg-[#25D366] hover:bg-[#20b858] text-white px-5 py-2.5 rounded-full font-medium flex items-center gap-2 transition-all hover:scale-105 shadow-[0_0_15px_rgba(37,211,102,0.3)]"
@@ -337,12 +348,12 @@ export default function Header() {
 
           <div className="flex-1" />
 
-          <div className="flex flex-col gap-3 mt-6 pb-6">
-            <a href="tel:+905555555555" className="flex items-center justify-center gap-2 bg-white/10 text-white p-3 rounded-xl font-medium transition-all active:scale-95">
+          <div className="flex flex-col gap-3 mt-6 pb-8">
+            <a href={`tel:${CONTACT_INFO.phone}`} className="flex items-center justify-center gap-2 bg-white/10 text-white p-4 rounded-xl font-medium transition-all active:scale-95">
               <Phone className="w-5 h-5 text-brand-red" />
-              Hemen Ara: 0555 555 55 55
+              Hemen Ara: {CONTACT_INFO.phoneFormatted}
             </a>
-            <a href="https://wa.me/905555555555" className="flex items-center justify-center gap-2 bg-[#25D366] text-white p-3 rounded-xl font-medium transition-all active:scale-95">
+            <a href={CONTACT_INFO.whatsapp} className="flex items-center justify-center gap-2 bg-[#25D366] text-white p-4 rounded-xl font-medium transition-all active:scale-95">
               <MessageCircle className="w-5 h-5" />
               WhatsApp&apos;tan Yaz
             </a>

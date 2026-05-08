@@ -1,6 +1,7 @@
 import Link from "next/link";
 import { Phone, MessageCircle, MapPin, Clock } from "lucide-react";
 import { hizmetTipleri, ilceler, klimaMarkalari, beyazEsyaMarkalari } from "@/lib/data";
+import { CONTACT_INFO } from "@/lib/constants";
 
 export default function Footer() {
   // Get highlighted data for footer
@@ -36,11 +37,11 @@ export default function Footer() {
               <p className="text-white font-medium text-lg">Aynı Gün Servis</p>
               <p className="text-sm text-gray-400">Hemen uzman ekibimizi çağırın</p>
             </div>
-            <a href="tel:+905555555555" className="w-full sm:w-auto bg-brand-red hover:bg-red-700 text-white px-6 py-4 rounded-xl font-medium flex items-center justify-center gap-2 transition-all hover:-translate-y-1 shadow-[0_10px_20px_rgba(200,30,30,0.3)]">
+            <a href={`tel:${CONTACT_INFO.phone}`} className="w-full sm:w-auto bg-brand-red hover:bg-red-700 text-white px-6 py-4 rounded-xl font-medium flex items-center justify-center gap-2 transition-all hover:-translate-y-1 shadow-[0_10px_20px_rgba(200,30,30,0.3)]">
               <Phone className="w-5 h-5" />
-              0555 555 55 55
+              {CONTACT_INFO.phoneFormatted}
             </a>
-            <a href="https://wa.me/905555555555" className="w-full sm:w-auto bg-[#25D366] hover:bg-[#20b858] text-white px-6 py-4 rounded-xl font-medium flex items-center justify-center gap-2 transition-all hover:-translate-y-1 shadow-[0_10px_20px_rgba(37,211,102,0.3)]">
+            <a href={CONTACT_INFO.whatsapp} className="w-full sm:w-auto bg-[#25D366] hover:bg-[#20b858] text-white px-6 py-4 rounded-xl font-medium flex items-center justify-center gap-2 transition-all hover:-translate-y-1 shadow-[0_10px_20px_rgba(37,211,102,0.3)]">
               <MessageCircle className="w-5 h-5" />
               WhatsApp
             </a>
@@ -131,7 +132,7 @@ export default function Footer() {
               </li>
               <li className="flex items-start gap-3">
                 <Phone className="w-5 h-5 text-brand-red shrink-0 mt-0.5" />
-                <span className="text-sm">0555 555 55 55<br />7/24 Çağrı Merkezi</span>
+                <span className="text-sm">{CONTACT_INFO.phoneFormatted}<br />7/24 Çağrı Merkezi</span>
               </li>
               <li className="flex items-start gap-3">
                 <Clock className="w-5 h-5 text-brand-red shrink-0 mt-0.5" />

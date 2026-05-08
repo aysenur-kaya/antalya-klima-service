@@ -1,4 +1,5 @@
 import { Phone, MessageCircle } from "lucide-react";
+import { CONTACT_INFO } from "@/lib/constants";
 
 export default function ContactCTA() {
   return (
@@ -16,11 +17,11 @@ export default function ContactCTA() {
             </p>
             
             <div className="flex flex-col sm:flex-row justify-center gap-4">
-              <a href="tel:+905555555555" className="bg-white text-brand-red hover:bg-gray-50 px-8 py-4 rounded-xl font-bold flex items-center justify-center gap-2 transition-all hover:scale-105 shadow-lg text-lg">
+              <a href={`tel:${CONTACT_INFO.phone}`} className="bg-white text-brand-red hover:bg-gray-50 px-8 py-4 rounded-xl font-bold flex items-center justify-center gap-2 transition-all hover:scale-105 shadow-lg text-lg">
                 <Phone className="w-6 h-6" />
-                0555 555 55 55
+                {CONTACT_INFO.phoneFormatted}
               </a>
-              <a href="https://wa.me/905555555555" className="bg-[#25D366] text-white hover:bg-[#20b858] px-8 py-4 rounded-xl font-bold flex items-center justify-center gap-2 transition-all hover:scale-105 shadow-lg text-lg">
+              <a href={CONTACT_INFO.whatsapp} className="bg-[#25D366] text-white hover:bg-[#20b858] px-8 py-4 rounded-xl font-bold flex items-center justify-center gap-2 transition-all hover:scale-105 shadow-lg text-lg">
                 <MessageCircle className="w-6 h-6" />
                 WhatsApp'tan Yaz
               </a>

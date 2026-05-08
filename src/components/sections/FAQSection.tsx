@@ -3,6 +3,7 @@
 import { useState } from "react";
 import { ChevronDown } from "lucide-react";
 import { cn } from "@/lib/utils";
+import { CONTACT_INFO } from "@/lib/constants";
 
 const faqs = [
   {
@@ -73,7 +74,7 @@ export default function FAQSection() {
           
           <div className="mt-10 text-center">
             <p className="text-gray-600 mb-4">Başka bir sorunuz mu var?</p>
-            <a href="https://wa.me/905555555555" className="inline-flex items-center gap-2 text-brand-red font-bold hover:underline">
+            <a href={CONTACT_INFO.whatsapp} className="inline-flex items-center gap-2 text-brand-red font-bold hover:underline">
               WhatsApp'tan Bize Ulaşın &rarr;
             </a>
           </div>
