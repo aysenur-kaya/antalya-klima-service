@@ -8,8 +8,7 @@ import ContactCTA from "@/components/sections/ContactCTA";
 import { ilceler, klimaMarkalari, beyazEsyaMarkalari } from "@/lib/data";
 
 export default function Home() {
-  // Show top 10 regions on homepage
-  const popularLocations = ilceler.slice(0, 10);
+  const allAntalyaDistricts = ilceler;
 
   return (
     <>
@@ -36,7 +35,7 @@ export default function Home() {
         subtitle="Buzdolabı, çamaşır makinesi, bulaşık makinesi ve daha fazlası için tüm markalarda uzman servis."
       />
 
-      <LocationGrid locations={popularLocations} basePath="" title="Antalya Geneli Hizmet Bölgelerimiz" />
+      <LocationGrid locations={allAntalyaDistricts} basePath="" title="Antalya Geneli Hizmet Bölgelerimiz" />
       <FAQSection />
       <ContactCTA />
     </>

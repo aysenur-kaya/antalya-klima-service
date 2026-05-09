@@ -381,7 +381,7 @@ export default async function DynamicServicePage({ params }: PageProps) {
         />
       ) : (
         <LocationGrid 
-          locations={ilceler.slice(0, 10)} 
+          locations={ilceler} 
           basePath="" 
           serviceType={serviceType as "klima" | "beyaz-esya"}
           title="Antalya Geneli Hizmet Bölgelerimiz"
