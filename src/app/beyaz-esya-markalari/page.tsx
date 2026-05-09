@@ -2,7 +2,7 @@ import type { Metadata } from "next";
 import Link from "next/link";
 import { beyazEsyaMarkalari } from "@/lib/data";
 import ContactCTA from "@/components/sections/ContactCTA";
-import { WashingMachine, ArrowRight } from "lucide-react";
+import { WashingMachine } from "lucide-react";
 
 export const metadata: Metadata = {
   title: "Antalya Beyaz Eşya Servisi Markaları | Tüm Beyaz Eşya Markaları",
@@ -37,7 +37,7 @@ export default function BeyazEsyaMarkalariPage() {
       <section className="py-16 bg-white">
         <div className="container mx-auto px-4 md:px-6">
           <p className="text-center text-gray-500 mb-10 text-sm">
-            Toplam <strong className="text-brand-dark">{beyazEsyaMarkalari.length}</strong> beyaz eşya markasında yetkili servis
+            Toplam <strong className="text-brand-dark">{beyazEsyaMarkalari.length}</strong> beyaz eşya markasında özel servis
           </p>
           <div className="flex flex-wrap justify-center -m-1.5 md:-m-2 lg:-m-2.5">
             {beyazEsyaMarkalari.map((brand) => (

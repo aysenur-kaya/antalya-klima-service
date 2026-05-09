@@ -4,4 +4,4 @@ export const CONTACT_INFO = {
   whatsapp: "https://wa.me/905555555555",
 };
 
-export const SITE_URL = "https://antalya-klima-service.vercel.app";
+export const SITE_URL = process.env.NEXT_PUBLIC_SITE_URL || "https://antalya-klima-servis.com";

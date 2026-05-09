@@ -17,7 +17,7 @@ export default function HeroSection({
         <div className="max-w-3xl mx-auto text-center">
           <div className="inline-flex items-center gap-2 px-4 py-2 rounded-full glass-card text-brand-red font-medium text-sm mb-6 shadow-sm border border-brand-red/20">
             <span className="w-2 h-2 rounded-full bg-brand-red animate-pulse"></span>
-            Antalya'nın Güvenilir Servisi
+            Antalya&apos;nın Güvenilir Servisi
           </div>
           
           <h1 className="text-4xl md:text-5xl lg:text-6xl font-bold tracking-tight mb-6 leading-tight">
@@ -34,7 +34,7 @@ export default function HeroSection({
               Hemen Servis Çağır
             </a>
             <a href={CONTACT_INFO.whatsapp} className="w-full sm:w-auto bg-[#25D366] hover:bg-[#20b858] text-white px-8 py-4 rounded-xl font-bold flex items-center justify-center gap-3 transition-all hover:scale-105 shadow-[0_10px_20px_rgba(37,211,102,0.3)] text-lg">
-              WhatsApp'tan Yaz
+              WhatsApp&apos;tan Yaz
             </a>
           </div>
           

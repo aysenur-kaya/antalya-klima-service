@@ -1,6 +1,6 @@
 import Link from "next/link";
 import { Phone, MessageCircle, MapPin, Clock } from "lucide-react";
-import { hizmetTipleri, ilceler, klimaMarkalari, beyazEsyaMarkalari } from "@/lib/data";
+import { ilceler, klimaMarkalari, beyazEsyaMarkalari } from "@/lib/data";
 import { cn } from "@/lib/utils";
 import { CONTACT_INFO } from "@/lib/constants";
 
@@ -84,7 +84,7 @@ export default function Footer() {
             <div className="flex flex-col gap-3">
               {popularIlceler.map((ilce, index) => (
                 <Link 
-                  key={ilce.slug} 
+                  key={`footer-loc-${ilce.slug}`} 
                   href={`/${ilce.slug}-klima-servisi`}
                   className={cn(
                     "hover:text-brand-red transition-colors text-sm font-medium",
@@ -116,7 +116,7 @@ export default function Footer() {
                 <div className="grid grid-cols-2 lg:grid-cols-2 gap-2 md:flex md:flex-col md:gap-2">
                   {popularKlimaMarkalari.map((b, index) => (
                     <Link 
-                      key={`footer-klima-${b.slug}-${index}`} 
+                      key={`footer-klima-${b.slug}`} 
                       href={`/antalya/${b.slug}-klima-servisi`} 
                       className={`text-sm hover:text-brand-red transition-colors ${index >= 3 ? "hidden md:block" : "block"}`}
                     >
@@ -133,7 +133,7 @@ export default function Footer() {
                 <div className="grid grid-cols-2 lg:grid-cols-2 gap-2 md:flex md:flex-col md:gap-2">
                   {popularBeyazEsyaMarkalari.map((b, index) => (
                     <Link 
-                      key={`footer-beyaz-${b.slug}-${index}`} 
+                      key={`footer-beyaz-${b.slug}`} 
                       href={`/antalya/${b.slug}-beyaz-esya-servisi`} 
                       className={`text-sm hover:text-brand-red transition-colors ${index >= 3 ? "hidden md:block" : "block"}`}
                     >
@@ -148,29 +148,47 @@ export default function Footer() {
             </div>
           </div>
 
-          {/* İletişim */}
+          {/* İletişim & NAP */}
           <div>
             <h4 className="text-white font-bold text-lg mb-6 flex items-center gap-2">
               <span className="w-1 h-6 bg-brand-red rounded-full"></span>
-              İletişim
+              İletişim Bilgileri
             </h4>
             <ul className="flex flex-col gap-4">
               <li className="flex items-start gap-3">
                 <MapPin className="w-5 h-5 text-brand-red shrink-0 mt-0.5" />
-                <span className="text-sm">Antalya, Türkiye<br />Tüm ilçelere aynı gün servis.</span>
+                <div className="text-sm">
+                  <strong className="block text-white mb-1">Antalya Servisi Merkezi</strong>
+                  Antalya, Türkiye<br />
+                  Tüm ilçelere aynı gün servis.
+                </div>
               </li>
               <li className="flex items-start gap-3">
                 <Phone className="w-5 h-5 text-brand-red shrink-0 mt-0.5" />
-                <span className="text-sm">{CONTACT_INFO.phoneFormatted}<br />7/24 Çağrı Merkezi</span>
+                <div className="text-sm">
+                  <strong className="block text-white mb-1">7/24 Çağrı Merkezi</strong>
+                  <a href={`tel:${CONTACT_INFO.phone}`} className="hover:text-brand-red transition-colors">
+                    {CONTACT_INFO.phoneFormatted}
+                  </a>
+                </div>
               </li>
               <li className="flex items-start gap-3">
                 <Clock className="w-5 h-5 text-brand-red shrink-0 mt-0.5" />
-                <span className="text-sm">Pzt - Cts: 08:30 - 19:30<br />Pazar: Nöbetçi Ekip</span>
+                <div className="text-sm">
+                  <strong className="block text-white mb-1">Çalışma Saatleri</strong>
+                  Pzt - Cts: 08:30 - 19:30<br />
+                  Pazar: Nöbetçi Ekip
+                </div>
               </li>
             </ul>
-            
-
           </div>
+        </div>
+
+        {/* Disclaimer / Trust Signal */}
+        <div className="mb-10 p-6 bg-white/5 rounded-2xl border border-white/10">
+          <p className="text-xs text-gray-400 leading-relaxed italic text-center">
+            <strong>Yasal Uyarı:</strong> Antalya Servisi, marka bağımsız çalışan <strong>özel bir teknik servistir</strong>. Sitemizde adı geçen markalar ve logolar ilgili firmaların tescilli markalarıdır ve sadece bilgilendirme amacıyla (marka bağımsız özel servis hizmeti verildiğini belirtmek için) kullanılmıştır. Firmamız bu markaların yetkili servisi değildir, <strong>garanti dışı cihazlara</strong> özel servis hizmeti vermektedir.
+          </p>
         </div>
 
         {/* Bottom Bar */}

@@ -1,6 +1,5 @@
 import { Wind, Snowflake, Wrench, Settings, Droplets, Flame } from "lucide-react";
 import Link from "next/link";
-import { cn } from "@/lib/utils";
 
 const services = [
   {
@@ -79,7 +78,14 @@ export default function ServiceCards({ type, locationSlug }: { type?: string, lo
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
           {filteredServices.map((service, idx) => {
             const Icon = service.icon;
-            const href = locationSlug ? `/${locationSlug}/${service.slug}` : `/antalya-${service.slug}`;
+            let href = "";
+            if (locationSlug) {
+              // locationSlug might be 'antalya-klima-servisi' or 'muratpasa'
+              const cleanLoc = locationSlug.replace(/-klima-servisi$|-beyaz-esya-servisi$/, "");
+              href = `/${cleanLoc}/${service.slug}`;
+            } else {
+              href = `/antalya-${service.slug}`;
+            }
             return (
               <Link
                 key={idx}

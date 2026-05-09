@@ -4,8 +4,10 @@ import {
   klimaMarkalari, 
   beyazEsyaMarkalari 
 } from "@/lib/data";
+import { SITE_URL } from "@/lib/constants";
 
-const baseUrl = "https://antalya-klima-service.vercel.app";
+const baseUrl = SITE_URL;
+const lastModified = new Date("2024-05-09");
 
 export default function sitemap(): MetadataRoute.Sitemap {
   const routes: MetadataRoute.Sitemap = [];
@@ -13,7 +15,7 @@ export default function sitemap(): MetadataRoute.Sitemap {
   // 1. Ana Sayfa
   routes.push({
     url: `${baseUrl}/`,
-    lastModified: new Date(),
+    lastModified: lastModified,
     changeFrequency: "weekly",
     priority: 1.0,
   });
@@ -38,14 +40,14 @@ export default function sitemap(): MetadataRoute.Sitemap {
   mainServices.forEach((service) => {
     routes.push({
       url: `${baseUrl}/antalya-${service}`,
-      lastModified: new Date(),
+      lastModified: lastModified,
       changeFrequency: "weekly",
       priority: 0.9,
     });
     // Add generic ones
     routes.push({
       url: `${baseUrl}/${service}`,
-      lastModified: new Date(),
+      lastModified: lastModified,
       changeFrequency: "weekly",
       priority: 0.9,
     });
@@ -55,7 +57,7 @@ export default function sitemap(): MetadataRoute.Sitemap {
   klimaMarkalari.forEach((brand) => {
     routes.push({
       url: `${baseUrl}/antalya/${brand.slug}-klima-servisi`,
-      lastModified: new Date(),
+      lastModified: lastModified,
       changeFrequency: "weekly",
       priority: 0.8,
     });
@@ -64,7 +66,7 @@ export default function sitemap(): MetadataRoute.Sitemap {
   beyazEsyaMarkalari.forEach((brand) => {
     routes.push({
       url: `${baseUrl}/antalya/${brand.slug}-beyaz-esya-servisi`,
-      lastModified: new Date(),
+      lastModified: lastModified,
       changeFrequency: "weekly",
       priority: 0.8,
     });
@@ -74,13 +76,13 @@ export default function sitemap(): MetadataRoute.Sitemap {
   ilceler.forEach((ilce) => {
     routes.push({
       url: `${baseUrl}/${ilce.slug}-klima-servisi`,
-      lastModified: new Date(),
+      lastModified: lastModified,
       changeFrequency: "weekly",
       priority: 0.8,
     });
     routes.push({
       url: `${baseUrl}/${ilce.slug}-beyaz-esya-servisi`,
-      lastModified: new Date(),
+      lastModified: lastModified,
       changeFrequency: "weekly",
       priority: 0.8,
     });
@@ -90,13 +92,13 @@ export default function sitemap(): MetadataRoute.Sitemap {
     ilce.mahalleler.forEach((mahalle) => {
       routes.push({
         url: `${baseUrl}/${ilce.slug}/${mahalle.slug}-klima-servisi`,
-        lastModified: new Date(),
+        lastModified: lastModified,
         changeFrequency: "monthly",
         priority: 0.7,
       });
       routes.push({
         url: `${baseUrl}/${ilce.slug}/${mahalle.slug}-beyaz-esya-servisi`,
-        lastModified: new Date(),
+        lastModified: lastModified,
         changeFrequency: "monthly",
         priority: 0.7,
       });

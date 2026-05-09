@@ -1,6 +1,5 @@
 import Link from "next/link";
 import { MapPin } from "lucide-react";
-import { Ilce } from "@/lib/data";
 
 export default function LocationGrid({
   locations,

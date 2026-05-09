@@ -1,4 +1,4 @@
-import { Metadata, ResolvingMetadata } from "next";
+import { Metadata } from "next";
 import { notFound } from "next/navigation";
 import HeroSection from "@/components/sections/HeroSection";
 import ServiceCards from "@/components/sections/ServiceCards";
@@ -112,8 +112,7 @@ function parseSlug(slugs: string[]) {
 }
 
 export async function generateMetadata(
-  { params }: PageProps,
-  parent: ResolvingMetadata
+  { params }: PageProps
 ): Promise<Metadata> {
   const resolvedParams = await params;
   const parsed = parseSlug(resolvedParams.slug);
@@ -129,17 +128,33 @@ export async function generateMetadata(
       : "Antalya";
 
   const brandText = parsed.marka ? `${parsed.marka.name} ` : "";
-  const title = `${locationText} ${brandText}${parsed.serviceName} | Hızlı & Garantili Servis`;
-  const description = `${locationText} bölgesinde ${brandText}${parsed.serviceName.toLowerCase()} için aynı gün garantili teknik destek alın. 7/24 profesyonel ekip.`;
+  const serviceName = parsed.serviceName;
+  
+  const title = `${locationText} ${brandText}${serviceName} | 7/24 Teknik Servis`;
+  const description = `${locationText} bölgesinde ${brandText}${serviceName.toLowerCase()} ihtiyacınız için aynı gün garantili ve profesyonel teknik destek. ${brandText ? `${brandText}marka bağımsız özel servis hizmeti.` : ""}`;
+
+  const slugPath = resolvedParams.slug.join("/");
 
   return {
     title,
     description,
     alternates: {
-      canonical: `/${resolvedParams.slug.join("/")}`
+      canonical: `/${slugPath}`
+    },
+    openGraph: {
+      title,
+      description,
+      url: `/${slugPath}`,
+      type: 'article',
     }
   };
 }
+
+import { SITE_URL, CONTACT_INFO } from "@/lib/constants";
+import JsonLd from "@/components/seo/JsonLd";
+import { CheckCircle2, ShieldCheck, Zap, Clock, MapPin } from "lucide-react";
+
+// ... (rest of the imports)
 
 export default async function DynamicServicePage({ params }: PageProps) {
   const resolvedParams = await params;
@@ -162,20 +177,175 @@ export default async function DynamicServicePage({ params }: PageProps) {
   const heroTitle = `${locationText} ${brandText}${serviceName}`;
   const heroSubtitle = `${locationText} bölgesinde garantili ve güvenilir ${brandText}${serviceName.toLowerCase()} için 7/24 bize ulaşın. Aynı gün servis imkanı!`;
 
+  // Schemas
+  const breadcrumbSchema = {
+    "@context": "https://schema.org",
+    "@type": "BreadcrumbList",
+    "itemListElement": [
+      {
+        "@type": "ListItem",
+        "position": 1,
+        "name": "Ana Sayfa",
+        "item": SITE_URL
+      },
+      {
+        "@type": "ListItem",
+        "position": 2,
+        "name": locationText,
+        "item": `${SITE_URL}/${ilce?.slug || "antalya"}`
+      },
+      {
+        "@type": "ListItem",
+        "position": 3,
+        "name": `${brandText}${serviceName}`,
+        "item": `${SITE_URL}/${resolvedParams.slug.join("/")}`
+      }
+    ]
+  };
+
+  const serviceSchema = {
+    "@context": "https://schema.org",
+    "@type": "Service",
+    "name": heroTitle,
+    "description": heroSubtitle,
+    "provider": {
+      "@type": "LocalBusiness",
+      "name": "Antalya Servisi",
+      "telephone": CONTACT_INFO.phone
+    },
+    "areaServed": {
+      "@type": "City",
+      "name": locationText
+    },
+    "hasOfferCatalog": {
+      "@type": "OfferCatalog",
+      "name": serviceName,
+      "itemListElement": [
+        {
+          "@type": "Offer",
+          "itemOffered": {
+            "@type": "Service",
+            "name": `${brandText}${serviceName}`
+          }
+        }
+      ]
+    }
+  };
+
+  const faqSchema = {
+    "@context": "https://schema.org",
+    "@type": "FAQPage",
+    "mainEntity": [
+      {
+        "@type": "Question",
+        "name": `${locationText} bölgesinde ${serviceName} ne kadar sürer?`,
+        "acceptedAnswer": {
+          "@type": "Answer",
+          "text": "Servis süresi genellikle aynı gün içerisinde tamamlanmaktadır. Uzman ekibimiz adresinize ulaştıktan sonra 1-2 saat içinde işlemi bitirir."
+        }
+      },
+      {
+        "@type": "Question",
+        "name": `${brandText || "Cihazım"} için garanti veriyor musunuz?`,
+        "acceptedAnswer": {
+          "@type": "Answer",
+          "text": "Evet, yaptığımız tüm tamir ve parça değişim işlemleri 1 yıl servis garantisi altındadır."
+        }
+      }
+    ]
+  };
+
   // Determine which lists to show based on current page
   const displayBrands = serviceType === "klima" ? klimaMarkalari : serviceType === "beyaz-esya" ? beyazEsyaMarkalari : [];
   
-  // Let's create breadcrumbs internally for Schema or visual
-  const currentPath = `/${resolvedParams.slug.join("/")}`;
-
   return (
     <>
+      <JsonLd data={breadcrumbSchema} />
+      <JsonLd data={serviceSchema} />
+      <JsonLd data={faqSchema} />
+
       <HeroSection 
         title={heroTitle} 
         subtitle={heroSubtitle}
       />
       
       <ServiceCards type={serviceType || undefined} locationSlug={resolvedParams.slug.length === 1 ? resolvedParams.slug[0] : undefined} />
+      
+      {/* Unique SEO Content Section */}
+      <section className="py-16 bg-white border-y border-gray-100">
+        <div className="container mx-auto px-4 md:px-6">
+          <div className="grid grid-cols-1 lg:grid-cols-2 gap-12 items-center">
+            <div>
+              <h2 className="text-3xl font-bold text-brand-dark mb-6">
+                {locationText} {brandText}{serviceName} Hizmeti
+              </h2>
+              <div className="prose prose-blue text-gray-600 max-w-none">
+                <p className="mb-4">
+                  {locationText} bölgesinde yaşayan değerli müşterilerimiz için <strong>{brandText}{serviceName.toLowerCase()}</strong> ihtiyaçlarında en hızlı ve güvenilir çözümleri sunuyoruz. Profesyonel teknik ekibimizle, cihazlarınızın performansını artırmak ve ömrünü uzatmak için çalışıyoruz.
+                </p>
+                <p className="mb-6">
+                  {marka ? (
+                    `Özel servis olarak ${marka.name} marka cihazlarınızda marka bağımsız, garantili ve uzman teknik destek sağlıyoruz. Orijinal yedek parça ve profesyonel işçilik ile cihazınız ilk günkü verimine kavuşur.`
+                  ) : (
+                    "Klima ve beyaz eşyalarınızda meydana gelen her türlü arıza, bakım ve montaj işlemleri için Antalya genelinde mobil ekiplerimizle kapınıza geliyoruz."
+                  )}
+                </p>
+                
+                <div className="grid grid-cols-1 sm:grid-cols-2 gap-4 mt-8">
+                  <div className="flex items-center gap-3">
+                    <CheckCircle2 className="w-5 h-5 text-brand-red" />
+                    <span className="font-medium">1 Yıl İşçilik Garantisi</span>
+                  </div>
+                  <div className="flex items-center gap-3">
+                    <Zap className="w-5 h-5 text-brand-red" />
+                    <span className="font-medium">Aynı Gün Hızlı Servis</span>
+                  </div>
+                  <div className="flex items-center gap-3">
+                    <ShieldCheck className="w-5 h-5 text-brand-red" />
+                    <span className="font-medium">Orijinal Yedek Parça</span>
+                  </div>
+                  <div className="flex items-center gap-3">
+                    <Clock className="w-5 h-5 text-brand-red" />
+                    <span className="font-medium">7/24 Çağrı Desteği</span>
+                  </div>
+                </div>
+              </div>
+            </div>
+            <div className="bg-brand-light p-8 rounded-3xl border border-gray-200">
+              <h3 className="text-xl font-bold mb-4 flex items-center gap-2">
+                <MapPin className="w-5 h-5 text-brand-red" />
+                {locationText} Servis Noktası
+              </h3>
+              <p className="text-gray-600 text-sm mb-6">
+                Ekiplerimiz şu anda <strong>{locationText}</strong> ve çevresinde aktif olarak hizmet vermektedir. Size en yakın mobil ekibimizi yönlendirmemiz için hemen arayın.
+              </p>
+              <div className="space-y-4">
+                <div className="bg-white p-4 rounded-xl flex justify-between items-center shadow-sm">
+                  <span className="text-sm font-medium text-gray-500">Bölge:</span>
+                  <span className="font-bold text-brand-dark">{locationText}</span>
+                </div>
+                <div className="bg-white p-4 rounded-xl flex justify-between items-center shadow-sm">
+                  <span className="text-sm font-medium text-gray-500">Durum:</span>
+                  <span className="text-green-600 font-bold flex items-center gap-1">
+                    <div className="w-2 h-2 bg-green-600 rounded-full animate-pulse" />
+                    Aktif / Mobil Ekip Mevcut
+                  </span>
+                </div>
+                <div className="bg-white p-4 rounded-xl flex justify-between items-center shadow-sm">
+                  <span className="text-sm font-medium text-gray-500">Tahmini Varış:</span>
+                  <span className="font-bold text-brand-dark">30 - 60 Dakika</span>
+                </div>
+              </div>
+              <a 
+                href={`tel:${CONTACT_INFO.phone}`}
+                className="mt-8 w-full bg-brand-red text-white py-4 rounded-2xl font-bold flex items-center justify-center gap-2 hover:bg-red-700 transition-colors shadow-lg shadow-red-200"
+              >
+                Hemen Tekniker Çağır
+              </a>
+            </div>
+          </div>
+        </div>
+      </section>
       
       <WhyChooseUs />
 
@@ -187,7 +357,6 @@ export default async function DynamicServicePage({ params }: PageProps) {
         />
       )}
 
-      {/* If ilce is selected but not mahalle, show mahalleler. Otherwise show top ilceler */}
       {ilce && !mahalle ? (
         <LocationGrid 
           locations={ilce.mahalleler} 
