@@ -39,16 +39,18 @@ export default function BeyazEsyaMarkalariPage() {
           <p className="text-center text-gray-500 mb-10 text-sm">
             Toplam <strong className="text-brand-dark">{beyazEsyaMarkalari.length}</strong> beyaz eşya markasında yetkili servis
           </p>
-          <div className="flex flex-wrap justify-center gap-3 md:gap-4">
+          <div className="flex flex-wrap justify-center -m-1.5 md:-m-2 lg:-m-2.5">
             {beyazEsyaMarkalari.map((brand) => (
-              <Link
-                key={brand.slug}
-                href={`/antalya/${brand.slug}-beyaz-esya-servisi`}
-                className="group relative px-5 py-3 bg-white border border-gray-200 rounded-xl shadow-sm hover:border-brand-red hover:shadow-lg hover:text-brand-red font-medium text-gray-700 transition-all text-sm md:text-base flex items-center gap-2"
-              >
-                <span>{brand.name}</span>
-                <ArrowRight className="w-3.5 h-3.5 opacity-0 group-hover:opacity-100 -translate-x-1 group-hover:translate-x-0 transition-all text-brand-red" />
-              </Link>
+              <div key={brand.slug} className="p-1.5 md:p-2 lg:p-2.5 w-1/2 sm:w-1/3 md:w-1/4 lg:w-1/5 xl:w-1/6">
+                <Link
+                  href={`/antalya/${brand.slug}-beyaz-esya-servisi`}
+                  className="flex items-center justify-center text-center px-3 py-3 md:py-5 min-h-[56px] md:min-h-[72px] bg-white border border-gray-200 rounded-xl shadow-[0_2px_8px_rgba(0,0,0,0.04)] hover:border-brand-red/40 hover:shadow-[0_10px_25px_rgba(0,0,0,0.08)] hover:text-brand-red font-semibold text-gray-700 transition-all text-xs md:text-base group h-full w-full"
+                >
+                  <span className="transition-transform group-hover:scale-105">
+                    {brand.name}
+                  </span>
+                </Link>
+              </div>
             ))}
           </div>
         </div>

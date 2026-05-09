@@ -69,165 +69,166 @@ export default function Header() {
 
 
   return (
-    <header
-      className={cn(
-        "fixed top-0 left-0 right-0 z-50 transition-all duration-300 border-b border-white/10",
-        isScrolled
-          ? "bg-[#111111]/90 backdrop-blur-md shadow-lg py-3"
-          : "bg-brand-dark py-5"
-      )}
-    >
-      <div className="container mx-auto px-4 md:px-6">
-        <div className="flex items-center justify-between">
-          {/* Logo */}
-          <Link href="/" className="flex items-center gap-2 group">
-            <div className="w-10 h-10 rounded-xl bg-brand-red flex items-center justify-center text-white font-bold text-xl shadow-[0_0_15px_rgba(200,30,30,0.5)] group-hover:scale-105 transition-transform">
-              A
-            </div>
-            <span className="text-xl md:text-2xl font-bold text-white tracking-tight">
-              Antalya <span className="text-brand-red">Servisi</span>
-            </span>
-          </Link>
-
-          {/* Desktop Navigation */}
-          <nav className="hidden lg:flex items-center gap-8">
-            {/* Hizmetler Dropdown */}
-            <div className="relative group">
-              <button className="flex items-center gap-1 text-gray-300 hover:text-white transition-colors font-medium">
-                Hizmetler <ChevronDown className="w-4 h-4 group-hover:rotate-180 transition-transform" />
-              </button>
-              <div className="absolute top-full left-0 mt-2 w-56 bg-[#1f1f1f] border border-white/10 rounded-xl shadow-xl opacity-0 invisible group-hover:opacity-100 group-hover:visible transition-all translate-y-2 group-hover:translate-y-0">
-                <div className="p-2 flex flex-col gap-1">
-                  {hizmetMenuItems.map((item) => (
-                    <Link
-                      key={item.href}
-                      href={item.href}
-                      className="px-4 py-2 text-sm text-gray-300 hover:text-white hover:bg-white/5 rounded-lg transition-colors"
-                    >
-                      {item.name}
-                    </Link>
-                  ))}
-                </div>
-              </div>
-            </div>
-
-            {/* Bölgeler Dropdown */}
-            <div className="relative group">
-              <button className="flex items-center gap-1 text-gray-300 hover:text-white transition-colors font-medium">
-                Bölgeler <ChevronDown className="w-4 h-4 group-hover:rotate-180 transition-transform" />
-              </button>
-              <div className="absolute top-full left-0 mt-2 w-52 bg-[#1f1f1f] border border-white/10 rounded-xl shadow-xl opacity-0 invisible group-hover:opacity-100 group-hover:visible transition-all translate-y-2 group-hover:translate-y-0">
-                <div className="p-2 flex flex-col gap-1">
-                  {topBölgeler.map((bolge) => (
-                    <Link
-                      key={bolge.slug}
-                      href={`/${bolge.slug}-klima-servisi`}
-                      className="px-4 py-2 text-sm text-gray-300 hover:text-white hover:bg-white/5 rounded-lg transition-colors"
-                    >
-                      {bolge.name}
-                    </Link>
-                  ))}
-                  <div className="my-1 border-t border-white/10" />
-                  <button
-                    type="button"
-                    onClick={scrollToBolgeSection}
-                    className="text-left px-4 py-2 text-sm text-brand-red hover:text-red-400 font-medium"
-                  >
-                    Tüm Bölgeler &rarr;
-                  </button>
-
-
-                </div>
-              </div>
-            </div>
-
-            {/* Markalar Dropdown — type-based URLs */}
-            <div className="relative group">
-              <button className="flex items-center gap-1 text-gray-300 hover:text-white transition-colors font-medium">
-                Markalar <ChevronDown className="w-4 h-4 group-hover:rotate-180 transition-transform" />
-              </button>
-              <div className="absolute top-full left-0 mt-2 w-56 bg-[#1f1f1f] border border-white/10 rounded-xl shadow-xl opacity-0 invisible group-hover:opacity-100 group-hover:visible transition-all translate-y-2 group-hover:translate-y-0">
-                <div className="p-2 flex flex-col gap-1">
-                  <p className="px-4 pt-1 pb-0.5 text-[10px] uppercase tracking-widest text-gray-500 font-bold">Klima</p>
-                  {topKlimaMarkalar.map((marka) => (
-                    <Link
-                      key={`desktop-klima-${marka.slug}`}
-                      href={`/antalya/${marka.slug}-klima-servisi`}
-                      className="px-4 py-2 text-sm text-gray-300 hover:text-white hover:bg-white/5 rounded-lg transition-colors"
-                    >
-                      {marka.name}
-                    </Link>
-                  ))}
-                  <Link
-                    href="/klima-markalari"
-                    className="px-4 py-1.5 text-sm text-brand-red hover:text-red-400 font-semibold flex items-center gap-1"
-                  >
-                    Tümünü Gör &rarr;
-                  </Link>
-                  <div className="my-1 border-t border-white/10" />
-                  <p className="px-4 pt-1 pb-0.5 text-[10px] uppercase tracking-widest text-gray-500 font-bold">Beyaz Eşya</p>
-                  {topBeyazEsyaMarkalar.map((marka) => (
-                    <Link
-                      key={`desktop-beyaz-${marka.slug}`}
-                      href={`/antalya/${marka.slug}-beyaz-esya-servisi`}
-                      className="px-4 py-2 text-sm text-gray-300 hover:text-white hover:bg-white/5 rounded-lg transition-colors"
-                    >
-                      {marka.name}
-                    </Link>
-                  ))}
-                  <Link
-                    href="/beyaz-esya-markalari"
-                    className="px-4 py-1.5 text-sm text-brand-red hover:text-red-400 font-semibold flex items-center gap-1"
-                  >
-                    Tümünü Gör &rarr;
-                  </Link>
-                </div>
-              </div>
-            </div>
-
-            <Link href="#iletisim" className="text-gray-300 hover:text-white transition-colors font-medium">
-              İletişim
-            </Link>
-          </nav>
-
-          {/* Desktop CTA */}
-          <div className="hidden lg:flex items-center gap-4">
-            <a href={`tel:${CONTACT_INFO.phone}`} className="flex items-center gap-2 text-white font-medium hover:text-brand-red transition-colors">
-              <Phone className="w-5 h-5 text-brand-red" />
-              <span>{CONTACT_INFO.phoneFormatted}</span>
-            </a>
-            <a
-              href={CONTACT_INFO.whatsapp}
-              target="_blank"
-              rel="noreferrer"
-              className="bg-[#25D366] hover:bg-[#20b858] text-white px-5 py-2.5 rounded-full font-medium flex items-center gap-2 transition-all hover:scale-105 shadow-[0_0_15px_rgba(37,211,102,0.3)]"
-            >
-              <MessageCircle className="w-5 h-5" />
-              WhatsApp
-            </a>
-          </div>
-
-          {/* Mobile Menu Toggle */}
-          <button
-            className="lg:hidden text-white p-2"
-            onClick={() => setIsMobileMenuOpen(!isMobileMenuOpen)}
-            aria-label="Menüyü aç/kapat"
-          >
-            {isMobileMenuOpen ? <X className="w-6 h-6" /> : <Menu className="w-6 h-6" />}
-          </button>
-        </div>
-      </div>
-
-      <div
+    <>
+      <header
         className={cn(
-          "lg:hidden absolute top-full left-0 right-0 bg-[#111111] border-b border-white/10 transition-all duration-300 overflow-y-auto",
-          isMobileMenuOpen
-            ? "opacity-100 visible pointer-events-auto h-[calc(100vh_-_70px)]"
-            : "opacity-0 invisible pointer-events-none h-0"
+          "fixed top-0 left-0 right-0 transition-all duration-300 border-b border-white/10",
+          isMobileMenuOpen ? "z-[70] bg-[#111111]" : "z-50",
+          isScrolled || isMobileMenuOpen
+            ? "bg-[#111111]/90 backdrop-blur-md shadow-lg py-3"
+            : "bg-brand-dark py-5"
         )}
       >
-        <div className="p-5 flex flex-col gap-6 min-h-full pb-[calc(2rem+env(safe-area-inset-bottom))]">
+        <div className="container mx-auto px-4 md:px-6">
+          <div className="flex items-center justify-between">
+            {/* Logo */}
+            <Link href="/" className="flex items-center gap-2 group">
+              <div className="w-10 h-10 rounded-xl bg-brand-red flex items-center justify-center text-white font-bold text-xl shadow-[0_0_15px_rgba(200,30,30,0.5)] group-hover:scale-105 transition-transform">
+                A
+              </div>
+              <span className="text-xl md:text-2xl font-bold text-white tracking-tight">
+                Antalya <span className="text-brand-red">Servisi</span>
+              </span>
+            </Link>
 
+            {/* Desktop Navigation */}
+            <nav className="hidden lg:flex items-center gap-8">
+              {/* Hizmetler Dropdown */}
+              <div className="relative group">
+                <button className="flex items-center gap-1 text-gray-300 hover:text-white transition-colors font-medium">
+                  Hizmetler <ChevronDown className="w-4 h-4 group-hover:rotate-180 transition-transform" />
+                </button>
+                <div className="absolute top-full left-0 mt-2 w-56 bg-[#1f1f1f] border border-white/10 rounded-xl shadow-xl opacity-0 invisible group-hover:opacity-100 group-hover:visible transition-all translate-y-2 group-hover:translate-y-0">
+                  <div className="p-2 flex flex-col gap-1">
+                    {hizmetMenuItems.map((item) => (
+                      <Link
+                        key={item.href}
+                        href={item.href}
+                        className="px-4 py-2 text-sm text-gray-300 hover:text-white hover:bg-white/5 rounded-lg transition-colors"
+                      >
+                        {item.name}
+                      </Link>
+                    ))}
+                  </div>
+                </div>
+              </div>
+
+              {/* Bölgeler Dropdown */}
+              <div className="relative group">
+                <button className="flex items-center gap-1 text-gray-300 hover:text-white transition-colors font-medium">
+                  Bölgeler <ChevronDown className="w-4 h-4 group-hover:rotate-180 transition-transform" />
+                </button>
+                <div className="absolute top-full left-0 mt-2 w-52 bg-[#1f1f1f] border border-white/10 rounded-xl shadow-xl opacity-0 invisible group-hover:opacity-100 group-hover:visible transition-all translate-y-2 group-hover:translate-y-0">
+                  <div className="p-2 flex flex-col gap-1">
+                    {topBölgeler.map((bolge) => (
+                      <Link
+                        key={bolge.slug}
+                        href={`/${bolge.slug}-klima-servisi`}
+                        className="px-4 py-2 text-sm text-gray-300 hover:text-white hover:bg-white/5 rounded-lg transition-colors"
+                      >
+                        {bolge.name}
+                      </Link>
+                    ))}
+                    <div className="my-1 border-t border-white/10" />
+                    <button
+                      type="button"
+                      onClick={scrollToBolgeSection}
+                      className="text-left px-4 py-2 text-sm text-brand-red hover:text-red-400 font-medium"
+                    >
+                      Tüm Bölgeler &rarr;
+                    </button>
+                  </div>
+                </div>
+              </div>
+
+              {/* Markalar Dropdown — type-based URLs */}
+              <div className="relative group">
+                <button className="flex items-center gap-1 text-gray-300 hover:text-white transition-colors font-medium">
+                  Markalar <ChevronDown className="w-4 h-4 group-hover:rotate-180 transition-transform" />
+                </button>
+                <div className="absolute top-full left-0 mt-2 w-56 bg-[#1f1f1f] border border-white/10 rounded-xl shadow-xl opacity-0 invisible group-hover:opacity-100 group-hover:visible transition-all translate-y-2 group-hover:translate-y-0">
+                  <div className="p-2 flex flex-col gap-1">
+                    <p className="px-4 pt-1 pb-0.5 text-[10px] uppercase tracking-widest text-gray-500 font-bold">Klima</p>
+                    {topKlimaMarkalar.map((marka) => (
+                      <Link
+                        key={`desktop-klima-${marka.slug}`}
+                        href={`/antalya/${marka.slug}-klima-servisi`}
+                        className="px-4 py-2 text-sm text-gray-300 hover:text-white hover:bg-white/5 rounded-lg transition-colors"
+                      >
+                        {marka.name}
+                      </Link>
+                    ))}
+                    <Link
+                      href="/klima-markalari"
+                      className="px-4 py-1.5 text-sm text-brand-red hover:text-red-400 font-semibold flex items-center gap-1"
+                    >
+                      Tümünü Gör &rarr;
+                    </Link>
+                    <div className="my-1 border-t border-white/10" />
+                    <p className="px-4 pt-1 pb-0.5 text-[10px] uppercase tracking-widest text-gray-500 font-bold">Beyaz Eşya</p>
+                    {topBeyazEsyaMarkalar.map((marka) => (
+                      <Link
+                        key={`desktop-beyaz-${marka.slug}`}
+                        href={`/antalya/${marka.slug}-beyaz-esya-servisi`}
+                        className="px-4 py-2 text-sm text-gray-300 hover:text-white hover:bg-white/5 rounded-lg transition-colors"
+                      >
+                        {marka.name}
+                      </Link>
+                    ))}
+                    <Link
+                      href="/beyaz-esya-markalari"
+                      className="px-4 py-1.5 text-sm text-brand-red hover:text-red-400 font-semibold flex items-center gap-1"
+                    >
+                      Tümünü Gör &rarr;
+                    </Link>
+                  </div>
+                </div>
+              </div>
+
+              <Link href="#iletisim" className="text-gray-300 hover:text-white transition-colors font-medium">
+                İletişim
+              </Link>
+            </nav>
+
+            {/* Desktop CTA */}
+            <div className="hidden lg:flex items-center gap-4">
+              <a href={`tel:${CONTACT_INFO.phone}`} className="flex items-center gap-2 text-white font-medium hover:text-brand-red transition-colors">
+                <Phone className="w-5 h-5 text-brand-red" />
+                <span>{CONTACT_INFO.phoneFormatted}</span>
+              </a>
+              <a
+                href={CONTACT_INFO.whatsapp}
+                target="_blank"
+                rel="noreferrer"
+                className="bg-[#25D366] hover:bg-[#20b858] text-white px-5 py-2.5 rounded-full font-medium flex items-center gap-2 transition-all hover:scale-105 shadow-[0_0_15px_rgba(37,211,102,0.3)]"
+              >
+                <MessageCircle className="w-5 h-5" />
+                WhatsApp
+              </a>
+            </div>
+
+            {/* Mobile Menu Toggle */}
+            <button
+              className="lg:hidden text-white p-2 relative z-[70]"
+              onClick={() => setIsMobileMenuOpen(!isMobileMenuOpen)}
+              aria-label="Menüyü aç/kapat"
+            >
+              {isMobileMenuOpen ? <X className="w-6 h-6" /> : <Menu className="w-6 h-6" />}
+            </button>
+          </div>
+        </div>
+      </header>
+
+      {/* Mobile Menu Overlay */}
+      <div
+        className={cn(
+          "lg:hidden fixed inset-0 z-[60] bg-[#111111] transition-all duration-300 overflow-y-auto",
+          isMobileMenuOpen
+            ? "opacity-100 visible pointer-events-auto"
+            : "opacity-0 invisible pointer-events-none translate-y-full"
+        )}
+      >
+        <div className="p-5 flex flex-col gap-6 min-h-full pt-24 pb-[calc(4rem+env(safe-area-inset-bottom))]">
           {/* Hizmetler Accordion */}
           <div className="flex flex-col border-b border-white/10">
             <button
@@ -278,14 +279,10 @@ export default function Header() {
               >
                 Tüm Bölgeler &rarr;
               </button>
-
-
-
-
             </div>
           </div>
 
-          {/* Markalar Accordion — type-based URLs */}
+          {/* Markalar Accordion */}
           <div className="flex flex-col border-b border-white/10">
             <button
               onClick={() => toggleAccordion("markalar")}
@@ -294,43 +291,48 @@ export default function Header() {
               Markalar
               <ChevronDown className={cn("w-5 h-5 text-gray-400 transition-transform duration-300", openAccordion === "markalar" ? "rotate-180" : "")} />
             </button>
-            <div className={cn("flex flex-col gap-2 overflow-hidden transition-all duration-300", openAccordion === "markalar" ? "max-h-[600px] pb-4 opacity-100" : "max-h-0 opacity-0")}>
-              <p className="px-4 pt-1 text-[10px] uppercase tracking-widest text-gray-500 font-bold">Klima</p>
-              {topKlimaMarkalar.map((marka) => (
+            <div className={cn("overflow-hidden transition-all duration-300", openAccordion === "markalar" ? "max-h-[800px] pb-4 opacity-100" : "max-h-0 opacity-0")}>
+              <div className="flex flex-col gap-1">
+                <p className="px-4 pt-1 text-[10px] uppercase tracking-widest text-gray-500 font-bold mb-1">Klima</p>
+                {topKlimaMarkalar.map((marka) => (
+                  <Link
+                    key={`mobile-klima-${marka.slug}`}
+                    href={`/antalya/${marka.slug}-klima-servisi`}
+                    className="text-gray-300 text-sm py-2 px-4 rounded-lg hover:bg-white/5 hover:text-white transition-colors"
+                    onClick={() => setIsMobileMenuOpen(false)}
+                  >
+                    {marka.name}
+                  </Link>
+                ))}
                 <Link
-                  key={`mobile-klima-${marka.slug}`}
-                  href={`/antalya/${marka.slug}-klima-servisi`}
-                  className="text-gray-300 text-sm py-2 px-4 rounded-lg hover:bg-white/5 hover:text-white transition-colors"
+                  href="/klima-markalari"
+                  className="text-brand-red font-semibold text-sm py-2 px-4 hover:text-red-400 flex items-center gap-1"
                   onClick={() => setIsMobileMenuOpen(false)}
                 >
-                  {marka.name}
+                  Tümünü Gör &rarr;
                 </Link>
-              ))}
-              <Link
-                href="/klima-markalari"
-                className="text-brand-red font-semibold text-sm py-2 px-4 hover:text-red-400 flex items-center gap-1"
-                onClick={() => setIsMobileMenuOpen(false)}
-              >
-                Tümünü Gör &rarr;
-              </Link>
-              <p className="px-4 pt-2 text-[10px] uppercase tracking-widest text-gray-500 font-bold">Beyaz Eşya</p>
-              {topBeyazEsyaMarkalar.map((marka) => (
+
+                <div className="my-2 border-t border-white/5 mx-4" />
+
+                <p className="px-4 pt-2 text-[10px] uppercase tracking-widest text-gray-500 font-bold mb-1">Beyaz Eşya</p>
+                {topBeyazEsyaMarkalar.map((marka) => (
+                  <Link
+                    key={`mobile-beyaz-${marka.slug}`}
+                    href={`/antalya/${marka.slug}-beyaz-esya-servisi`}
+                    className="text-gray-300 text-sm py-2 px-4 rounded-lg hover:bg-white/5 hover:text-white transition-colors"
+                    onClick={() => setIsMobileMenuOpen(false)}
+                  >
+                    {marka.name}
+                  </Link>
+                ))}
                 <Link
-                  key={`mobile-beyaz-${marka.slug}`}
-                  href={`/antalya/${marka.slug}-beyaz-esya-servisi`}
-                  className="text-gray-300 text-sm py-2 px-4 rounded-lg hover:bg-white/5 hover:text-white transition-colors"
+                  href="/beyaz-esya-markalari"
+                  className="text-brand-red font-semibold text-sm py-2 px-4 hover:text-red-400 flex items-center gap-1"
                   onClick={() => setIsMobileMenuOpen(false)}
                 >
-                  {marka.name}
+                  Tümünü Gör &rarr;
                 </Link>
-              ))}
-              <Link
-                href="/beyaz-esya-markalari"
-                className="text-brand-red font-semibold text-sm py-2 px-4 hover:text-red-400 flex items-center gap-1"
-                onClick={() => setIsMobileMenuOpen(false)}
-              >
-                Tümünü Gör &rarr;
-              </Link>
+              </div>
             </div>
           </div>
 
@@ -360,6 +362,6 @@ export default function Header() {
           </div>
         </div>
       </div>
-    </header>
+    </>
   );
 }

@@ -25,17 +25,17 @@ export default function LocationGrid({
           </p>
         </div>
 
-        <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 xl:grid-cols-5 gap-4">
+        <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 xl:grid-cols-5 gap-3 md:gap-4">
           {locations.map((loc, idx) => (
             <Link
               key={idx}
-              href={`${basePath}/${loc.slug}-klima-servisi`} // Modify dynamically depending on the route later, but for now we link to klima as default or use a generic path if provided
-              className="flex items-center gap-3 p-4 bg-white rounded-xl shadow-sm border border-gray-100 hover:border-brand-red hover:shadow-md transition-all group"
+              href={`${basePath}/${loc.slug}-klima-servisi`}
+              className="flex items-center gap-3 p-3 md:p-4 bg-white rounded-xl shadow-[0_2px_8px_rgba(0,0,0,0.04)] border border-gray-200 hover:border-brand-red/40 hover:shadow-[0_10px_25px_rgba(0,0,0,0.08)] transition-all group"
             >
-              <div className="w-8 h-8 rounded-full bg-red-50 flex items-center justify-center text-brand-red group-hover:bg-brand-red group-hover:text-white transition-colors">
-                <MapPin className="w-4 h-4" />
+              <div className="w-10 h-10 rounded-full bg-red-50/50 border border-brand-red/5 flex items-center justify-center text-brand-red/70 group-hover:bg-brand-red group-hover:text-white group-hover:shadow-[0_0_15px_rgba(200,30,30,0.3)] transition-all duration-300">
+                <MapPin className="w-4 h-4 transition-transform group-hover:scale-110" />
               </div>
-              <span className="font-medium text-gray-700 group-hover:text-brand-dark">
+              <span className="font-semibold text-gray-700 group-hover:text-brand-dark transition-colors text-sm md:text-base">
                 {loc.name}
               </span>
             </Link>

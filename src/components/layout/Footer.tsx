@@ -1,6 +1,7 @@
 import Link from "next/link";
 import { Phone, MessageCircle, MapPin, Clock } from "lucide-react";
 import { hizmetTipleri, ilceler, klimaMarkalari, beyazEsyaMarkalari } from "@/lib/data";
+import { cn } from "@/lib/utils";
 import { CONTACT_INFO } from "@/lib/constants";
 
 export default function Footer() {
@@ -57,14 +58,21 @@ export default function Footer() {
               Hizmetlerimiz
             </h4>
             <ul className="flex flex-col gap-3">
-              <li><Link href="/klima-servisi" className="hover:text-brand-red hover:pl-2 transition-all inline-block">Klima Servisi</Link></li>
-              <li><Link href="/klima-bakim-servisi" className="hover:text-brand-red hover:pl-2 transition-all inline-block">Klima Bakım</Link></li>
-              <li><Link href="/klima-tamir-servisi" className="hover:text-brand-red hover:pl-2 transition-all inline-block">Klima Tamir</Link></li>
-              <li><Link href="/klima-montaj-servisi" className="hover:text-brand-red hover:pl-2 transition-all inline-block">Klima Montaj</Link></li>
-              <li className="mt-2"><Link href="/beyaz-esya-servisi" className="hover:text-brand-red hover:pl-2 transition-all inline-block">Beyaz Eşya Servisi</Link></li>
-              <li><Link href="/buzdolabi-servisi" className="hover:text-brand-red hover:pl-2 transition-all inline-block">Buzdolabı Servisi</Link></li>
-              <li><Link href="/camasir-makinesi-servisi" className="hover:text-brand-red hover:pl-2 transition-all inline-block">Çamaşır Makinesi Servisi</Link></li>
+              <li><Link href="/klima-servisi" className="hover:text-brand-red transition-all inline-block font-medium">Klima Servisi</Link></li>
+              <li><Link href="/klima-bakim-servisi" className="hover:text-brand-red transition-all inline-block font-medium">Klima Bakım</Link></li>
+              <li><Link href="/klima-tamir-servisi" className="hover:text-brand-red transition-all inline-block font-medium">Klima Tamir</Link></li>
+              <li className={cn("hidden md:block")}><Link href="/klima-montaj-servisi" className="hover:text-brand-red transition-all inline-block font-medium">Klima Montaj</Link></li>
+              <li className="mt-2"><Link href="/beyaz-esya-servisi" className="hover:text-brand-red transition-all inline-block font-medium">Beyaz Eşya Servisi</Link></li>
+              <li><Link href="/buzdolabi-servisi" className="hover:text-brand-red transition-all inline-block font-medium">Buzdolabı Servisi</Link></li>
+              <li className={cn("hidden md:block")}><Link href="/camasir-makinesi-servisi" className="hover:text-brand-red transition-all inline-block font-medium">Çamaşır Makinesi Servisi</Link></li>
             </ul>
+            <a 
+              href="#hizmetler" 
+              className="group inline-flex items-center mt-4 text-sm font-semibold text-brand-red hover:text-red-400 transition-colors md:hidden"
+            >
+              Tüm Hizmetleri Gör 
+              <span className="ml-1 transition-transform group-hover:translate-x-1">&rarr;</span>
+            </a>
           </div>
 
           {/* Hizmet Bölgeleri */}
@@ -73,20 +81,27 @@ export default function Footer() {
               <span className="w-1 h-6 bg-brand-red rounded-full"></span>
               Hizmet Bölgeleri
             </h4>
-            <div className="grid grid-cols-2 gap-3">
-              {popularIlceler.map(ilce => (
+            <div className="flex flex-col gap-3">
+              {popularIlceler.map((ilce, index) => (
                 <Link 
                   key={ilce.slug} 
                   href={`/${ilce.slug}-klima-servisi`}
-                  className="hover:text-brand-red transition-colors text-sm"
+                  className={cn(
+                    "hover:text-brand-red transition-colors text-sm font-medium",
+                    index >= 3 ? "hidden md:block" : "block"
+                  )}
                 >
                   {ilce.name}
                 </Link>
               ))}
             </div>
-            <Link href="/" className="inline-block mt-4 text-sm text-brand-red hover:text-red-400">
-              Tüm Bölgeleri Gör &rarr;
-            </Link>
+            <a 
+              href="#tum-bolgeler" 
+              className="group inline-flex items-center mt-4 text-sm font-semibold text-brand-red hover:text-red-400 transition-colors"
+            >
+              Tüm Bölgeleri Gör 
+              <span className="ml-1 transition-transform group-hover:translate-x-1">&rarr;</span>
+            </a>
           </div>
 
           {/* Markalar */}
@@ -95,25 +110,39 @@ export default function Footer() {
               <span className="w-1 h-6 bg-brand-red rounded-full"></span>
               Öne Çıkan Markalar
             </h4>
-            <div className="flex flex-col gap-4">
+            <div className="flex flex-col gap-6">
               <div>
-                <p className="text-xs text-gray-500 uppercase font-bold mb-2 tracking-wider">Klima</p>
-                <div className="flex flex-wrap gap-2">
+                <p className="text-[10px] text-gray-500 uppercase font-bold mb-3 tracking-widest">Klima</p>
+                <div className="grid grid-cols-2 lg:grid-cols-2 gap-2 md:flex md:flex-col md:gap-2">
                   {popularKlimaMarkalari.map((b, index) => (
-                    <Link key={`footer-klima-${b.slug}-${index}`} href={`/antalya/${b.slug}-klima-servisi`} className="text-xs border border-white/10 hover:border-brand-red hover:text-white px-2 py-1 rounded transition-colors bg-white/5">
+                    <Link 
+                      key={`footer-klima-${b.slug}-${index}`} 
+                      href={`/antalya/${b.slug}-klima-servisi`} 
+                      className={`text-sm hover:text-brand-red transition-colors ${index >= 3 ? "hidden md:block" : "block"}`}
+                    >
                       {b.name}
                     </Link>
                   ))}
+                  <Link href="/klima-markalari" className="text-xs font-bold text-brand-red hover:text-red-400 mt-1">
+                    Tümünü Gör &rarr;
+                  </Link>
                 </div>
               </div>
               <div>
-                <p className="text-xs text-gray-500 uppercase font-bold mb-2 tracking-wider">Beyaz Eşya</p>
-                <div className="flex flex-wrap gap-2">
+                <p className="text-[10px] text-gray-500 uppercase font-bold mb-3 tracking-widest">Beyaz Eşya</p>
+                <div className="grid grid-cols-2 lg:grid-cols-2 gap-2 md:flex md:flex-col md:gap-2">
                   {popularBeyazEsyaMarkalari.map((b, index) => (
-                    <Link key={`footer-beyaz-${b.slug}-${index}`} href={`/antalya/${b.slug}-beyaz-esya-servisi`} className="text-xs border border-white/10 hover:border-brand-red hover:text-white px-2 py-1 rounded transition-colors bg-white/5">
+                    <Link 
+                      key={`footer-beyaz-${b.slug}-${index}`} 
+                      href={`/antalya/${b.slug}-beyaz-esya-servisi`} 
+                      className={`text-sm hover:text-brand-red transition-colors ${index >= 3 ? "hidden md:block" : "block"}`}
+                    >
                       {b.name}
                     </Link>
                   ))}
+                  <Link href="/beyaz-esya-markalari" className="text-xs font-bold text-brand-red hover:text-red-400 mt-1">
+                    Tümünü Gör &rarr;
+                  </Link>
                 </div>
               </div>
             </div>
