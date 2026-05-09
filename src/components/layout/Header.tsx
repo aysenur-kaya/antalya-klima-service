@@ -218,7 +218,6 @@ export default function Header() {
         </div>
       </div>
 
-      {/* Mobile Menu */}
       <div
         className={cn(
           "lg:hidden absolute top-full left-0 right-0 bg-[#111111] border-b border-white/10 transition-all duration-300 overflow-y-auto",
@@ -227,7 +226,7 @@ export default function Header() {
             : "opacity-0 invisible pointer-events-none h-0"
         )}
       >
-        <div className="p-4 flex flex-col gap-4 min-h-[calc(100vh_-_80px)]">
+        <div className="p-5 flex flex-col gap-6 min-h-full pb-[calc(2rem+env(safe-area-inset-bottom))]">
 
           {/* Hizmetler Accordion */}
           <div className="flex flex-col border-b border-white/10">
@@ -348,12 +347,13 @@ export default function Header() {
 
           <div className="flex-1" />
 
-          <div className="flex flex-col gap-3 mt-6 pb-8">
-            <a href={`tel:${CONTACT_INFO.phone}`} className="flex items-center justify-center gap-2 bg-white/10 text-white p-4 rounded-xl font-medium transition-all active:scale-95">
+          <div className="flex flex-col gap-3 mt-auto pt-10">
+            <p className="text-center text-xs text-gray-500 font-medium mb-1 uppercase tracking-widest">Acil Teknik Destek</p>
+            <a href={`tel:${CONTACT_INFO.phone}`} className="flex items-center justify-center gap-3 bg-white/5 border border-white/10 text-white p-4 rounded-xl font-bold transition-all active:scale-95">
               <Phone className="w-5 h-5 text-brand-red" />
-              Hemen Ara: {CONTACT_INFO.phoneFormatted}
+              {CONTACT_INFO.phoneFormatted}
             </a>
-            <a href={CONTACT_INFO.whatsapp} className="flex items-center justify-center gap-2 bg-[#25D366] text-white p-4 rounded-xl font-medium transition-all active:scale-95">
+            <a href={CONTACT_INFO.whatsapp} className="flex items-center justify-center gap-3 bg-[#25D366] text-white p-4 rounded-xl font-bold transition-all active:scale-95 shadow-lg shadow-green-500/10">
               <MessageCircle className="w-5 h-5" />
               WhatsApp&apos;tan Yaz
             </a>

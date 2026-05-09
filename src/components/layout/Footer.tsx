@@ -32,7 +32,7 @@ export default function Footer() {
             </p>
           </div>
           
-          <div className="flex flex-col sm:flex-row gap-4 items-center lg:justify-end">
+          <div className="hidden md:flex flex-col sm:flex-row gap-4 items-center lg:justify-end">
             <div className="text-center sm:text-right mr-0 sm:mr-4">
               <p className="text-white font-medium text-lg">Aynı Gün Servis</p>
               <p className="text-sm text-gray-400">Hemen uzman ekibimizi çağırın</p>
