@@ -135,7 +135,7 @@ export default function Header() {
                       onClick={scrollToBolgeSection}
                       className="text-left px-4 py-2 text-sm text-brand-red hover:text-red-400 font-medium"
                     >
-                      Tüm Bölgeler &rarr;
+                      {"Tüm Bölgeler →"}
                     </button>
                   </div>
                 </div>
@@ -162,7 +162,7 @@ export default function Header() {
                       href="/klima-markalari"
                       className="px-4 py-1.5 text-sm text-brand-red hover:text-red-400 font-semibold flex items-center gap-1"
                     >
-                      Tümünü Gör &rarr;
+                      {"Tümünü Gör →"}
                     </Link>
                     <div className="my-1 border-t border-white/10" />
                     <p className="px-4 pt-1 pb-0.5 text-[10px] uppercase tracking-widest text-gray-500 font-bold">Beyaz Eşya</p>
@@ -179,7 +179,7 @@ export default function Header() {
                       href="/beyaz-esya-markalari"
                       className="px-4 py-1.5 text-sm text-brand-red hover:text-red-400 font-semibold flex items-center gap-1"
                     >
-                      Tümünü Gör &rarr;
+                      {"Tümünü Gör →"}
                     </Link>
                   </div>
                 </div>
@@ -277,7 +277,7 @@ export default function Header() {
                 onClick={scrollToBolgeSection}
                 className="text-left text-brand-red font-medium text-sm py-2 px-4 hover:text-red-400"
               >
-                Tüm Bölgeler &rarr;
+                {"Tüm Bölgeler →"}
               </button>
             </div>
           </div>
@@ -309,7 +309,7 @@ export default function Header() {
                   className="text-brand-red font-semibold text-sm py-2 px-4 hover:text-red-400 flex items-center gap-1"
                   onClick={() => setIsMobileMenuOpen(false)}
                 >
-                  Tümünü Gör &rarr;
+                  {"Tümünü Gör →"}
                 </Link>
 
                 <div className="my-2 border-t border-white/5 mx-4" />
@@ -330,7 +330,7 @@ export default function Header() {
                   className="text-brand-red font-semibold text-sm py-2 px-4 hover:text-red-400 flex items-center gap-1"
                   onClick={() => setIsMobileMenuOpen(false)}
                 >
-                  Tümünü Gör &rarr;
+                  {"Tümünü Gör →"}
                 </Link>
               </div>
             </div>
@@ -357,7 +357,7 @@ export default function Header() {
             </a>
             <a href={CONTACT_INFO.whatsapp} className="flex items-center justify-center gap-3 bg-[#25D366] text-white p-4 rounded-xl font-bold transition-all active:scale-95 shadow-lg shadow-green-500/10">
               <MessageCircle className="w-5 h-5" />
-              WhatsApp&apos;tan Yaz
+              {"WhatsApp'tan Yaz"}
             </a>
           </div>
         </div>

@@ -13,7 +13,7 @@ export default function ContactCTA() {
           <div className="relative z-10 max-w-2xl mx-auto">
             <h2 className="text-3xl md:text-5xl font-bold mb-6">Arıza Kaydı Oluşturun</h2>
             <p className="text-lg md:text-xl text-white/90 mb-10">
-              Antalya geneli aynı gün servis garantisiyle uzman ekiplerimiz kapınızda. Hemen bizi arayın veya WhatsApp&apos;tan yazın.
+              {"Antalya geneli aynı gün servis garantisiyle uzman ekiplerimiz kapınızda. Hemen bizi arayın veya WhatsApp'tan yazın."}
             </p>
             
             <div className="flex flex-col sm:flex-row justify-center gap-4">
@@ -23,7 +23,7 @@ export default function ContactCTA() {
               </a>
               <a href={CONTACT_INFO.whatsapp} className="bg-[#25D366] text-white hover:bg-[#20b858] px-8 py-4 rounded-xl font-bold flex items-center justify-center gap-2 transition-all hover:scale-105 shadow-lg text-lg">
                 <MessageCircle className="w-6 h-6" />
-                WhatsApp&apos;tan Yaz
+                {"WhatsApp'tan Yaz"}
               </a>
             </div>
           </div>

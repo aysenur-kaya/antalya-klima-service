@@ -93,7 +93,7 @@ export default function Footer() {
               className="group inline-flex items-center mt-4 text-sm font-semibold text-brand-red hover:text-red-400 transition-colors"
             >
               Tüm Bölgeleri Gör 
-              <span className="ml-1 transition-transform group-hover:translate-x-1">&rarr;</span>
+              <span className="ml-1 transition-transform group-hover:translate-x-1">→</span>
             </Link>
           </div>
 
@@ -117,7 +117,7 @@ export default function Footer() {
                     </Link>
                   ))}
                   <Link href="/klima-markalari" className="text-xs font-bold text-brand-red hover:text-red-400 mt-1">
-                    Tümünü Gör &rarr;
+                    {"Tümünü Gör →"}
                   </Link>
                 </div>
               </div>
@@ -134,7 +134,7 @@ export default function Footer() {
                     </Link>
                   ))}
                   <Link href="/beyaz-esya-markalari" className="text-xs font-bold text-brand-red hover:text-red-400 mt-1">
-                    Tümünü Gör &rarr;
+                    {"Tümünü Gör →"}
                   </Link>
                 </div>
               </div>

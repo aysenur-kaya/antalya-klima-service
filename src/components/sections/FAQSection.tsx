@@ -8,7 +8,7 @@ import { CONTACT_INFO } from "@/lib/constants";
 const faqs = [
   {
     question: "Servis süresi ne kadardır?",
-    answer: "Çoğu arıza durumunda ekiplerimiz aynı gün içerisinde adresinize ulaşır ve sorunların %80&apos;ini yerinde çözer."
+    answer: "Çoğu arıza durumunda ekiplerimiz aynı gün içerisinde adresinize ulaşır ve sorunların %80'ini yerinde çözer."
   },
   {
     question: "Değişen parçalar garantili mi?",
@@ -20,7 +20,7 @@ const faqs = [
   },
   {
     question: "Hangi bölgelere hizmet veriyorsunuz?",
-    answer: "Antalya&apos;nın merkez ilçeleri başta olmak üzere Kemer, Alanya, Manavgat, Serik gibi tüm ilçelerine hizmet ağımız bulunmaktadır."
+    answer: "Antalya'nın merkez ilçeleri başta olmak üzere Kemer, Alanya, Manavgat, Serik gibi tüm ilçelerine hizmet ağımız bulunmaktadır."
   }
 ];
 
@@ -75,7 +75,7 @@ export default function FAQSection() {
           <div className="mt-10 text-center">
             <p className="text-gray-600 mb-4">Başka bir sorunuz mu var?</p>
             <a href={CONTACT_INFO.whatsapp} className="inline-flex items-center gap-2 text-brand-red font-bold hover:underline">
-              WhatsApp&apos;tan Bize Ulaşın &rarr;
+              {"WhatsApp'tan Bize Ulaşın →"}
             </a>
           </div>
         </div>

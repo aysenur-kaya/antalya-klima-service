@@ -70,7 +70,7 @@ export default function IletisimPage() {
         <div className="container mx-auto px-4 text-center">
           <h2 className="text-3xl font-bold mb-8">Hizmet Bölgemiz</h2>
           <p className="text-gray-600 max-w-2xl mx-auto mb-12">
-            Antalya&apos;nın Muratpaşa, Konyaaltı, Kepez başta olmak üzere tüm ilçelerine aynı gün servis ulaştırıyoruz. Mobil ekiplerimiz sürekli sahada olup size en yakın teknisyeni yönlendirmekteyiz.
+            {"Antalya'nın Muratpaşa, Konyaaltı, Kepez başta olmak üzere tüm ilçelerine aynı gün servis ulaştırıyoruz. Mobil ekiplerimiz sürekli sahada olup size en yakın teknisyeni yönlendirmekteyiz."}
           </p>
           <div className="w-full h-[400px] bg-gray-200 rounded-3xl flex items-center justify-center text-gray-500 font-medium">
             Google Harita Görünümü (İlerleyen aşamada eklenecek)

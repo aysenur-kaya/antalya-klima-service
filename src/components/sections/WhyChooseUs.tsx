@@ -3,7 +3,7 @@ import { Clock, ShieldCheck, Wrench, ThumbsUp } from "lucide-react";
 const features = [
   {
     title: "Hızlı Ulaşım",
-    desc: "Antalya&apos;nın her noktasına aynı gün içerisinde hızlı servis imkanı.",
+    desc: "Antalya'nın her noktasına aynı gün içerisinde hızlı servis imkanı.",
     icon: Clock
   },
   {
@@ -34,7 +34,7 @@ export default function WhyChooseUs() {
         <div className="text-center mb-16">
           <h2 className="text-3xl md:text-4xl font-bold mb-4">Neden Bizi Tercih Etmelisiniz?</h2>
           <p className="text-gray-400 max-w-2xl mx-auto">
-            Müşteri memnuniyeti odaklı çalışma prensibimizle Antalya&apos;da en çok tercih edilen servisiz.
+            {"Müşteri memnuniyeti odaklı çalışma prensibimizle Antalya'da en çok tercih edilen servisiz."}
           </p>
         </div>
 

@@ -25,7 +25,7 @@ export default function SartlarPage() {
             </p>
             <h2 className="text-2xl font-bold mb-4">Fikri Mülkiyet</h2>
             <p className="mb-6">
-              Sitede yer alan tüm içeriklerin telif hakları Antalya Servisi&apos;ne aittir. İzinsiz kullanımı yasaktır.
+              {"Sitede yer alan tüm içeriklerin telif hakları Antalya Servisi'ne aittir. İzinsiz kullanımı yasaktır."}
             </p>
           </div>
         </div>
