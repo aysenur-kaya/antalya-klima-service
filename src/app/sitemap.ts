@@ -20,7 +20,7 @@ export default function sitemap(): MetadataRoute.Sitemap {
     priority: 1.0,
   });
 
-  // 2. Ana Hizmet Sayfaları
+  // 2. Ana Hizmet Sayfaları (Antalya Geneli)
   const mainServices = [
     "klima-servisi",
     "beyaz-esya-servisi",
@@ -40,13 +40,6 @@ export default function sitemap(): MetadataRoute.Sitemap {
   mainServices.forEach((service) => {
     routes.push({
       url: `${baseUrl}/antalya-${service}`,
-      lastModified: lastModified,
-      changeFrequency: "weekly",
-      priority: 0.9,
-    });
-    // Add generic ones
-    routes.push({
-      url: `${baseUrl}/${service}`,
       lastModified: lastModified,
       changeFrequency: "weekly",
       priority: 0.9,
@@ -72,8 +65,9 @@ export default function sitemap(): MetadataRoute.Sitemap {
     });
   });
 
-  // 4. İlçe Sayfaları (Klima ve Beyaz Eşya)
+  // 4. İlçe Sayfaları (Genel ve Servis Bazlı)
   ilceler.forEach((ilce) => {
+    // İlçe Genel
     routes.push({
       url: `${baseUrl}/${ilce.slug}-klima-servisi`,
       lastModified: lastModified,
@@ -87,21 +81,42 @@ export default function sitemap(): MetadataRoute.Sitemap {
       priority: 0.8,
     });
 
-    // 5. Mahalle Sayfaları (İlçe Bazlı Sadece Genel Servis)
-    // Limits the total URLs generated to avoid timeout and 50k limit issues
+    // İlçe + Ana Hizmetler (Opsiyonel: Sadece en önemli olanlar)
+    const importantServices = ["klima-bakim-servisi", "klima-tamir-servisi", "buzdolabi-servisi", "camasir-makinesi-servisi"];
+    importantServices.forEach(service => {
+      routes.push({
+        url: `${baseUrl}/${ilce.slug}-${service}`,
+        lastModified: lastModified,
+        changeFrequency: "weekly",
+        priority: 0.7,
+      });
+    });
+
+    // 5. Mahalle Sayfaları (Sadece Genel Servisler)
     ilce.mahalleler.forEach((mahalle) => {
       routes.push({
         url: `${baseUrl}/${ilce.slug}/${mahalle.slug}-klima-servisi`,
         lastModified: lastModified,
         changeFrequency: "monthly",
-        priority: 0.7,
+        priority: 0.6,
       });
       routes.push({
         url: `${baseUrl}/${ilce.slug}/${mahalle.slug}-beyaz-esya-servisi`,
         lastModified: lastModified,
         changeFrequency: "monthly",
-        priority: 0.7,
+        priority: 0.6,
       });
+    });
+  });
+
+  // 6. Statik Sayfalar
+  const staticPages = ["kvkk", "gizlilik-politikasi", "kullanim-sartlari", "iletisim", "klima-markalari", "beyaz-esya-markalari"];
+  staticPages.forEach(page => {
+    routes.push({
+      url: `${baseUrl}/${page}`,
+      lastModified: lastModified,
+      changeFrequency: "monthly",
+      priority: 0.5,
     });
   });
 

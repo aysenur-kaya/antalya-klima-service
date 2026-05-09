@@ -4,11 +4,13 @@ import { MapPin } from "lucide-react";
 export default function LocationGrid({
   locations,
   basePath,
+  serviceType = "klima",
   title = "Hizmet Bölgelerimiz",
   subtitle = "Antalya'nın tüm noktalarına hızlı ve kesintisiz servis hizmeti ulaştırıyoruz."
 }: {
   locations: { name: string, slug: string }[];
   basePath: string;
+  serviceType?: "klima" | "beyaz-esya";
   title?: string;
   subtitle?: string;
 }) {
@@ -28,7 +30,7 @@ export default function LocationGrid({
           {locations.map((loc, idx) => (
             <Link
               key={idx}
-              href={`${basePath}/${loc.slug}-klima-servisi`}
+              href={`${basePath}/${loc.slug}-${serviceType}-servisi`}
               className="flex items-center gap-3 p-3 md:p-4 bg-white rounded-xl shadow-[0_2px_8px_rgba(0,0,0,0.04)] border border-gray-200 hover:border-brand-red/40 hover:shadow-[0_10px_25px_rgba(0,0,0,0.08)] transition-all group"
             >
               <div className="w-10 h-10 rounded-full bg-red-50/50 border border-brand-red/5 flex items-center justify-center text-brand-red/70 group-hover:bg-brand-red group-hover:text-white group-hover:shadow-[0_0_15px_rgba(200,30,30,0.3)] transition-all duration-300">

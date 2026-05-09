@@ -80,9 +80,9 @@ export default function ServiceCards({ type, locationSlug }: { type?: string, lo
             const Icon = service.icon;
             let href = "";
             if (locationSlug) {
-              // locationSlug might be 'antalya-klima-servisi' or 'muratpasa'
+              // locationSlug might be 'antalya' or 'muratpasa'
               const cleanLoc = locationSlug.replace(/-klima-servisi$|-beyaz-esya-servisi$/, "");
-              href = `/${cleanLoc}/${service.slug}`;
+              href = `/${cleanLoc}-${service.slug}`;
             } else {
               href = `/antalya-${service.slug}`;
             }

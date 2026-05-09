@@ -58,21 +58,14 @@ export default function Footer() {
               Hizmetlerimiz
             </h4>
             <ul className="flex flex-col gap-3">
-              <li><Link href="/klima-servisi" className="hover:text-brand-red transition-all inline-block font-medium">Klima Servisi</Link></li>
-              <li><Link href="/klima-bakim-servisi" className="hover:text-brand-red transition-all inline-block font-medium">Klima Bakım</Link></li>
-              <li><Link href="/klima-tamir-servisi" className="hover:text-brand-red transition-all inline-block font-medium">Klima Tamir</Link></li>
-              <li className={cn("hidden md:block")}><Link href="/klima-montaj-servisi" className="hover:text-brand-red transition-all inline-block font-medium">Klima Montaj</Link></li>
-              <li className="mt-2"><Link href="/beyaz-esya-servisi" className="hover:text-brand-red transition-all inline-block font-medium">Beyaz Eşya Servisi</Link></li>
-              <li><Link href="/buzdolabi-servisi" className="hover:text-brand-red transition-all inline-block font-medium">Buzdolabı Servisi</Link></li>
-              <li className={cn("hidden md:block")}><Link href="/camasir-makinesi-servisi" className="hover:text-brand-red transition-all inline-block font-medium">Çamaşır Makinesi Servisi</Link></li>
+              <li><Link href="/antalya-klima-servisi" className="hover:text-brand-red transition-all inline-block font-medium">Klima Servisi</Link></li>
+              <li><Link href="/antalya-klima-bakim-servisi" className="hover:text-brand-red transition-all inline-block font-medium">Klima Bakım</Link></li>
+              <li><Link href="/antalya-klima-tamir-servisi" className="hover:text-brand-red transition-all inline-block font-medium">Klima Tamir</Link></li>
+              <li className={cn("hidden md:block")}><Link href="/antalya-klima-montaj-servisi" className="hover:text-brand-red transition-all inline-block font-medium">Klima Montaj</Link></li>
+              <li className="mt-2"><Link href="/antalya-beyaz-esya-servisi" className="hover:text-brand-red transition-all inline-block font-medium">Beyaz Eşya Servisi</Link></li>
+              <li><Link href="/antalya-buzdolabi-servisi" className="hover:text-brand-red transition-all inline-block font-medium">Buzdolabı Servisi</Link></li>
+              <li className={cn("hidden md:block")}><Link href="/antalya-camasir-makinesi-servisi" className="hover:text-brand-red transition-all inline-block font-medium">Çamaşır Makinesi Servisi</Link></li>
             </ul>
-            <a 
-              href="#hizmetler" 
-              className="group inline-flex items-center mt-4 text-sm font-semibold text-brand-red hover:text-red-400 transition-colors md:hidden"
-            >
-              Tüm Hizmetleri Gör 
-              <span className="ml-1 transition-transform group-hover:translate-x-1">&rarr;</span>
-            </a>
           </div>
 
           {/* Hizmet Bölgeleri */}
@@ -88,20 +81,20 @@ export default function Footer() {
                   href={`/${ilce.slug}-klima-servisi`}
                   className={cn(
                     "hover:text-brand-red transition-colors text-sm font-medium",
-                    index >= 3 ? "hidden md:block" : "block"
+                    index >= 5 ? "hidden md:block" : "block"
                   )}
                 >
                   {ilce.name}
                 </Link>
               ))}
             </div>
-            <a 
-              href="#tum-bolgeler" 
+            <Link 
+              href="/iletisim" 
               className="group inline-flex items-center mt-4 text-sm font-semibold text-brand-red hover:text-red-400 transition-colors"
             >
               Tüm Bölgeleri Gör 
               <span className="ml-1 transition-transform group-hover:translate-x-1">&rarr;</span>
-            </a>
+            </Link>
           </div>
 
           {/* Markalar */}
@@ -158,15 +151,15 @@ export default function Footer() {
               <li className="flex items-start gap-3">
                 <MapPin className="w-5 h-5 text-brand-red shrink-0 mt-0.5" />
                 <div className="text-sm">
-                  <strong className="block text-white mb-1">Antalya Servisi Merkezi</strong>
-                  Antalya, Türkiye<br />
-                  Tüm ilçelere aynı gün servis.
+                  <strong className="block text-white mb-1">{CONTACT_INFO.name}</strong>
+                  {CONTACT_INFO.addressFull}<br />
+                  Antalya / Türkiye
                 </div>
               </li>
               <li className="flex items-start gap-3">
                 <Phone className="w-5 h-5 text-brand-red shrink-0 mt-0.5" />
                 <div className="text-sm">
-                  <strong className="block text-white mb-1">7/24 Çağrı Merkezi</strong>
+                  <strong className="block text-white mb-1">7/24 Teknik Destek</strong>
                   <a href={`tel:${CONTACT_INFO.phone}`} className="hover:text-brand-red transition-colors">
                     {CONTACT_INFO.phoneFormatted}
                   </a>
@@ -176,7 +169,7 @@ export default function Footer() {
                 <Clock className="w-5 h-5 text-brand-red shrink-0 mt-0.5" />
                 <div className="text-sm">
                   <strong className="block text-white mb-1">Çalışma Saatleri</strong>
-                  Pzt - Cts: 08:30 - 19:30<br />
+                  {CONTACT_INFO.workingHours}<br />
                   Pazar: Nöbetçi Ekip
                 </div>
               </li>
@@ -187,17 +180,17 @@ export default function Footer() {
         {/* Disclaimer / Trust Signal */}
         <div className="mb-10 p-6 bg-white/5 rounded-2xl border border-white/10">
           <p className="text-xs text-gray-400 leading-relaxed italic text-center">
-            <strong>Yasal Uyarı:</strong> Antalya Servisi, marka bağımsız çalışan <strong>özel bir teknik servistir</strong>. Sitemizde adı geçen markalar ve logolar ilgili firmaların tescilli markalarıdır ve sadece bilgilendirme amacıyla (marka bağımsız özel servis hizmeti verildiğini belirtmek için) kullanılmıştır. Firmamız bu markaların yetkili servisi değildir, <strong>garanti dışı cihazlara</strong> özel servis hizmeti vermektedir.
+            <strong>Yasal Uyarı:</strong> {CONTACT_INFO.name}, marka bağımsız çalışan <strong>özel bir teknik servistir</strong>. Sitemizde adı geçen markalar ve logolar ilgili firmaların tescilli markalarıdır ve sadece bilgilendirme amacıyla (marka bağımsız özel servis hizmeti verildiğini belirtmek için) kullanılmıştır. Firmamız bu markaların yetkili servisi değildir, <strong>garanti dışı cihazlara</strong> özel servis hizmeti vermektedir.
           </p>
         </div>
 
         {/* Bottom Bar */}
         <div className="pt-8 border-t border-white/10 flex flex-col md:flex-row items-center justify-between gap-4 text-sm text-gray-500">
-          <p>&copy; {new Date().getFullYear()} Antalya Servisi. Tüm hakları saklıdır.</p>
+          <p>&copy; {new Date().getFullYear()} {CONTACT_INFO.name}. Tüm hakları saklıdır.</p>
           <div className="flex gap-4">
-            <Link href="#" className="hover:text-white transition-colors">KVKK</Link>
-            <Link href="#" className="hover:text-white transition-colors">Gizlilik Politikası</Link>
-            <Link href="#" className="hover:text-white transition-colors">Kullanım Şartları</Link>
+            <Link href="/kvkk" className="hover:text-white transition-colors">KVKK</Link>
+            <Link href="/gizlilik-politikasi" className="hover:text-white transition-colors">Gizlilik Politikası</Link>
+            <Link href="/kullanim-sartlari" className="hover:text-white transition-colors">Kullanım Şartları</Link>
           </div>
         </div>
       </div>

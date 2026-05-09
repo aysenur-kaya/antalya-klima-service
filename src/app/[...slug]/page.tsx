@@ -18,6 +18,9 @@ import {
   Ilce,
   Mahalle
 } from "@/lib/data";
+import { SITE_URL, CONTACT_INFO } from "@/lib/constants";
+import JsonLd from "@/components/seo/JsonLd";
+import { CheckCircle2, ShieldCheck, Zap, Clock, MapPin } from "lucide-react";
 
 interface PageProps {
   params: Promise<{ slug: string[] }>;
@@ -139,22 +142,17 @@ export async function generateMetadata(
     title,
     description,
     alternates: {
-      canonical: `/${slugPath}`
+      canonical: `${SITE_URL}/${slugPath}`
     },
     openGraph: {
       title,
       description,
-      url: `/${slugPath}`,
+      url: `${SITE_URL}/${slugPath}`,
       type: 'article',
+      images: ['/og-image.jpg']
     }
   };
 }
-
-import { SITE_URL, CONTACT_INFO } from "@/lib/constants";
-import JsonLd from "@/components/seo/JsonLd";
-import { CheckCircle2, ShieldCheck, Zap, Clock, MapPin } from "lucide-react";
-
-// ... (rest of the imports)
 
 export default async function DynamicServicePage({ params }: PageProps) {
   const resolvedParams = await params;
@@ -178,29 +176,35 @@ export default async function DynamicServicePage({ params }: PageProps) {
   const heroSubtitle = `${locationText} bölgesinde garantili ve güvenilir ${brandText}${serviceName.toLowerCase()} için 7/24 bize ulaşın. Aynı gün servis imkanı!`;
 
   // Schemas
+  const breadcrumbItems = [
+    {
+      "@type": "ListItem",
+      "position": 1,
+      "name": "Ana Sayfa",
+      "item": SITE_URL
+    }
+  ];
+
+  if (ilce) {
+    breadcrumbItems.push({
+      "@type": "ListItem",
+      "position": 2,
+      "name": ilce.name,
+      "item": `${SITE_URL}/${ilce.slug}-${serviceType}-servisi`
+    });
+  }
+
+  breadcrumbItems.push({
+    "@type": "ListItem",
+    "position": ilce ? 3 : 2,
+    "name": `${brandText}${serviceName}`,
+    "item": `${SITE_URL}/${resolvedParams.slug.join("/")}`
+  });
+
   const breadcrumbSchema = {
     "@context": "https://schema.org",
     "@type": "BreadcrumbList",
-    "itemListElement": [
-      {
-        "@type": "ListItem",
-        "position": 1,
-        "name": "Ana Sayfa",
-        "item": SITE_URL
-      },
-      {
-        "@type": "ListItem",
-        "position": 2,
-        "name": locationText,
-        "item": `${SITE_URL}/${ilce?.slug || "antalya"}`
-      },
-      {
-        "@type": "ListItem",
-        "position": 3,
-        "name": `${brandText}${serviceName}`,
-        "item": `${SITE_URL}/${resolvedParams.slug.join("/")}`
-      }
-    ]
+    "itemListElement": breadcrumbItems
   };
 
   const serviceSchema = {
@@ -210,25 +214,18 @@ export default async function DynamicServicePage({ params }: PageProps) {
     "description": heroSubtitle,
     "provider": {
       "@type": "LocalBusiness",
-      "name": "Antalya Servisi",
-      "telephone": CONTACT_INFO.phone
+      "name": CONTACT_INFO.name,
+      "telephone": CONTACT_INFO.phone,
+      "address": {
+        "@type": "PostalAddress",
+        "addressLocality": "Antalya",
+        "addressRegion": "Antalya",
+        "addressCountry": "TR"
+      }
     },
     "areaServed": {
       "@type": "City",
       "name": locationText
-    },
-    "hasOfferCatalog": {
-      "@type": "OfferCatalog",
-      "name": serviceName,
-      "itemListElement": [
-        {
-          "@type": "Offer",
-          "itemOffered": {
-            "@type": "Service",
-            "name": `${brandText}${serviceName}`
-          }
-        }
-      ]
     }
   };
 
@@ -238,38 +235,56 @@ export default async function DynamicServicePage({ params }: PageProps) {
     "mainEntity": [
       {
         "@type": "Question",
-        "name": `${locationText} bölgesinde ${serviceName} ne kadar sürer?`,
+        "name": "Servis süresi ne kadardır?",
         "acceptedAnswer": {
           "@type": "Answer",
-          "text": "Servis süresi genellikle aynı gün içerisinde tamamlanmaktadır. Uzman ekibimiz adresinize ulaştıktan sonra 1-2 saat içinde işlemi bitirir."
+          "text": "Çoğu arıza durumunda ekiplerimiz aynı gün içerisinde adresinize ulaşır ve sorunların %80'ini yerinde çözer."
         }
       },
       {
         "@type": "Question",
-        "name": `${brandText || "Cihazım"} için garanti veriyor musunuz?`,
+        "name": "Değişen parçalar garantili mi?",
         "acceptedAnswer": {
           "@type": "Answer",
-          "text": "Evet, yaptığımız tüm tamir ve parça değişim işlemleri 1 yıl servis garantisi altındadır."
+          "text": "Evet, servisimiz tarafından değiştirilen tüm orijinal yedek parçalar 1 yıl işçilik ve parça garantisi altındadır."
+        }
+      },
+      {
+        "@type": "Question",
+        "name": "Servis ücreti alıyor musunuz?",
+        "acceptedAnswer": {
+          "@type": "Answer",
+          "text": "Arıza tespiti için cüzi bir servis ücreti alınmaktadır. Ancak onarımı onaylamanız durumunda bu ücret toplam fiyattan düşülür."
+        }
+      },
+      {
+        "@type": "Question",
+        "name": "Hangi bölgelere hizmet veriyorsunuz?",
+        "acceptedAnswer": {
+          "@type": "Answer",
+          "text": `Antalya'nın merkez ilçeleri başta olmak üzere ${locationText} ve çevresindeki tüm mahallelerine hizmet ağımız bulunmaktadır.`
         }
       }
     ]
   };
 
-  // Determine which lists to show based on current page
   const displayBrands = serviceType === "klima" ? klimaMarkalari : serviceType === "beyaz-esya" ? beyazEsyaMarkalari : [];
   
   return (
     <>
-      <JsonLd data={breadcrumbSchema} />
-      <JsonLd data={serviceSchema} />
-      <JsonLd data={faqSchema} />
+      <JsonLd data={breadcrumbSchema as Record<string, unknown>} />
+      <JsonLd data={serviceSchema as Record<string, unknown>} />
+      <JsonLd data={faqSchema as Record<string, unknown>} />
 
       <HeroSection 
         title={heroTitle} 
         subtitle={heroSubtitle}
       />
       
-      <ServiceCards type={serviceType || undefined} locationSlug={resolvedParams.slug.length === 1 ? resolvedParams.slug[0] : undefined} />
+      <ServiceCards 
+        type={serviceType || undefined} 
+        locationSlug={ilce ? ilce.slug : (resolvedParams.slug[0] === "antalya" ? "antalya" : undefined)} 
+      />
       
       {/* Unique SEO Content Section */}
       <section className="py-16 bg-white border-y border-gray-100">
@@ -281,32 +296,32 @@ export default async function DynamicServicePage({ params }: PageProps) {
               </h2>
               <div className="prose prose-blue text-gray-600 max-w-none">
                 <p className="mb-4">
-                  {locationText} bölgesinde yaşayan değerli müşterilerimiz için <strong>{brandText}{serviceName.toLowerCase()}</strong> ihtiyaçlarında en hızlı ve güvenilir çözümleri sunuyoruz. Profesyonel teknik ekibimizle, cihazlarınızın performansını artırmak ve ömrünü uzatmak için çalışıyoruz.
+                  {locationText} bölgesinde yaşayan değerli müşterilerimiz için <strong>{brandText}{serviceName.toLowerCase()}</strong> ihtiyaçlarında en hızlı ve güvenilir çözümleri sunuyoruz. {ilce ? `${ilce.name} genelinde` : "Antalya genelinde"} profesyonel teknik ekibimizle, cihazlarınızın performansını artırmak ve ömrünü uzatmak için çalışıyoruz.
                 </p>
                 <p className="mb-6">
                   {marka ? (
-                    `Özel servis olarak ${marka.name} marka cihazlarınızda marka bağımsız, garantili ve uzman teknik destek sağlıyoruz. Orijinal yedek parça ve profesyonel işçilik ile cihazınız ilk günkü verimine kavuşur.`
+                    `Özel servis olarak ${marka.name} marka cihazlarınızda marka bağımsız, garantili ve uzman teknik destek sağlıyoruz. ${locationText} ${marka.name} servisi arayışınızda orijinal yedek parça ve profesyonel işçilik ile yanınızdayız.`
                   ) : (
-                    "Klima ve beyaz eşyalarınızda meydana gelen her türlü arıza, bakım ve montaj işlemleri için Antalya genelinde mobil ekiplerimizle kapınıza geliyoruz."
+                    `${serviceName} konusunda uzman kadromuzla, ${locationText} sakinlerine özel çözümler üretiyoruz. Arıza, bakım ve montaj işlemlerinde şeffaf fiyatlandırma politikası uyguluyoruz.`
                   )}
                 </p>
                 
                 <div className="grid grid-cols-1 sm:grid-cols-2 gap-4 mt-8">
                   <div className="flex items-center gap-3">
                     <CheckCircle2 className="w-5 h-5 text-brand-red" />
-                    <span className="font-medium">1 Yıl İşçilik Garantisi</span>
+                    <span className="font-medium">1 Yıl Teknik Garanti</span>
                   </div>
                   <div className="flex items-center gap-3">
                     <Zap className="w-5 h-5 text-brand-red" />
-                    <span className="font-medium">Aynı Gün Hızlı Servis</span>
+                    <span className="font-medium">Hızlı Mobil Servis</span>
                   </div>
                   <div className="flex items-center gap-3">
                     <ShieldCheck className="w-5 h-5 text-brand-red" />
-                    <span className="font-medium">Orijinal Yedek Parça</span>
+                    <span className="font-medium">Orijinal Parça Desteği</span>
                   </div>
                   <div className="flex items-center gap-3">
                     <Clock className="w-5 h-5 text-brand-red" />
-                    <span className="font-medium">7/24 Çağrı Desteği</span>
+                    <span className="font-medium">7/24 Müşteri Hizmetleri</span>
                   </div>
                 </div>
               </div>
@@ -314,33 +329,33 @@ export default async function DynamicServicePage({ params }: PageProps) {
             <div className="bg-brand-light p-8 rounded-3xl border border-gray-200">
               <h3 className="text-xl font-bold mb-4 flex items-center gap-2">
                 <MapPin className="w-5 h-5 text-brand-red" />
-                {locationText} Servis Noktası
+                {locationText} Teknik Destek Birimi
               </h3>
               <p className="text-gray-600 text-sm mb-6">
-                Ekiplerimiz şu anda <strong>{locationText}</strong> ve çevresinde aktif olarak hizmet vermektedir. Size en yakın mobil ekibimizi yönlendirmemiz için hemen arayın.
+                Şu anda <strong>{locationText}</strong> ve yakın çevresinde aktif mobil ekiplerimiz bulunmaktadır. {brandText ? `${brandText} marka ` : ""}cihazınızdaki sorunları gidermek için en yakın teknisyenimizi yönlendirebiliriz.
               </p>
               <div className="space-y-4">
                 <div className="bg-white p-4 rounded-xl flex justify-between items-center shadow-sm">
-                  <span className="text-sm font-medium text-gray-500">Bölge:</span>
+                  <span className="text-sm font-medium text-gray-500">Hizmet Bölgesi:</span>
                   <span className="font-bold text-brand-dark">{locationText}</span>
                 </div>
                 <div className="bg-white p-4 rounded-xl flex justify-between items-center shadow-sm">
-                  <span className="text-sm font-medium text-gray-500">Durum:</span>
+                  <span className="text-sm font-medium text-gray-500">Servis Durumu:</span>
                   <span className="text-green-600 font-bold flex items-center gap-1">
                     <div className="w-2 h-2 bg-green-600 rounded-full animate-pulse" />
-                    Aktif / Mobil Ekip Mevcut
+                    Müsait / Adrese Yakın
                   </span>
                 </div>
                 <div className="bg-white p-4 rounded-xl flex justify-between items-center shadow-sm">
-                  <span className="text-sm font-medium text-gray-500">Tahmini Varış:</span>
-                  <span className="font-bold text-brand-dark">30 - 60 Dakika</span>
+                  <span className="text-sm font-medium text-gray-500">Hizmet Süresi:</span>
+                  <span className="font-bold text-brand-dark">Aynı Gün Teslim</span>
                 </div>
               </div>
               <a 
                 href={`tel:${CONTACT_INFO.phone}`}
                 className="mt-8 w-full bg-brand-red text-white py-4 rounded-2xl font-bold flex items-center justify-center gap-2 hover:bg-red-700 transition-colors shadow-lg shadow-red-200"
               >
-                Hemen Tekniker Çağır
+                Servis Randevusu Al
               </a>
             </div>
           </div>
@@ -361,12 +376,14 @@ export default async function DynamicServicePage({ params }: PageProps) {
         <LocationGrid 
           locations={ilce.mahalleler} 
           basePath={`/${ilce.slug}`} 
+          serviceType={serviceType as "klima" | "beyaz-esya"}
           title={`${ilce.name} Hizmet Bölgelerimiz (Mahalleler)`}
         />
       ) : (
         <LocationGrid 
           locations={ilceler.slice(0, 10)} 
           basePath="" 
+          serviceType={serviceType as "klima" | "beyaz-esya"}
           title="Antalya Geneli Hizmet Bölgelerimiz"
         />
       )}

@@ -1,5 +1,4 @@
 import type { Metadata } from "next";
-import { Inter } from "next/font/google";
 import "./globals.css";
 import Header from "@/components/layout/Header";
 import Footer from "@/components/layout/Footer";
@@ -7,10 +6,7 @@ import MobileCTALoader from "@/components/layout/MobileCTALoader";
 import { SITE_URL, CONTACT_INFO } from "@/lib/constants";
 import JsonLd from "@/components/seo/JsonLd";
 
-const inter = Inter({ 
-  subsets: ["latin"],
-  display: 'swap',
-});
+const systemFontStack = "-apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Helvetica, Arial, sans-serif, 'Apple Color Emoji', 'Segoe UI Emoji', 'Segoe UI Symbol'";
 
 export const metadata: Metadata = {
   metadataBase: new URL(SITE_URL),
@@ -131,7 +127,11 @@ export default function RootLayout({
         <JsonLd data={organizationSchema} />
         <JsonLd data={localBusinessSchema} />
       </head>
-      <body suppressHydrationWarning className={`${inter.className} min-h-screen bg-brand-light text-brand-dark flex flex-col`}>
+      <body 
+        suppressHydrationWarning 
+        className="min-h-screen bg-brand-light text-brand-dark flex flex-col"
+        style={{ fontFamily: systemFontStack }}
+      >
         <Header />
         <main className="flex-1">{children}</main>
         <Footer />
