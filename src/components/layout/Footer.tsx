@@ -89,7 +89,7 @@ export default function Footer() {
               ))}
             </div>
             <Link 
-              href="/iletisim" 
+              href="/bolgeler" 
               className="group inline-flex items-center mt-4 text-sm font-semibold text-brand-red hover:text-red-400 transition-colors"
             >
               Tüm Bölgeleri Gör 

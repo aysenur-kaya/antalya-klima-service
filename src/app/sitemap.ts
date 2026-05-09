@@ -109,7 +109,24 @@ export default function sitemap(): MetadataRoute.Sitemap {
     });
   });
 
-  // 6. Statik Sayfalar
+  // 6. Bölgeler Dizini
+  routes.push({
+    url: `${baseUrl}/bolgeler`,
+    lastModified: lastModified,
+    changeFrequency: "weekly",
+    priority: 0.8,
+  });
+
+  ilceler.forEach((ilce) => {
+    routes.push({
+      url: `${baseUrl}/bolgeler/${ilce.slug}`,
+      lastModified: lastModified,
+      changeFrequency: "weekly",
+      priority: 0.7,
+    });
+  });
+
+  // 7. Statik Sayfalar
   const staticPages = ["kvkk", "gizlilik-politikasi", "kullanim-sartlari", "iletisim", "klima-markalari", "beyaz-esya-markalari"];
   staticPages.forEach(page => {
     routes.push({

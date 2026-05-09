@@ -53,18 +53,6 @@ export default function Header() {
     setOpenAccordion(openAccordion === name ? null : name);
   };
 
-  const scrollToBolgeSection = () => {
-    const section = document.getElementById("tum-bolgeler");
-
-    if (section) {
-      section.scrollIntoView({
-        behavior: "smooth",
-        block: "start",
-      });
-    }
-
-    setIsMobileMenuOpen(false);
-  };
 
 
 
@@ -130,13 +118,12 @@ export default function Header() {
                       </Link>
                     ))}
                     <div className="my-1 border-t border-white/10" />
-                    <button
-                      type="button"
-                      onClick={scrollToBolgeSection}
+                    <Link
+                      href="/bolgeler"
                       className="text-left px-4 py-2 text-sm text-brand-red hover:text-red-400 font-medium"
                     >
                       {"Tüm Bölgeler →"}
-                    </button>
+                    </Link>
                   </div>
                 </div>
               </div>
@@ -272,13 +259,13 @@ export default function Header() {
                   {bolge.name}
                 </Link>
               ))}
-              <button
-                type="button"
-                onClick={scrollToBolgeSection}
+              <Link
+                href="/bolgeler"
                 className="text-left text-brand-red font-medium text-sm py-2 px-4 hover:text-red-400"
+                onClick={() => setIsMobileMenuOpen(false)}
               >
                 {"Tüm Bölgeler →"}
-              </button>
+              </Link>
             </div>
           </div>
 
