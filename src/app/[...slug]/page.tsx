@@ -18,6 +18,7 @@ import {
   Ilce,
   Mahalle
 } from "@/lib/data";
+import { getServicePageBySlug } from "@/lib/services";
 import { SITE_URL, CONTACT_INFO } from "@/lib/constants";
 import JsonLd from "@/components/seo/JsonLd";
 import { CheckCircle2, ShieldCheck, Zap, Clock, MapPin } from "lucide-react";
@@ -62,7 +63,7 @@ const SERVICE_MAP: ServiceEntry[] = [
 ];
 
 function parseSlug(slugs: string[]): ParsedSlug {
-  if (!slugs.length) return { isValid: false };
+  if (!slugs.length || slugs.length > 3) return { isValid: false };
 
   const lastPart = slugs[slugs.length - 1];
 
@@ -89,11 +90,15 @@ function parseSlug(slugs: string[]): ParsedSlug {
   let marka: Brand | undefined;
 
   if (slugs.length === 1) {
-    if (baseLastPart !== "" && baseLastPart !== "antalya") {
+    if (baseLastPart === "" || baseLastPart === "antalya") {
+      // Generic Antalya-level page — valid, no location constraint
+    } else {
+      // baseLastPart must resolve to a known ilce, marka, or ilce+marka compound
       ilce = getIlceBySlug(baseLastPart);
       if (!ilce) {
         // Try splitting "ilce-marka" compound prefix
         const parts = baseLastPart.split("-");
+        let found = false;
         for (let i = 1; i < parts.length; i++) {
           const potentialIlce = parts.slice(0, i).join("-");
           const potentialMarka = parts.slice(i).join("-");
@@ -102,33 +107,54 @@ function parseSlug(slugs: string[]): ParsedSlug {
           if (foundIlce && foundMarka) {
             ilce = foundIlce;
             marka = foundMarka;
+            found = true;
             break;
           }
         }
-        if (!ilce && !marka) {
+        if (!found) {
           marka = getBrandBySlug(baseLastPart, serviceType);
+          if (!marka) {
+            // Prefix matches nothing in our data — hard 404
+            return { isValid: false };
+          }
         }
       }
     }
   } else if (slugs.length === 2) {
+    // First segment must be "antalya" or a valid ilce
     if (slugs[0] !== "antalya") {
       ilce = getIlceBySlug(slugs[0]);
+      if (!ilce) return { isValid: false };
     }
+
     if (baseLastPart !== "") {
-      mahalle = ilce ? getMahalleBySlug(ilce.slug, baseLastPart) : undefined;
-      if (!mahalle) {
+      if (ilce) {
+        // Prefix must be a mahalle of that ilce, or a valid marka
+        mahalle = getMahalleBySlug(ilce.slug, baseLastPart);
+        if (!mahalle) {
+          marka = getBrandBySlug(baseLastPart, serviceType);
+          if (!marka) return { isValid: false };
+        }
+      } else {
+        // slugs[0] === "antalya": prefix must be a valid marka
         marka = getBrandBySlug(baseLastPart, serviceType);
+        if (!marka) return { isValid: false };
       }
     }
-  } else if (slugs.length === 3) {
-    if (slugs[0] !== "antalya") {
-      ilce = getIlceBySlug(slugs[0]);
-    }
-    if (ilce && slugs[1]) {
-      mahalle = getMahalleBySlug(ilce.slug, slugs[1]);
-    }
-    if (baseLastPart) {
+  } else {
+    // slugs.length === 3
+    // First segment must be a valid ilce ("antalya" has no mahalleler in our data model)
+    ilce = getIlceBySlug(slugs[0]);
+    if (!ilce) return { isValid: false };
+
+    // Second segment must be a valid mahalle under that ilce
+    mahalle = getMahalleBySlug(ilce.slug, slugs[1]);
+    if (!mahalle) return { isValid: false };
+
+    // Optional marka prefix on the last segment
+    if (baseLastPart !== "") {
       marka = getBrandBySlug(baseLastPart, serviceType);
+      if (!marka) return { isValid: false };
     }
   }
 
@@ -143,7 +169,9 @@ export async function generateMetadata({ params }: PageProps): Promise<Metadata>
     return { title: "Sayfa Bulunamadı" };
   }
 
-  const { ilce, mahalle, marka, serviceName } = parsed;
+  const { ilce, mahalle, marka, serviceName, serviceType } = parsed;
+  const slugs = resolvedParams.slug;
+  const slugPath = slugs.join("/");
 
   const locationText = mahalle
     ? `${ilce?.name ?? ""} ${mahalle.name}`.trim()
@@ -156,12 +184,46 @@ export async function generateMetadata({ params }: PageProps): Promise<Metadata>
   const title = `${locationText} ${brandText}${serviceName} | 7/24 Teknik Servis`;
   const description = `${locationText} bölgesinde ${brandText}${serviceName.toLowerCase()} ihtiyacınız için aynı gün garantili ve profesyonel teknik destek.${brandText ? ` ${brandText}marka bağımsız özel servis hizmeti.` : ""}`;
 
-  const slugPath = resolvedParams.slug.join("/");
+  // Canonical strategy to prevent duplicate-intent indexing:
+  //
+  // 1. Marka-only pages (no district, no neighbourhood) — e.g. /samsung-klima-servisi
+  //    or /antalya/samsung-klima-servisi — consolidate authority to the dedicated
+  //    /servis/ brand page which is the canonical source for that brand.
+  //
+  // 2. Pure-service pages (no prefix at all) — e.g. /klima-servisi — defer to the
+  //    editorial /hizmetler/ page which covers the same generic intent.
+  //
+  // 3. All location-specific and Antalya-level landing pages keep their own canonical
+  //    because they serve a distinct geo-modified searcher intent.
+  let canonicalUrl: string;
+
+  if (!ilce && !mahalle && marka) {
+    // Brand-only: consolidate to /servis/
+    canonicalUrl = `${SITE_URL}/servis/${marka.slug}-${serviceType}-servisi`;
+  } else if (!ilce && !mahalle && !marka) {
+    const isAntalyaLevel =
+      (slugs.length === 1 && slugs[0].startsWith("antalya-")) ||
+      (slugs.length === 2 && slugs[0] === "antalya");
+
+    if (!isAntalyaLevel) {
+      // Pure suffix (e.g. /klima-servisi): defer to /hizmetler/
+      const hizmetlerPage = getServicePageBySlug(slugPath);
+      canonicalUrl = hizmetlerPage
+        ? `${SITE_URL}/hizmetler/${hizmetlerPage.slug}`
+        : `${SITE_URL}/${slugPath}`;
+    } else {
+      // Antalya-level landing (e.g. /antalya-klima-servisi): distinct geo intent
+      canonicalUrl = `${SITE_URL}/${slugPath}`;
+    }
+  } else {
+    // Location-specific page: unique, canonical to itself
+    canonicalUrl = `${SITE_URL}/${slugPath}`;
+  }
 
   return {
     title,
     description,
-    alternates: { canonical: `${SITE_URL}/${slugPath}` },
+    alternates: { canonical: canonicalUrl },
     openGraph: {
       title,
       description,

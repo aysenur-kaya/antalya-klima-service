@@ -1,193 +1,167 @@
 import { MetadataRoute } from "next";
-import { 
-  ilceler, 
-  klimaMarkalari, 
-  beyazEsyaMarkalari 
-} from "@/lib/data";
+import { ilceler, klimaMarkalari, beyazEsyaMarkalari } from "@/lib/data";
 import { SITE_URL } from "@/lib/constants";
 import { allServicePages, klimaServicePages } from "@/lib/services";
 
-const baseUrl = SITE_URL;
-const lastModified = new Date("2024-05-09");
+const LAST_MODIFIED = new Date("2024-05-09");
 
-export default function sitemap(): MetadataRoute.Sitemap {
-  const routes: MetadataRoute.Sitemap = [];
+// ---------------------------------------------------------------------------
+// Segment map
+// Next.js generates /sitemap/[id].xml per segment and auto-creates the
+// /sitemap.xml index that lists all of them. robots.ts can keep pointing to
+// /sitemap.xml without any change.
+// ---------------------------------------------------------------------------
+const SEGMENT = {
+  STATIC: 0,       // hub, directory, legal
+  SERVICES: 1,     // /hizmetler/* + /antalya-* geo-landings
+  DISTRICTS: 2,    // /[ilce]-* landings + /bolgeler/* directory + pricing
+  NEIGHBORHOODS: 3, // /[ilce]/[mahalle]-* landings
+  BRANDS: 4,       // /servis/* canonical brand pages
+} as const;
 
-  // 1. Ana Sayfa
-  routes.push({
-    url: `${baseUrl}/`,
-    lastModified: lastModified,
-    changeFrequency: "weekly",
-    priority: 1.0,
-  });
+export function generateSitemaps() {
+  return Object.values(SEGMENT).map((id) => ({ id }));
+}
 
-  // 2. Ana Hizmet Sayfaları (Antalya Geneli)
-  routes.push({
-    url: `${baseUrl}/hizmetler`,
-    lastModified: lastModified,
-    changeFrequency: "weekly",
-    priority: 0.9,
-  });
+// ---------------------------------------------------------------------------
+// Helpers
+// ---------------------------------------------------------------------------
+type Frequency = MetadataRoute.Sitemap[number]["changeFrequency"];
 
-  allServicePages.forEach((service) => {
-    routes.push({
-      url: `${baseUrl}/hizmetler/${service.slug}`,
-      lastModified: lastModified,
-      changeFrequency: "weekly",
-      priority: 0.9,
-    });
-  });
+function entry(
+  path: string,
+  priority: number,
+  changeFrequency: Frequency = "weekly"
+): MetadataRoute.Sitemap[number] {
+  return { url: `${SITE_URL}${path}`, lastModified: LAST_MODIFIED, changeFrequency, priority };
+}
 
-  const legacyServiceSlugs = [
+// ---------------------------------------------------------------------------
+// Antalya-level landing suffixes (canonical = themselves, not /hizmetler/).
+// Pure service suffixes without a location prefix are excluded here because
+// those pages canonicalize to /hizmetler/* and would create duplicate signals.
+// ---------------------------------------------------------------------------
+const ANTALYA_LANDING_SUFFIXES = Array.from(
+  new Set([
+    ...allServicePages.map((s) => s.landingSlug),
+    // SERVICE_MAP entries not covered by allServicePages
     "klima-ariza-servisi",
     "bulasik-makinesi-servisi",
     "firin-servisi",
     "derin-dondurucu-servisi",
-    "kurutma-makinesi-servisi"
+    "kurutma-makinesi-servisi",
+  ])
+);
+
+// Highest-intent ilçe×service combinations. All have canonical = themselves.
+// Omitting niche combinations keeps the district segment lean and avoids
+// thin content signals from low-volume service+district pairs.
+const DISTRICT_SERVICE_SUFFIXES = [
+  "klima-servisi",
+  "klima-bakim-servisi",
+  "klima-tamir-servisi",
+  "beyaz-esya-servisi",
+  "buzdolabi-servisi",
+  "camasir-makinesi-servisi",
+];
+
+// ---------------------------------------------------------------------------
+// Segment builders
+// ---------------------------------------------------------------------------
+function staticSegment(): MetadataRoute.Sitemap {
+  return [
+    entry("/", 1.0),
+    entry("/antalya", 0.9),
+    entry("/hizmetler", 0.9),
+    entry("/servis", 0.9),
+    entry("/bolgeler", 0.8),
+    entry("/klima-markalari", 0.7, "monthly"),
+    entry("/beyaz-esya-markalari", 0.7, "monthly"),
+    entry("/iletisim", 0.7, "monthly"),
+    entry("/kvkk", 0.4, "monthly"),
+    entry("/gizlilik-politikasi", 0.4, "monthly"),
+    entry("/kullanim-sartlari", 0.4, "monthly"),
   ];
-  const mainServices = Array.from(new Set([...allServicePages.map((service) => service.landingSlug), ...legacyServiceSlugs]));
+}
 
-  mainServices.forEach((service) => {
-    routes.push({
-      url: `${baseUrl}/antalya-${service}`,
-      lastModified: lastModified,
-      changeFrequency: "weekly",
-      priority: 0.9,
-    });
-  });
+function servicesSegment(): MetadataRoute.Sitemap {
+  const urls: MetadataRoute.Sitemap = [];
 
-  // 3. Marka Sayfaları (Antalya Geneli)
-  routes.push({
-    url: `${baseUrl}/servis`,
-    lastModified: lastModified,
-    changeFrequency: "weekly",
-    priority: 0.9,
-  });
+  // Editorial service pages — authoritative canonical targets for their topics
+  for (const service of allServicePages) {
+    urls.push(entry(`/hizmetler/${service.slug}`, 0.9));
+  }
 
-  klimaMarkalari.forEach((brand) => {
-    routes.push({
-      url: `${baseUrl}/servis/${brand.slug}-klima-servisi`,
-      lastModified: lastModified,
-      changeFrequency: "weekly",
-      priority: 0.8,
-    });
-    routes.push({
-      url: `${baseUrl}/antalya/${brand.slug}-klima-servisi`,
-      lastModified: lastModified,
-      changeFrequency: "weekly",
-      priority: 0.8,
-    });
-  });
+  // Antalya-level geo landings — distinct geo-modified searcher intent,
+  // canonical = themselves (not consolidated to /hizmetler/)
+  for (const suffix of ANTALYA_LANDING_SUFFIXES) {
+    urls.push(entry(`/antalya-${suffix}`, 0.85));
+  }
 
-  beyazEsyaMarkalari.forEach((brand) => {
-    routes.push({
-      url: `${baseUrl}/servis/${brand.slug}-beyaz-esya-servisi`,
-      lastModified: lastModified,
-      changeFrequency: "weekly",
-      priority: 0.8,
-    });
-    routes.push({
-      url: `${baseUrl}/antalya/${brand.slug}-beyaz-esya-servisi`,
-      lastModified: lastModified,
-      changeFrequency: "weekly",
-      priority: 0.8,
-    });
-  });
+  return urls;
+}
 
-  // 4. İlçe Sayfaları (Genel ve Servis Bazlı)
-  ilceler.forEach((ilce) => {
-    // İlçe Genel
-    routes.push({
-      url: `${baseUrl}/${ilce.slug}-klima-servisi`,
-      lastModified: lastModified,
-      changeFrequency: "weekly",
-      priority: 0.8,
-    });
-    routes.push({
-      url: `${baseUrl}/${ilce.slug}-beyaz-esya-servisi`,
-      lastModified: lastModified,
-      changeFrequency: "weekly",
-      priority: 0.8,
-    });
+function districtsSegment(): MetadataRoute.Sitemap {
+  const urls: MetadataRoute.Sitemap = [];
 
-    // İlçe + Ana Hizmetler (Opsiyonel: Sadece en önemli olanlar)
-    const importantServices = ["klima-bakim-servisi", "klima-tamir-servisi", "buzdolabi-servisi", "camasir-makinesi-servisi"];
-    importantServices.forEach(service => {
-      routes.push({
-        url: `${baseUrl}/${ilce.slug}-${service}`,
-        lastModified: lastModified,
-        changeFrequency: "weekly",
-        priority: 0.7,
-      });
-    });
+  for (const ilce of ilceler) {
+    // District directory & pricing pages
+    urls.push(entry(`/bolgeler/${ilce.slug}`, 0.7));
+    urls.push(entry(`/bolgeler/${ilce.slug}/fiyatlar`, 0.6, "monthly"));
 
-    // 5. Mahalle Sayfaları (Sadece Genel Servisler)
-    ilce.mahalleler.forEach((mahalle) => {
-      routes.push({
-        url: `${baseUrl}/${ilce.slug}/${mahalle.slug}-klima-servisi`,
-        lastModified: lastModified,
-        changeFrequency: "monthly",
-        priority: 0.6,
-      });
-      routes.push({
-        url: `${baseUrl}/${ilce.slug}/${mahalle.slug}-beyaz-esya-servisi`,
-        lastModified: lastModified,
-        changeFrequency: "monthly",
-        priority: 0.6,
-      });
-    });
-  });
+    for (const service of klimaServicePages.filter((s) => s.slug !== "klima-servisi")) {
+      urls.push(entry(`/bolgeler/${ilce.slug}/fiyatlar/${service.slug}`, 0.5, "monthly"));
+    }
 
-  // 6. Bölgeler Dizini
-  routes.push({
-    url: `${baseUrl}/antalya`,
-    lastModified: lastModified,
-    changeFrequency: "weekly",
-    priority: 0.9,
-  });
+    // High-intent ilçe landing pages (canonical = themselves)
+    for (const suffix of DISTRICT_SERVICE_SUFFIXES) {
+      urls.push(entry(`/${ilce.slug}-${suffix}`, 0.8));
+    }
+  }
 
-  routes.push({
-    url: `${baseUrl}/bolgeler`,
-    lastModified: lastModified,
-    changeFrequency: "weekly",
-    priority: 0.8,
-  });
+  return urls;
+}
 
-  ilceler.forEach((ilce) => {
-    routes.push({
-      url: `${baseUrl}/bolgeler/${ilce.slug}`,
-      lastModified: lastModified,
-      changeFrequency: "weekly",
-      priority: 0.7,
-    });
-    routes.push({
-      url: `${baseUrl}/bolgeler/${ilce.slug}/fiyatlar`,
-      lastModified: lastModified,
-      changeFrequency: "weekly",
-      priority: 0.6,
-    });
-    klimaServicePages
-      .filter((service) => service.slug !== "klima-servisi")
-      .forEach((service) => {
-        routes.push({
-          url: `${baseUrl}/bolgeler/${ilce.slug}/fiyatlar/${service.slug}`,
-          lastModified: lastModified,
-          changeFrequency: "monthly",
-          priority: 0.5,
-        });
-      });
-  });
+function neighborhoodsSegment(): MetadataRoute.Sitemap {
+  const urls: MetadataRoute.Sitemap = [];
 
-  // 7. Statik Sayfalar
-  const staticPages = ["kvkk", "gizlilik-politikasi", "kullanim-sartlari", "iletisim", "klima-markalari", "beyaz-esya-markalari"];
-  staticPages.forEach(page => {
-    routes.push({
-      url: `${baseUrl}/${page}`,
-      lastModified: lastModified,
-      changeFrequency: "monthly",
-      priority: 0.5,
-    });
-  });
+  for (const ilce of ilceler) {
+    for (const mahalle of ilce.mahalleler) {
+      urls.push(entry(`/${ilce.slug}/${mahalle.slug}-klima-servisi`, 0.6, "monthly"));
+      urls.push(entry(`/${ilce.slug}/${mahalle.slug}-beyaz-esya-servisi`, 0.55, "monthly"));
+    }
+  }
 
-  return routes;
+  return urls;
+}
+
+function brandsSegment(): MetadataRoute.Sitemap {
+  const urls: MetadataRoute.Sitemap = [];
+
+  // Authoritative brand pages — canonical targets for any brand-only catch-all pages.
+  // /antalya/[brand]-* and /[brand]-* (without a district) are intentionally
+  // EXCLUDED because those pages carry canonical → /servis/* and indexing them
+  // separately would split authority between two URLs for identical intent.
+  for (const brand of klimaMarkalari) {
+    urls.push(entry(`/servis/${brand.slug}-klima-servisi`, 0.8));
+  }
+  for (const brand of beyazEsyaMarkalari) {
+    urls.push(entry(`/servis/${brand.slug}-beyaz-esya-servisi`, 0.8));
+  }
+
+  return urls;
+}
+
+// ---------------------------------------------------------------------------
+// Entry point — Next.js calls this once per segment ID
+// ---------------------------------------------------------------------------
+export default function sitemap({ id }: { id: number }): MetadataRoute.Sitemap {
+  switch (id) {
+    case SEGMENT.STATIC:        return staticSegment();
+    case SEGMENT.SERVICES:      return servicesSegment();
+    case SEGMENT.DISTRICTS:     return districtsSegment();
+    case SEGMENT.NEIGHBORHOODS: return neighborhoodsSegment();
+    case SEGMENT.BRANDS:        return brandsSegment();
+    default:                    return [];
+  }
 }

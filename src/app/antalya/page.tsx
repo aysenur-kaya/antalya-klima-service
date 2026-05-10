@@ -5,11 +5,12 @@ import HeroSection from "@/components/sections/HeroSection";
 import ContactCTA from "@/components/sections/ContactCTA";
 import { ilceler } from "@/lib/data";
 import { klimaServicePages } from "@/lib/services";
+import { SITE_URL } from "@/lib/constants";
 
 export const metadata: Metadata = {
   title: "Antalya Klima Servisi Bölgeleri | İlçe ve Mahalle Rehberi",
   description: "Antalya'nın tüm ilçeleri ve mahalleleri için klima servisi, bakım, tamir, montaj ve gaz dolumu sayfalarına ulaşın.",
-  alternates: { canonical: "/antalya" },
+  alternates: { canonical: `${SITE_URL}/antalya` },
 };
 
 export default function AntalyaPage() {

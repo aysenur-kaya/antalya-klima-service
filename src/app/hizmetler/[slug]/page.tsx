@@ -27,7 +27,7 @@ export async function generateMetadata({ params }: PageProps): Promise<Metadata>
   return {
     title: `${service.title} | Antalya Servisi`,
     description: `${service.title} için Antalya genelinde aynı gün, garantili ve profesyonel teknik servis. ${service.summary}`,
-    alternates: { canonical: `/hizmetler/${service.slug}` },
+    alternates: { canonical: `${SITE_URL}/hizmetler/${service.slug}` },
     openGraph: {
       title: `${service.title} | Antalya Servisi`,
       description: service.summary,
