@@ -2,7 +2,6 @@
 
 import { useState, useEffect } from "react";
 import Link from "next/link";
-import { usePathname } from "next/navigation";
 import { Menu, X, Phone, MessageCircle, ChevronDown } from "lucide-react";
 import { cn } from "@/lib/utils";
 import { ilceler, klimaMarkalari, beyazEsyaMarkalari } from "@/lib/data";
@@ -19,7 +18,12 @@ export default function Header() {
   const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
   const [openAccordion, setOpenAccordion] = useState<string | null>(null);
   const [openDesktopMenu, setOpenDesktopMenu] = useState<string | null>(null);
-  const pathname = usePathname();
+
+  const closeAllMenus = () => {
+    setIsMobileMenuOpen(false);
+    setOpenAccordion(null);
+    setOpenDesktopMenu(null);
+  };
 
   useEffect(() => {
     const handleScroll = () => {
@@ -38,13 +42,6 @@ export default function Header() {
       document.body.style.overflow = "";
     }
   }, [isMobileMenuOpen]);
-
-  // Route değiştiğinde tüm menüleri kapat
-  useEffect(() => {
-    setIsMobileMenuOpen(false);
-    setOpenAccordion(null);
-    setOpenDesktopMenu(null);
-  }, [pathname]);
 
   // Top items for dropdowns
   const topBölgeler = ilceler.slice(0, 6);
@@ -73,7 +70,7 @@ export default function Header() {
         <div className="container mx-auto px-4 md:px-6">
           <div className="flex items-center justify-between">
             {/* Logo */}
-            <Link href="/" className="flex items-center gap-2 group">
+            <Link href="/" onClick={closeAllMenus} className="flex items-center gap-2 group">
               <div className="w-10 h-10 rounded-xl bg-brand-red flex items-center justify-center text-white font-bold text-xl shadow-[0_0_15px_rgba(200,30,30,0.5)] group-hover:scale-105 transition-transform">
                 A
               </div>
@@ -85,7 +82,7 @@ export default function Header() {
             {/* Desktop Navigation */}
             <nav
               className="hidden lg:flex items-center gap-8"
-              onMouseLeave={() => setOpenDesktopMenu(null)}
+              onMouseLeave={closeAllMenus}
             >
               {/* Hizmetler Dropdown */}
               <div
@@ -94,6 +91,7 @@ export default function Header() {
               >
                 <Link
                   href="/hizmetler"
+                  onClick={closeAllMenus}
                   className="flex items-center gap-1 text-gray-300 hover:text-white transition-colors font-medium"
                 >
                   Hizmetler
@@ -110,7 +108,7 @@ export default function Header() {
                     <div className="p-2 flex flex-col gap-1">
                       <Link
                         href="/hizmetler"
-                        onClick={() => setOpenDesktopMenu(null)}
+                        onClick={closeAllMenus}
                         className="px-4 py-2 text-sm text-brand-red hover:text-red-400 font-semibold rounded-lg transition-colors"
                       >
                         {"Tüm Hizmetler →"}
@@ -120,7 +118,7 @@ export default function Header() {
                         <Link
                           key={item.href}
                           href={item.href}
-                          onClick={() => setOpenDesktopMenu(null)}
+                          onClick={closeAllMenus}
                           className="px-4 py-2 text-sm text-gray-300 hover:text-white hover:bg-white/5 rounded-lg transition-colors"
                         >
                           {item.name}
@@ -139,6 +137,7 @@ export default function Header() {
               >
                 <Link
                   href="/bolgeler"
+                  onClick={closeAllMenus}
                   className="flex items-center gap-1 text-gray-300 hover:text-white transition-colors font-medium"
                 >
                   Bölgeler
@@ -157,7 +156,7 @@ export default function Header() {
                         <Link
                           key={bolge.slug}
                           href={`/bolgeler/${bolge.slug}`}
-                          onClick={() => setOpenDesktopMenu(null)}
+                          onClick={closeAllMenus}
                           className="px-4 py-2 text-sm text-gray-300 hover:text-white hover:bg-white/5 rounded-lg transition-colors"
                         >
                           {bolge.name}
@@ -166,7 +165,7 @@ export default function Header() {
                       <div className="my-1 border-t border-white/10" />
                       <Link
                         href="/antalya"
-                        onClick={() => setOpenDesktopMenu(null)}
+                        onClick={closeAllMenus}
                         className="text-left px-4 py-2 text-sm text-brand-red hover:text-red-400 font-medium"
                       >
                         {"Antalya Rehberi →"}
@@ -184,6 +183,7 @@ export default function Header() {
               >
                 <Link
                   href="/servis"
+                  onClick={closeAllMenus}
                   className="flex items-center gap-1 text-gray-300 hover:text-white transition-colors font-medium"
                 >
                   Markalar
@@ -203,7 +203,7 @@ export default function Header() {
                         <Link
                           key={`desktop-klima-${marka.slug}`}
                           href={`/servis/${marka.slug}-klima-servisi`}
-                          onClick={() => setOpenDesktopMenu(null)}
+                          onClick={closeAllMenus}
                           className="px-4 py-2 text-sm text-gray-300 hover:text-white hover:bg-white/5 rounded-lg transition-colors"
                         >
                           {marka.name}
@@ -211,7 +211,7 @@ export default function Header() {
                       ))}
                       <Link
                         href="/servis"
-                        onClick={() => setOpenDesktopMenu(null)}
+                        onClick={closeAllMenus}
                         className="px-4 py-1.5 text-sm text-brand-red hover:text-red-400 font-semibold flex items-center gap-1"
                       >
                         {"Tümünü Gör →"}
@@ -222,7 +222,7 @@ export default function Header() {
                         <Link
                           key={`desktop-beyaz-${marka.slug}`}
                           href={`/servis/${marka.slug}-beyaz-esya-servisi`}
-                          onClick={() => setOpenDesktopMenu(null)}
+                          onClick={closeAllMenus}
                           className="px-4 py-2 text-sm text-gray-300 hover:text-white hover:bg-white/5 rounded-lg transition-colors"
                         >
                           {marka.name}
@@ -230,7 +230,7 @@ export default function Header() {
                       ))}
                       <Link
                         href="/servis"
-                        onClick={() => setOpenDesktopMenu(null)}
+                        onClick={closeAllMenus}
                         className="px-4 py-1.5 text-sm text-brand-red hover:text-red-400 font-semibold flex items-center gap-1"
                       >
                         {"Tümünü Gör →"}
@@ -241,14 +241,14 @@ export default function Header() {
                 )}
               </div>
 
-              <Link href="/iletisim" className="text-gray-300 hover:text-white transition-colors font-medium">
+              <Link href="/iletisim" onClick={closeAllMenus} className="text-gray-300 hover:text-white transition-colors font-medium">
                 İletişim
               </Link>
             </nav>
 
             {/* Desktop CTA */}
             <div className="hidden lg:flex items-center gap-4">
-              <a href={`tel:${CONTACT_INFO.phone}`} className="flex items-center gap-2 text-white font-medium hover:text-brand-red transition-colors">
+              <a href={`tel:${CONTACT_INFO.phone}`} onClick={closeAllMenus} className="flex items-center gap-2 text-white font-medium hover:text-brand-red transition-colors">
                 <Phone className="w-5 h-5 text-brand-red" />
                 <span>{CONTACT_INFO.phoneFormatted}</span>
               </a>
@@ -256,6 +256,7 @@ export default function Header() {
                 href={CONTACT_INFO.whatsapp}
                 target="_blank"
                 rel="noreferrer"
+                onClick={closeAllMenus}
                 className="bg-[#25D366] hover:bg-[#20b858] text-white px-5 py-2.5 rounded-full font-medium flex items-center gap-2 transition-all hover:scale-105 shadow-[0_0_15px_rgba(37,211,102,0.3)]"
               >
                 <MessageCircle className="w-5 h-5" />
@@ -290,7 +291,7 @@ export default function Header() {
             <div className="flex items-stretch min-h-[52px]">
               <Link
                 href="/hizmetler"
-                onClick={() => setIsMobileMenuOpen(false)}
+                onClick={closeAllMenus}
                 className="flex-1 flex items-center py-3.5 text-white font-semibold text-base active:text-brand-red transition-colors"
               >
                 Hizmetler
@@ -309,7 +310,7 @@ export default function Header() {
                 <Link
                   key={`mobile-hizmet-${item.href}`}
                   href={item.href}
-                  onClick={() => setIsMobileMenuOpen(false)}
+                  onClick={closeAllMenus}
                   className="text-gray-400 text-sm py-2.5 pl-4 pr-2 rounded-lg hover:bg-white/5 hover:text-white active:text-brand-red transition-colors"
                 >
                   {item.name}
@@ -323,7 +324,7 @@ export default function Header() {
             <div className="flex items-stretch min-h-[52px]">
               <Link
                 href="/bolgeler"
-                onClick={() => setIsMobileMenuOpen(false)}
+                onClick={closeAllMenus}
                 className="flex-1 flex items-center py-3.5 text-white font-semibold text-base active:text-brand-red transition-colors"
               >
                 Bölgeler
@@ -342,7 +343,7 @@ export default function Header() {
                 <Link
                   key={`mobile-bolge-${bolge.slug}`}
                   href={`/bolgeler/${bolge.slug}`}
-                  onClick={() => setIsMobileMenuOpen(false)}
+                  onClick={closeAllMenus}
                   className="text-gray-400 text-sm py-2.5 pl-4 pr-2 rounded-lg hover:bg-white/5 hover:text-white active:text-brand-red transition-colors"
                 >
                   {bolge.name}
@@ -350,7 +351,7 @@ export default function Header() {
               ))}
               <Link
                 href="/antalya"
-                onClick={() => setIsMobileMenuOpen(false)}
+                onClick={closeAllMenus}
                 className="text-brand-red font-semibold text-sm py-2.5 pl-4 pr-2 hover:text-red-400 transition-colors"
               >
                 {"Antalya Rehberi →"}
@@ -363,7 +364,7 @@ export default function Header() {
             <div className="flex items-stretch min-h-[52px]">
               <Link
                 href="/servis"
-                onClick={() => setIsMobileMenuOpen(false)}
+                onClick={closeAllMenus}
                 className="flex-1 flex items-center py-3.5 text-white font-semibold text-base active:text-brand-red transition-colors"
               >
                 Markalar
@@ -384,7 +385,7 @@ export default function Header() {
                   <Link
                     key={`mobile-klima-${marka.slug}`}
                     href={`/servis/${marka.slug}-klima-servisi`}
-                    onClick={() => setIsMobileMenuOpen(false)}
+                    onClick={closeAllMenus}
                     className="text-gray-400 text-sm py-2.5 pl-4 pr-2 rounded-lg hover:bg-white/5 hover:text-white active:text-brand-red transition-colors"
                   >
                     {marka.name}
@@ -392,7 +393,7 @@ export default function Header() {
                 ))}
                 <Link
                   href="/servis"
-                  onClick={() => setIsMobileMenuOpen(false)}
+                  onClick={closeAllMenus}
                   className="text-brand-red font-semibold text-sm py-2 pl-4 pr-2 hover:text-red-400 transition-colors"
                 >
                   {"Tümünü Gör →"}
@@ -403,7 +404,7 @@ export default function Header() {
                   <Link
                     key={`mobile-beyaz-${marka.slug}`}
                     href={`/servis/${marka.slug}-beyaz-esya-servisi`}
-                    onClick={() => setIsMobileMenuOpen(false)}
+                    onClick={closeAllMenus}
                     className="text-gray-400 text-sm py-2.5 pl-4 pr-2 rounded-lg hover:bg-white/5 hover:text-white active:text-brand-red transition-colors"
                   >
                     {marka.name}
@@ -411,7 +412,7 @@ export default function Header() {
                 ))}
                 <Link
                   href="/servis"
-                  onClick={() => setIsMobileMenuOpen(false)}
+                  onClick={closeAllMenus}
                   className="text-brand-red font-semibold text-sm py-2 pl-4 pr-2 hover:text-red-400 transition-colors"
                 >
                   {"Tümünü Gör →"}
@@ -424,7 +425,7 @@ export default function Header() {
           <div className="border-b border-white/10">
             <Link
               href="/iletisim"
-              onClick={() => setIsMobileMenuOpen(false)}
+              onClick={closeAllMenus}
               className="flex items-center min-h-[52px] py-3.5 text-white font-semibold text-base active:text-brand-red transition-colors"
             >
               İletişim
@@ -435,11 +436,11 @@ export default function Header() {
 
           <div className="flex flex-col gap-3 mt-auto pt-10">
             <p className="text-center text-xs text-gray-500 font-medium mb-1 uppercase tracking-widest">Acil Teknik Destek</p>
-            <a href={`tel:${CONTACT_INFO.phone}`} className="flex items-center justify-center gap-3 bg-white/5 border border-white/10 text-white p-4 rounded-xl font-bold transition-all active:scale-95">
+            <a href={`tel:${CONTACT_INFO.phone}`} onClick={closeAllMenus} className="flex items-center justify-center gap-3 bg-white/5 border border-white/10 text-white p-4 rounded-xl font-bold transition-all active:scale-95">
               <Phone className="w-5 h-5 text-brand-red" />
               {CONTACT_INFO.phoneFormatted}
             </a>
-            <a href={CONTACT_INFO.whatsapp} className="flex items-center justify-center gap-3 bg-[#25D366] text-white p-4 rounded-xl font-bold transition-all active:scale-95 shadow-lg shadow-green-500/10">
+            <a href={CONTACT_INFO.whatsapp} onClick={closeAllMenus} className="flex items-center justify-center gap-3 bg-[#25D366] text-white p-4 rounded-xl font-bold transition-all active:scale-95 shadow-lg shadow-green-500/10">
               <MessageCircle className="w-5 h-5" />
               {"WhatsApp'tan Yaz"}
             </a>
