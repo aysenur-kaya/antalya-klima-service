@@ -82,10 +82,10 @@ export default async function DistrictRegionsPage({ params }: PageProps) {
 
       <section className="py-20">
         <div className="container mx-auto px-4 md:px-6">
-          <div className="grid grid-cols-1 lg:grid-cols-4 gap-12">
+          <div className="grid grid-cols-1 lg:grid-cols-4 gap-6 lg:gap-12">
             
             {/* Sidebar Services */}
-            <div className="lg:col-span-1 space-y-6">
+            <div className="lg:col-span-1 space-y-6 order-2 lg:order-1">
               <div className="bg-brand-light p-6 rounded-3xl border border-gray-100">
                 <h3 className="font-bold text-lg mb-4 text-brand-dark flex items-center gap-2">
                   <MapPin className="w-5 h-5 text-brand-red" />
@@ -130,7 +130,7 @@ export default async function DistrictRegionsPage({ params }: PageProps) {
             </div>
 
             {/* Neighborhood Grid */}
-            <div className="lg:col-span-3">
+            <div className="lg:col-span-3 order-1 lg:order-2">
               <div className="mb-8">
                 <h2 className="text-2xl md:text-3xl font-bold text-brand-dark mb-4">
                   {ilce.name} Mahalle Listesi
@@ -175,7 +175,7 @@ export default async function DistrictRegionsPage({ params }: PageProps) {
                 ))}
               </div>
 
-              <div className="mt-12 p-8 bg-brand-light rounded-3xl border border-gray-200">
+              <div className="mt-10 p-5 md:p-8 bg-brand-light rounded-3xl border border-gray-200">
                 <h3 className="text-xl font-bold mb-4">{ilce.name} Sakinleri İçin Teknik Servis Çözümleri</h3>
                 <div className="prose prose-gray text-gray-600 max-w-none">
                   <p>

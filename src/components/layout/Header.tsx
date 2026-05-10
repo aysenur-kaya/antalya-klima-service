@@ -227,18 +227,19 @@ export default function Header() {
         <div className="p-5 flex flex-col gap-6 min-h-full pt-24 pb-[calc(4rem+env(safe-area-inset-bottom))]">
           {/* Hizmetler */}
           <div className="border-b border-white/10">
-            <div className="flex items-center">
+            <div className="flex items-stretch min-h-[52px]">
               <Link
                 href="/hizmetler"
-                className="flex-1 py-4 text-white font-semibold text-base active:text-brand-red transition-colors"
                 onClick={() => setIsMobileMenuOpen(false)}
+                className="flex-1 flex items-center py-3.5 text-white font-semibold text-base active:text-brand-red transition-colors"
               >
                 Hizmetler
               </Link>
+              <span className="w-px bg-white/10 my-2.5 shrink-0" />
               <button
                 onClick={() => toggleAccordion("hizmetler")}
                 aria-label="Hizmetler alt menüsünü aç/kapat"
-                className="flex items-center justify-center w-11 h-11 rounded-xl bg-white/5 hover:bg-white/10 text-gray-400 hover:text-white transition-colors shrink-0"
+                className="flex items-center justify-center w-14 text-gray-500 hover:text-gray-200 active:bg-white/5 transition-colors shrink-0"
               >
                 <ChevronDown className={cn("w-4 h-4 transition-transform duration-300", openAccordion === "hizmetler" ? "rotate-180" : "")} />
               </button>
@@ -248,7 +249,7 @@ export default function Header() {
                 <Link
                   key={`mobile-hizmet-${item.href}`}
                   href={item.href}
-                  className="text-gray-400 text-sm py-2.5 pl-4 pr-2 rounded-lg hover:bg-white/5 hover:text-white transition-colors"
+                  className="text-gray-400 text-sm py-2.5 pl-4 pr-2 rounded-lg hover:bg-white/5 hover:text-white active:text-brand-red transition-colors"
                   onClick={() => setIsMobileMenuOpen(false)}
                 >
                   {item.name}
@@ -259,18 +260,19 @@ export default function Header() {
 
           {/* Bölgeler */}
           <div className="border-b border-white/10">
-            <div className="flex items-center">
+            <div className="flex items-stretch min-h-[52px]">
               <Link
                 href="/bolgeler"
-                className="flex-1 py-4 text-white font-semibold text-base active:text-brand-red transition-colors"
                 onClick={() => setIsMobileMenuOpen(false)}
+                className="flex-1 flex items-center py-3.5 text-white font-semibold text-base active:text-brand-red transition-colors"
               >
                 Bölgeler
               </Link>
+              <span className="w-px bg-white/10 my-2.5 shrink-0" />
               <button
                 onClick={() => toggleAccordion("bolgeler")}
                 aria-label="Bölgeler alt menüsünü aç/kapat"
-                className="flex items-center justify-center w-11 h-11 rounded-xl bg-white/5 hover:bg-white/10 text-gray-400 hover:text-white transition-colors shrink-0"
+                className="flex items-center justify-center w-14 text-gray-500 hover:text-gray-200 active:bg-white/5 transition-colors shrink-0"
               >
                 <ChevronDown className={cn("w-4 h-4 transition-transform duration-300", openAccordion === "bolgeler" ? "rotate-180" : "")} />
               </button>
@@ -280,7 +282,7 @@ export default function Header() {
                 <Link
                   key={`mobile-bolge-${bolge.slug}`}
                   href={`/bolgeler/${bolge.slug}`}
-                  className="text-gray-400 text-sm py-2.5 pl-4 pr-2 rounded-lg hover:bg-white/5 hover:text-white transition-colors"
+                  className="text-gray-400 text-sm py-2.5 pl-4 pr-2 rounded-lg hover:bg-white/5 hover:text-white active:text-brand-red transition-colors"
                   onClick={() => setIsMobileMenuOpen(false)}
                 >
                   {bolge.name}
@@ -298,18 +300,19 @@ export default function Header() {
 
           {/* Markalar */}
           <div className="border-b border-white/10">
-            <div className="flex items-center">
+            <div className="flex items-stretch min-h-[52px]">
               <Link
                 href="/servis"
-                className="flex-1 py-4 text-white font-semibold text-base active:text-brand-red transition-colors"
                 onClick={() => setIsMobileMenuOpen(false)}
+                className="flex-1 flex items-center py-3.5 text-white font-semibold text-base active:text-brand-red transition-colors"
               >
                 Markalar
               </Link>
+              <span className="w-px bg-white/10 my-2.5 shrink-0" />
               <button
                 onClick={() => toggleAccordion("markalar")}
                 aria-label="Markalar alt menüsünü aç/kapat"
-                className="flex items-center justify-center w-11 h-11 rounded-xl bg-white/5 hover:bg-white/10 text-gray-400 hover:text-white transition-colors shrink-0"
+                className="flex items-center justify-center w-14 text-gray-500 hover:text-gray-200 active:bg-white/5 transition-colors shrink-0"
               >
                 <ChevronDown className={cn("w-4 h-4 transition-transform duration-300", openAccordion === "markalar" ? "rotate-180" : "")} />
               </button>
@@ -321,7 +324,7 @@ export default function Header() {
                   <Link
                     key={`mobile-klima-${marka.slug}`}
                     href={`/servis/${marka.slug}-klima-servisi`}
-                    className="text-gray-400 text-sm py-2.5 pl-4 pr-2 rounded-lg hover:bg-white/5 hover:text-white transition-colors"
+                    className="text-gray-400 text-sm py-2.5 pl-4 pr-2 rounded-lg hover:bg-white/5 hover:text-white active:text-brand-red transition-colors"
                     onClick={() => setIsMobileMenuOpen(false)}
                   >
                     {marka.name}
@@ -340,7 +343,7 @@ export default function Header() {
                   <Link
                     key={`mobile-beyaz-${marka.slug}`}
                     href={`/servis/${marka.slug}-beyaz-esya-servisi`}
-                    className="text-gray-400 text-sm py-2.5 pl-4 pr-2 rounded-lg hover:bg-white/5 hover:text-white transition-colors"
+                    className="text-gray-400 text-sm py-2.5 pl-4 pr-2 rounded-lg hover:bg-white/5 hover:text-white active:text-brand-red transition-colors"
                     onClick={() => setIsMobileMenuOpen(false)}
                   >
                     {marka.name}
@@ -361,8 +364,8 @@ export default function Header() {
           <div className="border-b border-white/10">
             <Link
               href="/iletisim"
-              className="flex items-center py-4 text-white font-semibold text-base active:text-brand-red transition-colors"
               onClick={() => setIsMobileMenuOpen(false)}
+              className="flex items-center min-h-[52px] py-3.5 text-white font-semibold text-base active:text-brand-red transition-colors"
             >
               İletişim
             </Link>

@@ -212,7 +212,7 @@ export default function IletisimPage() {
             {/* Sidebar — 1/3 width */}
             <aside className="flex flex-col gap-6">
               {/* Benefit card */}
-              <div className="rounded-3xl border border-gray-200 bg-brand-light p-8">
+              <div className="rounded-3xl border border-gray-200 bg-brand-light p-5 md:p-8">
                 <h2 className="text-xl font-bold text-brand-dark mb-6">
                   Neden Antalya Servisi?
                 </h2>
@@ -231,7 +231,7 @@ export default function IletisimPage() {
               </div>
 
               {/* Emergency CTA card */}
-              <div className="rounded-3xl bg-brand-dark text-white p-8 relative overflow-hidden">
+              <div className="rounded-3xl bg-brand-dark text-white p-5 md:p-8 relative overflow-hidden">
                 <div className="absolute top-0 right-0 w-32 h-32 bg-brand-red/20 blur-[60px] rounded-full pointer-events-none" />
                 <div className="relative z-10">
                   <div className="w-12 h-12 rounded-2xl bg-brand-red/20 flex items-center justify-center mb-5">
@@ -256,7 +256,7 @@ export default function IletisimPage() {
               </div>
 
               {/* Internal nav card */}
-              <div className="rounded-3xl border border-gray-200 bg-white p-8">
+              <div className="rounded-3xl border border-gray-200 bg-white p-5 md:p-8">
                 <h3 className="text-lg font-bold text-brand-dark mb-4">
                   Hızlı bağlantılar
                 </h3>

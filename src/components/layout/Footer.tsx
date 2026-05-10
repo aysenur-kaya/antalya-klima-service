@@ -39,7 +39,7 @@ export default function Footer() {
               <p className="text-white font-medium text-lg">Aynı Gün Servis</p>
               <p className="text-sm text-gray-400">Hemen uzman ekibimizi çağırın</p>
             </div>
-            <div className="flex flex-col xs:flex-row sm:flex-row gap-3 w-full sm:w-auto">
+            <div className="flex flex-col sm:flex-row gap-3 w-full sm:w-auto">
               <a href={`tel:${CONTACT_INFO.phone}`} className="w-full sm:w-auto bg-brand-red hover:bg-red-700 text-white px-6 py-4 rounded-xl font-medium flex items-center justify-center gap-2 transition-all hover:-translate-y-1 shadow-[0_10px_20px_rgba(200,30,30,0.3)]">
                 <Phone className="w-5 h-5" />
                 {CONTACT_INFO.phoneFormatted}

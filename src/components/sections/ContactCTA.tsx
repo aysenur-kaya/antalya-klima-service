@@ -37,19 +37,19 @@ export default function ContactCTA() {
             <div className="hidden md:block w-px self-stretch bg-white/8 mx-2 shrink-0" />
 
             {/* Right — CTA buttons */}
-            <div className="flex flex-col sm:flex-row md:flex-row items-stretch sm:items-center gap-3 shrink-0">
+            <div className="flex flex-col sm:flex-row md:flex-row gap-3 shrink-0">
               <a
                 href={`tel:${CONTACT_INFO.phone}`}
-                className="group inline-flex items-center justify-center gap-2 bg-brand-red hover:bg-red-700 text-white px-6 py-3 rounded-xl font-bold text-sm transition-all duration-300 hover:scale-[1.04] shadow-[0_4px_16px_rgba(200,30,30,0.3)] hover:shadow-[0_8px_24px_rgba(200,30,30,0.45)] whitespace-nowrap"
+                className="group flex items-center justify-center gap-2 w-full sm:w-auto bg-brand-red hover:bg-red-700 text-white px-6 py-3.5 rounded-xl font-bold text-sm transition-all duration-300 active:scale-95 hover:scale-[1.04] shadow-[0_4px_16px_rgba(200,30,30,0.3)]"
               >
-                <Phone className="w-4 h-4 transition-transform group-hover:rotate-12 duration-300 shrink-0" />
+                <Phone className="w-4 h-4 shrink-0" />
                 Hemen Ara
               </a>
               <a
                 href={CONTACT_INFO.whatsapp}
                 target="_blank"
                 rel="noreferrer"
-                className="group inline-flex items-center justify-center gap-2 bg-white/8 hover:bg-[#25D366] border border-white/12 hover:border-transparent text-gray-300 hover:text-white px-6 py-3 rounded-xl font-bold text-sm transition-all duration-300 hover:scale-[1.04] hover:shadow-[0_8px_24px_rgba(37,211,102,0.3)] whitespace-nowrap"
+                className="group flex items-center justify-center gap-2 w-full sm:w-auto bg-white/10 hover:bg-[#25D366] border border-white/15 hover:border-transparent text-gray-200 hover:text-white px-6 py-3.5 rounded-xl font-bold text-sm transition-all duration-300 active:scale-95 hover:scale-[1.04]"
               >
                 <MessageCircle className="w-4 h-4 shrink-0" />
                 WhatsApp
