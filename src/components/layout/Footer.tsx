@@ -1,5 +1,5 @@
 import Link from "next/link";
-import { Phone, MessageCircle, MapPin, Clock } from "lucide-react";
+import { Phone, MapPin, Clock } from "lucide-react";
 import { ilceler, klimaMarkalari, beyazEsyaMarkalari } from "@/lib/data";
 import { cn } from "@/lib/utils";
 import { CONTACT_INFO } from "@/lib/constants";
