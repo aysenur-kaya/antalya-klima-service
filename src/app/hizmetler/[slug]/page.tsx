@@ -70,7 +70,7 @@ export default async function HizmetDetayPage({ params }: PageProps) {
         <div className="container mx-auto px-4 md:px-6">
           <div className="grid grid-cols-1 lg:grid-cols-3 gap-10">
             <article className="lg:col-span-2">
-              <div className="rounded-3xl border border-gray-200 bg-brand-light p-8 mb-8">
+              <div className="rounded-3xl border border-gray-200 bg-brand-light p-5 md:p-8 mb-8">
                 <h2 className="text-3xl font-bold text-brand-dark mb-6">Hizmet kapsamı</h2>
                 <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
                   {service.scope.map((item) => (
@@ -83,19 +83,19 @@ export default async function HizmetDetayPage({ params }: PageProps) {
               </div>
 
               <div className="grid grid-cols-1 md:grid-cols-2 gap-6 mb-8">
-                <div className="rounded-3xl border border-gray-200 p-8">
+                <div className="rounded-3xl border border-gray-200 p-5 md:p-8">
                   <p className="text-sm font-bold text-brand-red mb-3">01</p>
                   <h3 className="text-xl font-bold text-brand-dark mb-3">Ne zaman almalısınız?</h3>
                   <p className="text-gray-600 leading-relaxed">{service.whenToCall}</p>
                 </div>
-                <div className="rounded-3xl border border-gray-200 p-8">
+                <div className="rounded-3xl border border-gray-200 p-5 md:p-8">
                   <p className="text-sm font-bold text-brand-red mb-3">02</p>
                   <h3 className="text-xl font-bold text-brand-dark mb-3">Süreç nasıl işler?</h3>
                   <p className="text-gray-600 leading-relaxed">{service.process}</p>
                 </div>
               </div>
 
-              <div className="rounded-3xl border border-gray-200 p-8">
+              <div className="rounded-3xl border border-gray-200 p-5 md:p-8">
                 <h3 className="text-2xl font-bold text-brand-dark mb-4">İlgili aramalar</h3>
                 <div className="flex flex-wrap gap-3">
                   {service.keywords.map((keyword) => (
@@ -108,7 +108,7 @@ export default async function HizmetDetayPage({ params }: PageProps) {
             </article>
 
             <aside className="space-y-6">
-              <div className="rounded-3xl bg-brand-dark text-white p-8">
+              <div className="rounded-3xl bg-brand-dark text-white p-6 md:p-8">
                 <h3 className="text-xl font-bold mb-3">Antalya geneli landing</h3>
                 <p className="text-gray-400 text-sm leading-relaxed mb-6">
                   Bu hizmet için şehir bazlı SEO sayfasına geçerek kullanıcıyı servis kaydına yaklaştırın.
@@ -121,7 +121,7 @@ export default async function HizmetDetayPage({ params }: PageProps) {
                 </Link>
               </div>
 
-              <div className="rounded-3xl border border-gray-200 p-8">
+              <div className="rounded-3xl border border-gray-200 p-6 md:p-8">
                 <h3 className="text-xl font-bold text-brand-dark mb-4">Sonraki adımlar</h3>
                 <div className="flex flex-col gap-3">
                   <Link href="/servis" className="text-sm font-semibold text-gray-700 hover:text-brand-red">

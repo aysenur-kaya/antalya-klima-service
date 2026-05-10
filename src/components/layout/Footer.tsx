@@ -34,19 +34,21 @@ export default function Footer() {
             </p>
           </div>
           
-          <div className="hidden md:flex flex-col sm:flex-row gap-4 items-center lg:justify-end">
-            <div className="text-center sm:text-right mr-0 sm:mr-4">
+          <div className="flex flex-col sm:flex-row gap-4 items-start sm:items-center lg:justify-end">
+            <div className="text-left sm:text-right sm:mr-4">
               <p className="text-white font-medium text-lg">Aynı Gün Servis</p>
               <p className="text-sm text-gray-400">Hemen uzman ekibimizi çağırın</p>
             </div>
-            <a href={`tel:${CONTACT_INFO.phone}`} className="w-full sm:w-auto bg-brand-red hover:bg-red-700 text-white px-6 py-4 rounded-xl font-medium flex items-center justify-center gap-2 transition-all hover:-translate-y-1 shadow-[0_10px_20px_rgba(200,30,30,0.3)]">
-              <Phone className="w-5 h-5" />
-              {CONTACT_INFO.phoneFormatted}
-            </a>
-            <a href={CONTACT_INFO.whatsapp} className="w-full sm:w-auto bg-[#25D366] hover:bg-[#20b858] text-white px-6 py-4 rounded-xl font-medium flex items-center justify-center gap-2 transition-all hover:-translate-y-1 shadow-[0_10px_20px_rgba(37,211,102,0.3)]">
-              <MessageCircle className="w-5 h-5" />
-              WhatsApp
-            </a>
+            <div className="flex flex-col xs:flex-row sm:flex-row gap-3 w-full sm:w-auto">
+              <a href={`tel:${CONTACT_INFO.phone}`} className="w-full sm:w-auto bg-brand-red hover:bg-red-700 text-white px-6 py-4 rounded-xl font-medium flex items-center justify-center gap-2 transition-all hover:-translate-y-1 shadow-[0_10px_20px_rgba(200,30,30,0.3)]">
+                <Phone className="w-5 h-5" />
+                {CONTACT_INFO.phoneFormatted}
+              </a>
+              <a href={CONTACT_INFO.whatsapp} className="w-full sm:w-auto bg-[#25D366] hover:bg-[#20b858] text-white px-6 py-4 rounded-xl font-medium flex items-center justify-center gap-2 transition-all hover:-translate-y-1 shadow-[0_10px_20px_rgba(37,211,102,0.3)]">
+                <MessageCircle className="w-5 h-5" />
+                WhatsApp
+              </a>
+            </div>
           </div>
         </div>
 

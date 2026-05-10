@@ -97,7 +97,7 @@ export default async function ServisMarkaDetayPage({ params }: PageProps) {
         <div className="container mx-auto px-4 md:px-6">
           <div className="grid grid-cols-1 lg:grid-cols-3 gap-10">
             <article className="lg:col-span-2">
-              <div className="rounded-3xl border border-gray-200 bg-brand-light p-8 mb-8">
+              <div className="rounded-3xl border border-gray-200 bg-brand-light p-5 md:p-8 mb-8">
                 <h2 className="text-3xl font-bold text-brand-dark mb-4">{brand.name} için servis kapsamı</h2>
                 <p className="text-gray-600 leading-relaxed mb-6">
                   {brand.name} cihazlarda özel servis yaklaşımımız; doğru arıza tespiti, kullanıcıya açık işlem kalemleri ve onay sonrası onarım adımlarına dayanır. Antalya genelinde cihaz modeli, arıza belirtisi ve konum bilgisine göre en uygun ekip yönlendirilir.
@@ -117,7 +117,7 @@ export default async function ServisMarkaDetayPage({ params }: PageProps) {
                 </div>
               </div>
 
-              <div className="rounded-3xl border border-gray-200 p-8">
+              <div className="rounded-3xl border border-gray-200 p-5 md:p-8">
                 <h3 className="text-2xl font-bold text-brand-dark mb-4">
                   {brand.name} servisini ilçenizde arıyorsanız
                 </h3>
@@ -139,7 +139,7 @@ export default async function ServisMarkaDetayPage({ params }: PageProps) {
             </article>
 
             <aside className="space-y-6">
-              <div className="rounded-3xl bg-brand-dark text-white p-8">
+              <div className="rounded-3xl bg-brand-dark text-white p-6 md:p-8">
                 <h3 className="text-xl font-bold mb-3">Antalya marka landing</h3>
                 <p className="text-gray-400 text-sm leading-relaxed mb-6">
                   Mevcut dinamik landing sayfasına geçerek servis kaydı CTA akışına devam edin.
@@ -149,7 +149,7 @@ export default async function ServisMarkaDetayPage({ params }: PageProps) {
                 </Link>
               </div>
 
-              <div className="rounded-3xl border border-gray-200 p-8">
+              <div className="rounded-3xl border border-gray-200 p-6 md:p-8">
                 <h3 className="text-xl font-bold text-brand-dark mb-4">İlgili sayfalar</h3>
                 <div className="flex flex-col gap-3">
                   <Link href="/servis" className="text-sm font-semibold text-gray-700 hover:text-brand-red">Tüm markalar</Link>

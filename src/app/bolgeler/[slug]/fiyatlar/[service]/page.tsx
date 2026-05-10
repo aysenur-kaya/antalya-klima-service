@@ -61,7 +61,7 @@ export default async function IlceHizmetFiyatPage({ params }: PageProps) {
       <section className="py-20 bg-white">
         <div className="container mx-auto px-4 md:px-6">
           <div className="grid grid-cols-1 lg:grid-cols-3 gap-8">
-            <article className="lg:col-span-2 rounded-3xl border border-gray-200 p-8">
+            <article className="lg:col-span-2 rounded-3xl border border-gray-200 p-5 md:p-8">
               <Link href={`/bolgeler/${ilce.slug}/fiyatlar`} className="text-sm font-bold text-brand-red hover:underline">
                 {ilce.name} tüm fiyat listesine dön
               </Link>
@@ -71,20 +71,22 @@ export default async function IlceHizmetFiyatPage({ params }: PageProps) {
               </p>
 
               <div className="overflow-hidden rounded-2xl border border-gray-200">
-                <table className="w-full text-left">
-                  <tbody>
-                    {relatedPrices.map((item) => (
-                      <tr key={item.name} className="border-t border-gray-100 first:border-t-0">
-                        <td className="px-5 py-4 text-sm font-medium text-gray-700">{item.name}</td>
-                        <td className="px-5 py-4 text-sm font-bold text-brand-dark">{item.price}</td>
-                      </tr>
-                    ))}
-                  </tbody>
-                </table>
+                <div className="overflow-x-auto">
+                  <table className="w-full min-w-[280px] text-left">
+                    <tbody>
+                      {relatedPrices.map((item) => (
+                        <tr key={item.name} className="border-t border-gray-100 first:border-t-0">
+                          <td className="px-5 py-4 text-sm font-medium text-gray-700">{item.name}</td>
+                          <td className="px-5 py-4 text-sm font-bold text-brand-dark">{item.price}</td>
+                        </tr>
+                      ))}
+                    </tbody>
+                  </table>
+                </div>
               </div>
             </article>
 
-            <aside className="rounded-3xl bg-brand-dark text-white p-8">
+            <aside className="rounded-3xl bg-brand-dark text-white p-6 md:p-8">
               <h3 className="text-xl font-bold mb-4">Landing sayfasına geç</h3>
               <p className="text-gray-400 text-sm leading-relaxed mb-6">
                 Fiyat araştırmasından servis kaydı akışına geçmek için ilçe bazlı hizmet sayfasını kullanın.

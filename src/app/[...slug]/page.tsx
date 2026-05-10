@@ -407,28 +407,28 @@ export default async function DynamicServicePage({ params }: PageProps) {
                 </div>
               </div>
             </div>
-            <div className="bg-brand-light p-8 rounded-3xl border border-gray-200">
+            <div className="bg-brand-light p-5 md:p-8 rounded-3xl border border-gray-200">
               <h3 className="text-xl font-bold mb-4 flex items-center gap-2">
-                <MapPin className="w-5 h-5 text-brand-red" />
+                <MapPin className="w-5 h-5 text-brand-red shrink-0" />
                 {locationText} Teknik Destek Birimi
               </h3>
               <p className="text-gray-600 text-sm mb-6">
                 Şu anda <strong>{locationText}</strong> ve yakın çevresinde aktif mobil ekiplerimiz bulunmaktadır. {brandText ? `${brandText} marka ` : ""}cihazınızdaki sorunları gidermek için en yakın teknisyenimizi yönlendirebiliriz.
               </p>
               <div className="space-y-4">
-                <div className="bg-white p-4 rounded-xl flex justify-between items-center shadow-sm">
-                  <span className="text-sm font-medium text-gray-500">Hizmet Bölgesi:</span>
-                  <span className="font-bold text-brand-dark">{locationText}</span>
+                <div className="bg-white p-4 rounded-xl flex flex-wrap justify-between items-center gap-2 shadow-sm">
+                  <span className="text-sm font-medium text-gray-500 shrink-0">Hizmet Bölgesi:</span>
+                  <span className="font-bold text-brand-dark text-right">{locationText}</span>
                 </div>
-                <div className="bg-white p-4 rounded-xl flex justify-between items-center shadow-sm">
-                  <span className="text-sm font-medium text-gray-500">Servis Durumu:</span>
+                <div className="bg-white p-4 rounded-xl flex flex-wrap justify-between items-center gap-2 shadow-sm">
+                  <span className="text-sm font-medium text-gray-500 shrink-0">Servis Durumu:</span>
                   <span className="text-green-600 font-bold flex items-center gap-1">
                     <div className="w-2 h-2 bg-green-600 rounded-full animate-pulse" />
                     Müsait / Adrese Yakın
                   </span>
                 </div>
-                <div className="bg-white p-4 rounded-xl flex justify-between items-center shadow-sm">
-                  <span className="text-sm font-medium text-gray-500">Hizmet Süresi:</span>
+                <div className="bg-white p-4 rounded-xl flex flex-wrap justify-between items-center gap-2 shadow-sm">
+                  <span className="text-sm font-medium text-gray-500 shrink-0">Hizmet Süresi:</span>
                   <span className="font-bold text-brand-dark">Aynı Gün Teslim</span>
                 </div>
               </div>

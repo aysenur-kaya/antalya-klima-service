@@ -29,29 +29,29 @@ export default function BolgelerPage() {
             </p>
           </div>
 
-          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-6">
+          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-5">
             {ilceler.map((ilce) => (
               <Link 
                 key={ilce.slug}
                 href={`/bolgeler/${ilce.slug}`}
-                className="group relative bg-brand-light p-8 rounded-3xl border border-gray-200 hover:border-brand-red/30 hover:shadow-xl transition-all duration-300"
+                className="group relative bg-brand-light p-5 md:p-7 rounded-2xl border border-gray-200 hover:border-brand-red/30 hover:shadow-xl transition-all duration-300"
               >
                 <div className="flex flex-col h-full">
-                  <div className="w-12 h-12 rounded-2xl bg-white border border-gray-100 flex items-center justify-center text-brand-red mb-6 shadow-sm group-hover:bg-brand-red group-hover:text-white transition-all duration-300">
-                    <MapPin className="w-6 h-6" />
+                  <div className="w-11 h-11 rounded-2xl bg-white border border-gray-100 flex items-center justify-center text-brand-red mb-5 shadow-sm group-hover:bg-brand-red group-hover:text-white transition-all duration-300">
+                    <MapPin className="w-5 h-5" />
                   </div>
                   
-                  <h3 className="text-xl font-bold text-brand-dark mb-2 group-hover:text-brand-red transition-colors">
+                  <h3 className="text-lg font-bold text-brand-dark mb-1.5 group-hover:text-brand-red transition-colors">
                     {ilce.name}
                   </h3>
                   
-                  <div className="flex items-center gap-2 text-sm text-gray-500 mb-6">
+                  <div className="flex items-center gap-2 text-sm text-gray-500 mb-4">
                     <Users className="w-4 h-4" />
                     <span>{ilce.mahalleler.length} Mahalle</span>
                   </div>
                   
-                  <p className="text-sm text-gray-600 mb-8 flex-grow">
-                    {ilce.name} bölgesinde klima ve beyaz eşya servis kaydı oluşturmak için hemen inceleyin.
+                  <p className="text-sm text-gray-600 mb-6 flex-grow leading-relaxed">
+                    {ilce.name} bölgesinde klima ve beyaz eşya servis kaydı oluşturmak için inceleyin.
                   </p>
                   
                   <div className="flex items-center gap-2 text-brand-red font-bold text-sm">

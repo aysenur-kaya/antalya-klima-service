@@ -225,37 +225,30 @@ export default function Header() {
         )}
       >
         <div className="p-5 flex flex-col gap-6 min-h-full pt-24 pb-[calc(4rem+env(safe-area-inset-bottom))]">
-          {/* Hizmetler Accordion */}
-          <div className="flex flex-col border-b border-white/10">
-            <div className="flex items-center justify-between py-4">
+          {/* Hizmetler */}
+          <div className="border-b border-white/10">
+            <div className="flex items-center">
               <Link
                 href="/hizmetler"
-                className="text-white font-medium flex-1"
+                className="flex-1 py-4 text-white font-semibold text-base active:text-brand-red transition-colors"
                 onClick={() => setIsMobileMenuOpen(false)}
               >
                 Hizmetler
               </Link>
               <button
                 onClick={() => toggleAccordion("hizmetler")}
-                aria-label="Hizmetler menüsünü aç/kapat"
-                className="p-1 -mr-1 text-gray-400 hover:text-white transition-colors"
+                aria-label="Hizmetler alt menüsünü aç/kapat"
+                className="flex items-center justify-center w-11 h-11 rounded-xl bg-white/5 hover:bg-white/10 text-gray-400 hover:text-white transition-colors shrink-0"
               >
-                <ChevronDown className={cn("w-5 h-5 transition-transform duration-300", openAccordion === "hizmetler" ? "rotate-180" : "")} />
+                <ChevronDown className={cn("w-4 h-4 transition-transform duration-300", openAccordion === "hizmetler" ? "rotate-180" : "")} />
               </button>
             </div>
-            <div className={cn("flex flex-col gap-2 overflow-hidden transition-all duration-300", openAccordion === "hizmetler" ? "max-h-[600px] pb-4 opacity-100" : "max-h-0 opacity-0")}>
-              <Link
-                href="/hizmetler"
-                className="text-brand-red font-semibold text-sm py-2 px-4 hover:text-red-400"
-                onClick={() => setIsMobileMenuOpen(false)}
-              >
-                {"Tüm Hizmetler →"}
-              </Link>
+            <div className={cn("flex flex-col gap-1 overflow-hidden transition-all duration-300", openAccordion === "hizmetler" ? "max-h-[600px] pb-4 opacity-100" : "max-h-0 opacity-0")}>
               {hizmetMenuItems.map((item) => (
                 <Link
                   key={`mobile-hizmet-${item.href}`}
                   href={item.href}
-                  className="text-gray-300 text-sm py-2 px-4 rounded-lg hover:bg-white/5 hover:text-white transition-colors"
+                  className="text-gray-400 text-sm py-2.5 pl-4 pr-2 rounded-lg hover:bg-white/5 hover:text-white transition-colors"
                   onClick={() => setIsMobileMenuOpen(false)}
                 >
                   {item.name}
@@ -264,30 +257,30 @@ export default function Header() {
             </div>
           </div>
 
-          {/* Bölgeler Accordion */}
-          <div className="flex flex-col border-b border-white/10">
-            <div className="flex items-center justify-between py-4">
+          {/* Bölgeler */}
+          <div className="border-b border-white/10">
+            <div className="flex items-center">
               <Link
                 href="/bolgeler"
-                className="text-white font-medium flex-1"
+                className="flex-1 py-4 text-white font-semibold text-base active:text-brand-red transition-colors"
                 onClick={() => setIsMobileMenuOpen(false)}
               >
                 Bölgeler
               </Link>
               <button
                 onClick={() => toggleAccordion("bolgeler")}
-                aria-label="Bölgeler menüsünü aç/kapat"
-                className="p-1 -mr-1 text-gray-400 hover:text-white transition-colors"
+                aria-label="Bölgeler alt menüsünü aç/kapat"
+                className="flex items-center justify-center w-11 h-11 rounded-xl bg-white/5 hover:bg-white/10 text-gray-400 hover:text-white transition-colors shrink-0"
               >
-                <ChevronDown className={cn("w-5 h-5 transition-transform duration-300", openAccordion === "bolgeler" ? "rotate-180" : "")} />
+                <ChevronDown className={cn("w-4 h-4 transition-transform duration-300", openAccordion === "bolgeler" ? "rotate-180" : "")} />
               </button>
             </div>
-            <div className={cn("flex flex-col gap-2 overflow-hidden transition-all duration-300", openAccordion === "bolgeler" ? "max-h-[500px] pb-4 opacity-100" : "max-h-0 opacity-0")}>
+            <div className={cn("flex flex-col gap-1 overflow-hidden transition-all duration-300", openAccordion === "bolgeler" ? "max-h-[500px] pb-4 opacity-100" : "max-h-0 opacity-0")}>
               {topBölgeler.map((bolge) => (
                 <Link
                   key={`mobile-bolge-${bolge.slug}`}
                   href={`/bolgeler/${bolge.slug}`}
-                  className="text-gray-300 text-sm py-2 px-4 rounded-lg hover:bg-white/5 hover:text-white transition-colors"
+                  className="text-gray-400 text-sm py-2.5 pl-4 pr-2 rounded-lg hover:bg-white/5 hover:text-white transition-colors"
                   onClick={() => setIsMobileMenuOpen(false)}
                 >
                   {bolge.name}
@@ -295,7 +288,7 @@ export default function Header() {
               ))}
               <Link
                 href="/antalya"
-                className="text-left text-brand-red font-medium text-sm py-2 px-4 hover:text-red-400"
+                className="text-brand-red font-semibold text-sm py-2.5 pl-4 pr-2 hover:text-red-400 transition-colors"
                 onClick={() => setIsMobileMenuOpen(false)}
               >
                 {"Antalya Rehberi →"}
@@ -303,32 +296,32 @@ export default function Header() {
             </div>
           </div>
 
-          {/* Markalar Accordion */}
-          <div className="flex flex-col border-b border-white/10">
-            <div className="flex items-center justify-between py-4">
+          {/* Markalar */}
+          <div className="border-b border-white/10">
+            <div className="flex items-center">
               <Link
                 href="/servis"
-                className="text-white font-medium flex-1"
+                className="flex-1 py-4 text-white font-semibold text-base active:text-brand-red transition-colors"
                 onClick={() => setIsMobileMenuOpen(false)}
               >
                 Markalar
               </Link>
               <button
                 onClick={() => toggleAccordion("markalar")}
-                aria-label="Markalar menüsünü aç/kapat"
-                className="p-1 -mr-1 text-gray-400 hover:text-white transition-colors"
+                aria-label="Markalar alt menüsünü aç/kapat"
+                className="flex items-center justify-center w-11 h-11 rounded-xl bg-white/5 hover:bg-white/10 text-gray-400 hover:text-white transition-colors shrink-0"
               >
-                <ChevronDown className={cn("w-5 h-5 transition-transform duration-300", openAccordion === "markalar" ? "rotate-180" : "")} />
+                <ChevronDown className={cn("w-4 h-4 transition-transform duration-300", openAccordion === "markalar" ? "rotate-180" : "")} />
               </button>
             </div>
             <div className={cn("overflow-hidden transition-all duration-300", openAccordion === "markalar" ? "max-h-[800px] pb-4 opacity-100" : "max-h-0 opacity-0")}>
               <div className="flex flex-col gap-1">
-                <p className="px-4 pt-1 text-[10px] uppercase tracking-widest text-gray-500 font-bold mb-1">Klima</p>
+                <p className="pl-4 pt-1 pb-1 text-[10px] uppercase tracking-widest text-gray-500 font-bold">Klima</p>
                 {topKlimaMarkalar.map((marka) => (
                   <Link
                     key={`mobile-klima-${marka.slug}`}
                     href={`/servis/${marka.slug}-klima-servisi`}
-                    className="text-gray-300 text-sm py-2 px-4 rounded-lg hover:bg-white/5 hover:text-white transition-colors"
+                    className="text-gray-400 text-sm py-2.5 pl-4 pr-2 rounded-lg hover:bg-white/5 hover:text-white transition-colors"
                     onClick={() => setIsMobileMenuOpen(false)}
                   >
                     {marka.name}
@@ -336,20 +329,18 @@ export default function Header() {
                 ))}
                 <Link
                   href="/servis"
-                  className="text-brand-red font-semibold text-sm py-2 px-4 hover:text-red-400 flex items-center gap-1"
+                  className="text-brand-red font-semibold text-sm py-2 pl-4 pr-2 hover:text-red-400 transition-colors"
                   onClick={() => setIsMobileMenuOpen(false)}
                 >
                   {"Tümünü Gör →"}
                 </Link>
-
                 <div className="my-2 border-t border-white/5 mx-4" />
-
-                <p className="px-4 pt-2 text-[10px] uppercase tracking-widest text-gray-500 font-bold mb-1">Beyaz Eşya</p>
+                <p className="pl-4 pt-1 pb-1 text-[10px] uppercase tracking-widest text-gray-500 font-bold">Beyaz Eşya</p>
                 {topBeyazEsyaMarkalar.map((marka) => (
                   <Link
                     key={`mobile-beyaz-${marka.slug}`}
                     href={`/servis/${marka.slug}-beyaz-esya-servisi`}
-                    className="text-gray-300 text-sm py-2 px-4 rounded-lg hover:bg-white/5 hover:text-white transition-colors"
+                    className="text-gray-400 text-sm py-2.5 pl-4 pr-2 rounded-lg hover:bg-white/5 hover:text-white transition-colors"
                     onClick={() => setIsMobileMenuOpen(false)}
                   >
                     {marka.name}
@@ -357,7 +348,7 @@ export default function Header() {
                 ))}
                 <Link
                   href="/servis"
-                  className="text-brand-red font-semibold text-sm py-2 px-4 hover:text-red-400 flex items-center gap-1"
+                  className="text-brand-red font-semibold text-sm py-2 pl-4 pr-2 hover:text-red-400 transition-colors"
                   onClick={() => setIsMobileMenuOpen(false)}
                 >
                   {"Tümünü Gör →"}
@@ -366,11 +357,11 @@ export default function Header() {
             </div>
           </div>
 
-          {/* İletişim Link */}
-          <div className="flex flex-col border-b border-white/10">
+          {/* İletişim */}
+          <div className="border-b border-white/10">
             <Link
               href="/iletisim"
-              className="py-4 text-white font-medium flex items-center"
+              className="flex items-center py-4 text-white font-semibold text-base active:text-brand-red transition-colors"
               onClick={() => setIsMobileMenuOpen(false)}
             >
               İletişim

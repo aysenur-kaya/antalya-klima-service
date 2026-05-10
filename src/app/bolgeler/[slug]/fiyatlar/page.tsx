@@ -47,7 +47,7 @@ export default async function IlceFiyatlarPage({ params }: PageProps) {
 
       <section className="py-20 bg-white">
         <div className="container mx-auto px-4 md:px-6">
-          <div className="mb-10 rounded-3xl border border-gray-200 bg-brand-light p-8">
+          <div className="mb-10 rounded-3xl border border-gray-200 bg-brand-light p-5 md:p-8">
             <Link href={`/bolgeler/${ilce.slug}`} className="text-sm font-bold text-brand-red hover:underline">
               {ilce.name} servis bölgesi sayfasına dön
             </Link>
@@ -58,25 +58,27 @@ export default async function IlceFiyatlarPage({ params }: PageProps) {
 
           <div className="grid grid-cols-1 lg:grid-cols-3 gap-8">
             <div className="lg:col-span-2 overflow-hidden rounded-3xl border border-gray-200">
-              <table className="w-full text-left">
-                <thead className="bg-brand-dark text-white">
-                  <tr>
-                    <th className="px-5 py-4 text-sm font-bold">İşlem</th>
-                    <th className="px-5 py-4 text-sm font-bold">Fiyat</th>
-                  </tr>
-                </thead>
-                <tbody>
-                  {servicePriceItems.map((item) => (
-                    <tr key={item.name} className="border-t border-gray-100">
-                      <td className="px-5 py-4 text-sm font-medium text-gray-700">{item.name}</td>
-                      <td className="px-5 py-4 text-sm font-bold text-brand-dark">{item.price}</td>
+              <div className="overflow-x-auto">
+                <table className="w-full min-w-[320px] text-left">
+                  <thead className="bg-brand-dark text-white">
+                    <tr>
+                      <th className="px-5 py-4 text-sm font-bold">İşlem</th>
+                      <th className="px-5 py-4 text-sm font-bold">Fiyat</th>
                     </tr>
-                  ))}
-                </tbody>
-              </table>
+                  </thead>
+                  <tbody>
+                    {servicePriceItems.map((item) => (
+                      <tr key={item.name} className="border-t border-gray-100">
+                        <td className="px-5 py-4 text-sm font-medium text-gray-700">{item.name}</td>
+                        <td className="px-5 py-4 text-sm font-bold text-brand-dark">{item.price}</td>
+                      </tr>
+                    ))}
+                  </tbody>
+                </table>
+              </div>
             </div>
 
-            <aside className="rounded-3xl border border-gray-200 p-8">
+            <aside className="rounded-3xl border border-gray-200 p-6 md:p-8">
               <h2 className="text-xl font-bold text-brand-dark mb-4">Hizmete göre fiyat</h2>
               <div className="flex flex-col gap-3">
                 {klimaServicePages.filter((service) => service.slug !== "klima-servisi").map((service) => (

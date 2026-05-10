@@ -60,7 +60,7 @@ export default function ServisMarkalariPage() {
                       <div key={`${group.suffix}-${brand.slug}`} className="p-1.5 md:p-2 lg:p-2.5 w-1/2 sm:w-1/3 md:w-1/4 lg:w-1/5 xl:w-1/6">
                         <Link
                           href={`/servis/${brand.slug}-${group.suffix}`}
-                          className="flex h-full min-h-[64px] items-center justify-center rounded-xl border border-gray-200 bg-white px-3 py-4 text-center text-xs font-semibold text-gray-700 shadow-[0_2px_8px_rgba(0,0,0,0.04)] transition-all hover:border-brand-red/40 hover:text-brand-red hover:shadow-[0_10px_25px_rgba(0,0,0,0.08)] md:text-base"
+                          className="flex h-full min-h-[56px] md:min-h-[64px] items-center justify-center rounded-xl border border-gray-200 bg-white px-3 py-3 md:py-4 text-center text-sm font-semibold text-gray-700 shadow-[0_2px_8px_rgba(0,0,0,0.04)] transition-all hover:border-brand-red/40 hover:text-brand-red hover:shadow-[0_10px_25px_rgba(0,0,0,0.08)] md:text-base active:scale-95"
                         >
                           {brand.name}
                         </Link>
