@@ -55,5 +55,6 @@ export const getMahalleBySlug = (ilceSlug: string, mahalleSlug: string) => {
   const ilce = getIlceBySlug(ilceSlug);
   return ilce?.mahalleler.find((m) => m.slug === mahalleSlug);
 };
-export const getBrandBySlug = (slug: string) => allBrands.find((b) => b.slug === slug);
+export const getBrandBySlug = (slug: string, type?: Brand["type"]) =>
+  allBrands.find((b) => b.slug === slug && (!type || b.type === type));
 export const getServiceBySlug = (slug: string) => hizmetTipleri.find((h) => h.slug === slug);

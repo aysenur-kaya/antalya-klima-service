@@ -7,6 +7,7 @@ import { SITE_URL, CONTACT_INFO } from "@/lib/constants";
 import HeroSection from "@/components/sections/HeroSection";
 import ContactCTA from "@/components/sections/ContactCTA";
 import JsonLd from "@/components/seo/JsonLd";
+import { klimaServicePages } from "@/lib/services";
 
 interface PageProps {
   params: Promise<{ slug: string }>;
@@ -103,6 +104,12 @@ export default async function DistrictRegionsPage({ params }: PageProps) {
                   >
                     {ilce.name} Beyaz Eşya Servisi
                   </Link>
+                  <Link
+                    href={`/bolgeler/${ilce.slug}/fiyatlar`}
+                    className="p-4 bg-white rounded-2xl border border-gray-200 hover:border-brand-red/30 transition-all font-medium text-sm text-gray-700 hover:text-brand-red"
+                  >
+                    {ilce.name} Fiyat Listesi
+                  </Link>
                 </div>
               </div>
 
@@ -131,6 +138,21 @@ export default async function DistrictRegionsPage({ params }: PageProps) {
                 <p className="text-gray-600">
                   Aşağıdaki listeden mahallenizi seçerek o bölgeye özel teknik servis sayfamıza ulaşabilir ve detaylı bilgi alabilirsiniz.
                 </p>
+              </div>
+
+              <div className="mb-10 rounded-3xl bg-brand-light p-6 border border-gray-200">
+                <h3 className="text-xl font-bold text-brand-dark mb-4">{ilce.name} hizmet türleri</h3>
+                <div className="grid grid-cols-1 sm:grid-cols-2 xl:grid-cols-4 gap-3">
+                  {klimaServicePages.map((service) => (
+                    <Link
+                      key={service.slug}
+                      href={`/${ilce.slug}-${service.landingSlug}`}
+                      className="rounded-2xl bg-white border border-gray-200 px-4 py-3 text-sm font-semibold text-gray-700 hover:text-brand-red hover:border-brand-red/30 transition-colors"
+                    >
+                      {service.shortTitle}
+                    </Link>
+                  ))}
+                </div>
               </div>
 
               <div className="grid grid-cols-1 sm:grid-cols-2 xl:grid-cols-3 gap-4">

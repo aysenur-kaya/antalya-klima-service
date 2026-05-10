@@ -5,6 +5,7 @@ import {
   beyazEsyaMarkalari 
 } from "@/lib/data";
 import { SITE_URL } from "@/lib/constants";
+import { allServicePages, klimaServicePages } from "@/lib/services";
 
 const baseUrl = SITE_URL;
 const lastModified = new Date("2024-05-09");
@@ -21,21 +22,30 @@ export default function sitemap(): MetadataRoute.Sitemap {
   });
 
   // 2. Ana Hizmet Sayfaları (Antalya Geneli)
-  const mainServices = [
-    "klima-servisi",
-    "beyaz-esya-servisi",
-    "klima-bakim-servisi",
-    "klima-tamir-servisi",
-    "klima-montaj-servisi",
-    "klima-gaz-dolumu-servisi",
+  routes.push({
+    url: `${baseUrl}/hizmetler`,
+    lastModified: lastModified,
+    changeFrequency: "weekly",
+    priority: 0.9,
+  });
+
+  allServicePages.forEach((service) => {
+    routes.push({
+      url: `${baseUrl}/hizmetler/${service.slug}`,
+      lastModified: lastModified,
+      changeFrequency: "weekly",
+      priority: 0.9,
+    });
+  });
+
+  const legacyServiceSlugs = [
     "klima-ariza-servisi",
-    "camasir-makinesi-servisi",
     "bulasik-makinesi-servisi",
-    "buzdolabi-servisi",
     "firin-servisi",
     "derin-dondurucu-servisi",
     "kurutma-makinesi-servisi"
   ];
+  const mainServices = Array.from(new Set([...allServicePages.map((service) => service.landingSlug), ...legacyServiceSlugs]));
 
   mainServices.forEach((service) => {
     routes.push({
@@ -47,7 +57,20 @@ export default function sitemap(): MetadataRoute.Sitemap {
   });
 
   // 3. Marka Sayfaları (Antalya Geneli)
+  routes.push({
+    url: `${baseUrl}/servis`,
+    lastModified: lastModified,
+    changeFrequency: "weekly",
+    priority: 0.9,
+  });
+
   klimaMarkalari.forEach((brand) => {
+    routes.push({
+      url: `${baseUrl}/servis/${brand.slug}-klima-servisi`,
+      lastModified: lastModified,
+      changeFrequency: "weekly",
+      priority: 0.8,
+    });
     routes.push({
       url: `${baseUrl}/antalya/${brand.slug}-klima-servisi`,
       lastModified: lastModified,
@@ -57,6 +80,12 @@ export default function sitemap(): MetadataRoute.Sitemap {
   });
 
   beyazEsyaMarkalari.forEach((brand) => {
+    routes.push({
+      url: `${baseUrl}/servis/${brand.slug}-beyaz-esya-servisi`,
+      lastModified: lastModified,
+      changeFrequency: "weekly",
+      priority: 0.8,
+    });
     routes.push({
       url: `${baseUrl}/antalya/${brand.slug}-beyaz-esya-servisi`,
       lastModified: lastModified,
@@ -111,6 +140,13 @@ export default function sitemap(): MetadataRoute.Sitemap {
 
   // 6. Bölgeler Dizini
   routes.push({
+    url: `${baseUrl}/antalya`,
+    lastModified: lastModified,
+    changeFrequency: "weekly",
+    priority: 0.9,
+  });
+
+  routes.push({
     url: `${baseUrl}/bolgeler`,
     lastModified: lastModified,
     changeFrequency: "weekly",
@@ -124,6 +160,22 @@ export default function sitemap(): MetadataRoute.Sitemap {
       changeFrequency: "weekly",
       priority: 0.7,
     });
+    routes.push({
+      url: `${baseUrl}/bolgeler/${ilce.slug}/fiyatlar`,
+      lastModified: lastModified,
+      changeFrequency: "weekly",
+      priority: 0.6,
+    });
+    klimaServicePages
+      .filter((service) => service.slug !== "klima-servisi")
+      .forEach((service) => {
+        routes.push({
+          url: `${baseUrl}/bolgeler/${ilce.slug}/fiyatlar/${service.slug}`,
+          lastModified: lastModified,
+          changeFrequency: "monthly",
+          priority: 0.5,
+        });
+      });
   });
 
   // 7. Statik Sayfalar

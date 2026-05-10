@@ -26,39 +26,60 @@ interface PageProps {
   params: Promise<{ slug: string[] }>;
 }
 
-function parseSlug(slugs: string[]) {
-  const lastPart = slugs[slugs.length - 1];
-  
-  const serviceMap = [
-    { suffix: "klima-bakim-servisi", type: "klima", name: "Klima Bakım Servisi" },
-    { suffix: "klima-tamir-servisi", type: "klima", name: "Klima Tamir Servisi" },
-    { suffix: "klima-montaj-servisi", type: "klima", name: "Klima Montaj Servisi" },
-    { suffix: "klima-gaz-dolumu-servisi", type: "klima", name: "Klima Gaz Dolumu Servisi" },
-    { suffix: "klima-gaz-dolumu", type: "klima", name: "Klima Gaz Dolumu Servisi" },
-    { suffix: "klima-ariza-servisi", type: "klima", name: "Klima Arıza Servisi" },
-    { suffix: "camasir-makinesi-servisi", type: "beyaz-esya", name: "Çamaşır Makinesi Servisi" },
-    { suffix: "bulasik-makinesi-servisi", type: "beyaz-esya", name: "Bulaşık Makinesi Servisi" },
-    { suffix: "buzdolabi-servisi", type: "beyaz-esya", name: "Buzdolabı Servisi" },
-    { suffix: "firin-servisi", type: "beyaz-esya", name: "Fırın Servisi" },
-    { suffix: "derin-dondurucu-servisi", type: "beyaz-esya", name: "Derin Dondurucu Servisi" },
-    { suffix: "kurutma-makinesi-servisi", type: "beyaz-esya", name: "Kurutma Makinesi Servisi" },
-    { suffix: "klima-servisi", type: "klima", name: "Klima Servisi" },
-    { suffix: "beyaz-esya-servisi", type: "beyaz-esya", name: "Beyaz Eşya Servisi" }
-  ] as const;
+type ServiceEntry = {
+  suffix: string;
+  type: "klima" | "beyaz-esya";
+  name: string;
+};
 
-  let matchedService = serviceMap.find(s => lastPart.endsWith("-" + s.suffix));
+type ParsedSlug =
+  | { isValid: false }
+  | {
+      isValid: true;
+      ilce: Ilce | undefined;
+      mahalle: Mahalle | undefined;
+      marka: Brand | undefined;
+      serviceType: "klima" | "beyaz-esya";
+      serviceName: string;
+    };
+
+const SERVICE_MAP: ServiceEntry[] = [
+  { suffix: "klima-bakim-servisi", type: "klima", name: "Klima Bakım Servisi" },
+  { suffix: "klima-tamir-servisi", type: "klima", name: "Klima Tamir Servisi" },
+  { suffix: "klima-montaj-servisi", type: "klima", name: "Klima Montaj Servisi" },
+  { suffix: "klima-gaz-dolumu-servisi", type: "klima", name: "Klima Gaz Dolumu Servisi" },
+  { suffix: "klima-gaz-dolumu", type: "klima", name: "Klima Gaz Dolumu Servisi" },
+  { suffix: "klima-ariza-servisi", type: "klima", name: "Klima Arıza Servisi" },
+  { suffix: "camasir-makinesi-servisi", type: "beyaz-esya", name: "Çamaşır Makinesi Servisi" },
+  { suffix: "bulasik-makinesi-servisi", type: "beyaz-esya", name: "Bulaşık Makinesi Servisi" },
+  { suffix: "buzdolabi-servisi", type: "beyaz-esya", name: "Buzdolabı Servisi" },
+  { suffix: "firin-servisi", type: "beyaz-esya", name: "Fırın Servisi" },
+  { suffix: "derin-dondurucu-servisi", type: "beyaz-esya", name: "Derin Dondurucu Servisi" },
+  { suffix: "kurutma-makinesi-servisi", type: "beyaz-esya", name: "Kurutma Makinesi Servisi" },
+  // More generic suffixes must come last to avoid shadowing specific ones
+  { suffix: "klima-servisi", type: "klima", name: "Klima Servisi" },
+  { suffix: "beyaz-esya-servisi", type: "beyaz-esya", name: "Beyaz Eşya Servisi" },
+];
+
+function parseSlug(slugs: string[]): ParsedSlug {
+  if (!slugs.length) return { isValid: false };
+
+  const lastPart = slugs[slugs.length - 1];
+
+  let matchedService: ServiceEntry | undefined;
   let baseLastPart = "";
 
+  // Try matching "prefix-suffix" pattern first
+  matchedService = SERVICE_MAP.find((s) => lastPart.endsWith("-" + s.suffix));
   if (matchedService) {
-    baseLastPart = lastPart.substring(0, lastPart.length - matchedService.suffix.length - 1);
+    baseLastPart = lastPart.slice(0, lastPart.length - matchedService.suffix.length - 1);
   } else {
-    matchedService = serviceMap.find(s => lastPart === s.suffix);
-    if (matchedService) {
-      baseLastPart = "";
-    }
+    // Try exact match (URL *is* the suffix, no location prefix)
+    matchedService = SERVICE_MAP.find((s) => lastPart === s.suffix);
+    baseLastPart = "";
   }
 
-  if (!matchedService) return { isValid: false, serviceName: "" };
+  if (!matchedService) return { isValid: false };
 
   const serviceType = matchedService.type;
   const serviceName = matchedService.name;
@@ -68,17 +89,16 @@ function parseSlug(slugs: string[]) {
   let marka: Brand | undefined;
 
   if (slugs.length === 1) {
-    if (baseLastPart === "antalya" || baseLastPart === "") {
-      // Just antalya or global service
-    } else {
+    if (baseLastPart !== "" && baseLastPart !== "antalya") {
       ilce = getIlceBySlug(baseLastPart);
       if (!ilce) {
+        // Try splitting "ilce-marka" compound prefix
         const parts = baseLastPart.split("-");
         for (let i = 1; i < parts.length; i++) {
           const potentialIlce = parts.slice(0, i).join("-");
           const potentialMarka = parts.slice(i).join("-");
           const foundIlce = getIlceBySlug(potentialIlce);
-          const foundMarka = getBrandBySlug(potentialMarka);
+          const foundMarka = getBrandBySlug(potentialMarka, serviceType);
           if (foundIlce && foundMarka) {
             ilce = foundIlce;
             marka = foundMarka;
@@ -86,7 +106,7 @@ function parseSlug(slugs: string[]) {
           }
         }
         if (!ilce && !marka) {
-          marka = getBrandBySlug(baseLastPart);
+          marka = getBrandBySlug(baseLastPart, serviceType);
         }
       }
     }
@@ -94,29 +114,28 @@ function parseSlug(slugs: string[]) {
     if (slugs[0] !== "antalya") {
       ilce = getIlceBySlug(slugs[0]);
     }
-    
     if (baseLastPart !== "") {
       mahalle = ilce ? getMahalleBySlug(ilce.slug, baseLastPart) : undefined;
       if (!mahalle) {
-        marka = getBrandBySlug(baseLastPart);
+        marka = getBrandBySlug(baseLastPart, serviceType);
       }
     }
   } else if (slugs.length === 3) {
     if (slugs[0] !== "antalya") {
       ilce = getIlceBySlug(slugs[0]);
     }
-    if (ilce) {
+    if (ilce && slugs[1]) {
       mahalle = getMahalleBySlug(ilce.slug, slugs[1]);
     }
-    marka = getBrandBySlug(baseLastPart);
+    if (baseLastPart) {
+      marka = getBrandBySlug(baseLastPart, serviceType);
+    }
   }
 
   return { ilce, mahalle, marka, serviceType, serviceName, isValid: true };
 }
 
-export async function generateMetadata(
-  { params }: PageProps
-): Promise<Metadata> {
+export async function generateMetadata({ params }: PageProps): Promise<Metadata> {
   const resolvedParams = await params;
   const parsed = parseSlug(resolvedParams.slug);
 
@@ -124,33 +143,32 @@ export async function generateMetadata(
     return { title: "Sayfa Bulunamadı" };
   }
 
-  const locationText = parsed.mahalle 
-    ? `${parsed.ilce?.name} ${parsed.mahalle.name}` 
-    : parsed.ilce 
-      ? parsed.ilce.name 
+  const { ilce, mahalle, marka, serviceName } = parsed;
+
+  const locationText = mahalle
+    ? `${ilce?.name ?? ""} ${mahalle.name}`.trim()
+    : ilce
+      ? ilce.name
       : "Antalya";
 
-  const brandText = parsed.marka ? `${parsed.marka.name} ` : "";
-  const serviceName = parsed.serviceName;
-  
+  const brandText = marka ? `${marka.name} ` : "";
+
   const title = `${locationText} ${brandText}${serviceName} | 7/24 Teknik Servis`;
-  const description = `${locationText} bölgesinde ${brandText}${serviceName.toLowerCase()} ihtiyacınız için aynı gün garantili ve profesyonel teknik destek. ${brandText ? `${brandText}marka bağımsız özel servis hizmeti.` : ""}`;
+  const description = `${locationText} bölgesinde ${brandText}${serviceName.toLowerCase()} ihtiyacınız için aynı gün garantili ve profesyonel teknik destek.${brandText ? ` ${brandText}marka bağımsız özel servis hizmeti.` : ""}`;
 
   const slugPath = resolvedParams.slug.join("/");
 
   return {
     title,
     description,
-    alternates: {
-      canonical: `${SITE_URL}/${slugPath}`
-    },
+    alternates: { canonical: `${SITE_URL}/${slugPath}` },
     openGraph: {
       title,
       description,
       url: `${SITE_URL}/${slugPath}`,
-      type: 'article',
-      images: ['/og-image.jpg']
-    }
+      type: "article",
+      images: ["/og-image.jpg"],
+    },
   };
 }
 
@@ -162,12 +180,13 @@ export default async function DynamicServicePage({ params }: PageProps) {
     notFound();
   }
 
+  // TypeScript narrowed to the valid branch; all fields guaranteed defined
   const { ilce, mahalle, marka, serviceType, serviceName } = parsed;
 
-  const locationText = mahalle 
-    ? `${ilce?.name} ${mahalle.name}` 
-    : ilce 
-      ? ilce.name 
+  const locationText = mahalle
+    ? `${ilce?.name ?? ""} ${mahalle.name}`.trim()
+    : ilce
+      ? ilce.name
       : "Antalya";
 
   const brandText = marka ? `${marka.name} ` : "";
