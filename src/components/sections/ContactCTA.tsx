@@ -1,106 +1,132 @@
-import { Phone, MessageCircle, Zap } from "lucide-react";
+import { Phone, MessageCircle, Zap, Clock, Shield, Wrench } from "lucide-react";
 import { CONTACT_INFO } from "@/lib/constants";
 
-/**
- * Slim conversion band — NOT a hero section.
- * Full-bleed dark strip with border separators.
- * Desktop: single row  [ label | pipe | text ] [ Ara ] [ WA ]
- * Mobile:  stacked     [ label + text ] [ Ara  WhatsApp ]
- */
+const trustItems = [
+  { icon: Clock,   label: "Aynı Gün Servis" },
+  { icon: Shield,  label: "Garantili İşçilik" },
+  { icon: Wrench,  label: "Hızlı Müdahale" },
+];
+
 export default function ContactCTA() {
   return (
     <section
       id="iletisim"
-      aria-label="İletişim — hızlı erişim"
-      className="relative overflow-hidden border-y border-white/[0.08]"
-      style={{
-        background:
-          "linear-gradient(to right, #080c15 0%, #0f1624 40%, #111827 60%, #080c15 100%)",
-      }}
+      aria-label="Servis talebi ve iletişim"
+      className="py-12 md:py-16 bg-[#F4F4F6]"
     >
-      {/* Hairline top accent */}
-      <div
-        aria-hidden
-        className="absolute top-0 left-0 right-0 h-px pointer-events-none"
-        style={{
-          background:
-            "linear-gradient(90deg, transparent 0%, rgba(200,30,30,0.55) 30%, rgba(200,30,30,0.55) 55%, transparent 100%)",
-        }}
-      />
+      <div className="container mx-auto px-4 md:px-6">
+        {/* Premium card */}
+        <div
+          className="relative overflow-hidden rounded-3xl border border-white/[0.07] shadow-[0_24px_64px_rgba(0,0,0,0.45)]"
+          style={{
+            background:
+              "linear-gradient(135deg, #0d1117 0%, #111827 45%, #130f1e 100%)",
+          }}
+        >
+          {/* Glow — orange-red centre bloom */}
+          <div
+            aria-hidden
+            className="absolute -top-16 left-1/2 -translate-x-1/2 w-[560px] h-48 rounded-full pointer-events-none"
+            style={{
+              background:
+                "radial-gradient(ellipse, rgba(200,30,30,0.18) 0%, transparent 68%)",
+            }}
+          />
+          {/* Bottom-right accent */}
+          <div
+            aria-hidden
+            className="absolute bottom-0 right-0 w-64 h-32 pointer-events-none"
+            style={{
+              background:
+                "radial-gradient(ellipse at bottom right, rgba(251,146,60,0.10) 0%, transparent 65%)",
+            }}
+          />
+          {/* Top hairline */}
+          <div
+            aria-hidden
+            className="absolute top-0 left-0 right-0 h-px pointer-events-none"
+            style={{
+              background:
+                "linear-gradient(90deg, transparent 0%, rgba(200,30,30,0.60) 35%, rgba(251,146,60,0.40) 60%, transparent 100%)",
+            }}
+          />
 
-      {/* Ambient glow — tiny, centred, far below hero-sized */}
-      <div
-        aria-hidden
-        className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[320px] h-10 rounded-full pointer-events-none"
-        style={{
-          background:
-            "radial-gradient(ellipse, rgba(200,30,30,0.14) 0%, transparent 70%)",
-        }}
-      />
+          <div className="relative z-10 flex flex-col lg:flex-row lg:items-center gap-8 lg:gap-12 px-7 py-10 md:px-12 md:py-12">
 
-      <div className="container mx-auto px-4 md:px-6 relative z-10">
-        <div className="flex flex-col sm:flex-row sm:items-center gap-3 sm:gap-0 py-4 md:py-[13px]">
+            {/* ── Left: copy ── */}
+            <div className="flex-1 min-w-0">
+              {/* Label */}
+              <div className="inline-flex items-center gap-2 bg-orange-500/10 border border-orange-500/20 rounded-full px-3 py-1 mb-5">
+                <Zap className="w-3.5 h-3.5 text-orange-400 fill-orange-400 shrink-0" aria-hidden />
+                <span className="text-[11px] font-black uppercase tracking-[0.16em] text-orange-400">
+                  Hızlı Teknik Destek
+                </span>
+              </div>
 
-          {/* ── Label ── */}
-          <div className="flex items-center gap-1.5 shrink-0 sm:pr-4 sm:mr-4 sm:border-r sm:border-white/[0.10]">
-            <Zap
-              className="w-3 h-3 text-orange-400 fill-orange-400 shrink-0"
-              aria-hidden
-            />
-            <span className="text-[10px] font-black uppercase tracking-[0.18em] text-orange-400 whitespace-nowrap leading-none">
-              Hızlı Teknik Destek
-            </span>
-          </div>
+              {/* Headline */}
+              <h2 className="text-2xl md:text-3xl font-bold text-white leading-snug mb-3">
+                Antalya genelinde aynı gün<br className="hidden sm:block" />
+                <span className="text-brand-red"> servis desteği</span> alın.
+              </h2>
 
-          {/* ── Copy ── */}
-          <div className="flex-1 min-w-0 sm:pr-6">
-            <p className="text-[13px] md:text-sm font-bold text-white leading-snug">
-              Antalya genelinde aynı gün klima servisi desteği alın.
-            </p>
-            <p className="text-[10px] text-gray-500 mt-0.5 leading-none">
-              Uzman ekip&nbsp;·&nbsp;Garantili işçilik&nbsp;·&nbsp;Hızlı müdahale
-            </p>
-          </div>
+              {/* Supporting text */}
+              <p className="text-gray-400 text-sm md:text-base leading-relaxed mb-6 max-w-lg">
+                Klima bakım, tamir, montaj ve arıza talepleriniz için uzman ekibimiz hızlıca yanınızda.
+              </p>
 
-          {/* ── Buttons ── */}
-          {/* flex-1 on each button → equal share of full width on mobile
-              sm:flex-none   → auto-width on sm+ */}
-          <div className="flex items-stretch gap-2 w-full sm:w-auto shrink-0">
-            <a
-              href={`tel:${CONTACT_INFO.phone}`}
-              className="
-                flex-1 sm:flex-none
-                flex items-center justify-center gap-1.5
-                bg-brand-red hover:bg-red-700
-                text-white text-[13px] font-bold
-                px-4 py-2 rounded-lg
-                transition-all duration-150 active:scale-95
-                shadow-[0_3px_12px_rgba(200,30,30,0.30)]
-                whitespace-nowrap
-              "
-            >
-              <Phone className="w-3.5 h-3.5 shrink-0" aria-hidden />
-              Hemen Ara
-            </a>
+              {/* Trust indicators */}
+              <div className="flex flex-wrap gap-x-5 gap-y-2">
+                {trustItems.map(({ icon: Icon, label }) => (
+                  <div key={label} className="flex items-center gap-1.5">
+                    <Icon className="w-3.5 h-3.5 text-orange-400/70 shrink-0" aria-hidden />
+                    <span className="text-[12px] text-gray-500 font-medium">{label}</span>
+                  </div>
+                ))}
+              </div>
+            </div>
 
-            <a
-              href={CONTACT_INFO.whatsapp}
-              target="_blank"
-              rel="noreferrer"
-              className="
-                flex-1 sm:flex-none
-                flex items-center justify-center gap-1.5
-                bg-[#25D366] hover:bg-[#20b858]
-                text-white text-[13px] font-bold
-                px-4 py-2 rounded-lg
-                transition-all duration-150 active:scale-95
-                shadow-[0_3px_12px_rgba(37,211,102,0.20)]
-                whitespace-nowrap
-              "
-            >
-              <MessageCircle className="w-3.5 h-3.5 shrink-0" aria-hidden />
-              WhatsApp
-            </a>
+            {/* ── Right: buttons ── */}
+            <div className="flex flex-col sm:flex-row lg:flex-col gap-3 shrink-0 lg:min-w-[200px]">
+              <a
+                href={`tel:${CONTACT_INFO.phone}`}
+                className="
+                  flex items-center justify-center gap-2
+                  bg-brand-red hover:bg-red-700
+                  text-white font-bold text-sm
+                  px-7 py-4 rounded-2xl
+                  transition-all duration-200
+                  active:scale-95 hover:scale-[1.02]
+                  shadow-[0_8px_24px_rgba(200,30,30,0.35)]
+                  whitespace-nowrap
+                "
+              >
+                <Phone className="w-4 h-4 shrink-0" aria-hidden />
+                Hemen Ara
+              </a>
+
+              <a
+                href={CONTACT_INFO.whatsapp}
+                target="_blank"
+                rel="noreferrer"
+                className="
+                  flex items-center justify-center gap-2
+                  bg-[#25D366] hover:bg-[#20b858]
+                  text-white font-bold text-sm
+                  px-7 py-4 rounded-2xl
+                  transition-all duration-200
+                  active:scale-95 hover:scale-[1.02]
+                  shadow-[0_8px_24px_rgba(37,211,102,0.25)]
+                  whitespace-nowrap
+                "
+              >
+                <MessageCircle className="w-4 h-4 shrink-0" aria-hidden />
+                WhatsApp ile Yaz
+              </a>
+
+              <p className="text-[11px] text-gray-600 text-center lg:text-center mt-1 hidden lg:block">
+                7/24 teknik destek hattı
+              </p>
+            </div>
           </div>
         </div>
       </div>

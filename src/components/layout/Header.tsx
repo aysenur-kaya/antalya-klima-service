@@ -18,6 +18,7 @@ export default function Header() {
   const [isScrolled, setIsScrolled] = useState(false);
   const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
   const [openAccordion, setOpenAccordion] = useState<string | null>(null);
+  const [openDesktopMenu, setOpenDesktopMenu] = useState<string | null>(null);
   const pathname = usePathname();
 
   useEffect(() => {
@@ -38,10 +39,11 @@ export default function Header() {
     }
   }, [isMobileMenuOpen]);
 
-  // Route değiştiğinde mobil menüyü kapat
+  // Route değiştiğinde tüm menüleri kapat
   useEffect(() => {
     setIsMobileMenuOpen(false);
     setOpenAccordion(null);
+    setOpenDesktopMenu(null);
   }, [pathname]);
 
   // Top items for dropdowns
@@ -81,106 +83,156 @@ export default function Header() {
             </Link>
 
             {/* Desktop Navigation */}
-            <nav className="hidden lg:flex items-center gap-8">
+            <nav
+              className="hidden lg:flex items-center gap-8"
+              onMouseLeave={() => setOpenDesktopMenu(null)}
+            >
               {/* Hizmetler Dropdown */}
-              <div className="relative group">
-                <Link href="/hizmetler" className="flex items-center gap-1 text-gray-300 hover:text-white transition-colors font-medium">
+              <div
+                className="relative"
+                onMouseEnter={() => setOpenDesktopMenu("hizmetler")}
+              >
+                <Link
+                  href="/hizmetler"
+                  className="flex items-center gap-1 text-gray-300 hover:text-white transition-colors font-medium"
+                >
                   Hizmetler
-                  <ChevronDown className="w-4 h-4 text-gray-400 group-hover:rotate-180 transition-transform pointer-events-none" />
+                  <ChevronDown
+                    className={cn(
+                      "w-4 h-4 text-gray-400 transition-transform pointer-events-none",
+                      openDesktopMenu === "hizmetler" ? "rotate-180" : ""
+                    )}
+                  />
                 </Link>
-                <div className="absolute top-full left-0 mt-2 w-56 bg-[#1f1f1f] border border-white/10 rounded-xl shadow-xl opacity-0 invisible group-hover:opacity-100 group-hover:visible transition-all translate-y-2 group-hover:translate-y-0">
-                  <div className="p-2 flex flex-col gap-1">
-                    <Link
-                      href="/hizmetler"
-                      className="px-4 py-2 text-sm text-brand-red hover:text-red-400 font-semibold rounded-lg transition-colors"
-                    >
-                      {"Tüm Hizmetler →"}
-                    </Link>
-                    <div className="my-1 border-t border-white/10" />
-                    {hizmetMenuItems.map((item) => (
+                {openDesktopMenu === "hizmetler" && (
+                  <div className="absolute top-full left-0 mt-2 w-56 bg-[#1f1f1f] border border-white/10 rounded-xl shadow-xl z-50">
+                    <div className="p-2 flex flex-col gap-1">
                       <Link
-                        key={item.href}
-                        href={item.href}
-                        className="px-4 py-2 text-sm text-gray-300 hover:text-white hover:bg-white/5 rounded-lg transition-colors"
+                        href="/hizmetler"
+                        onClick={() => setOpenDesktopMenu(null)}
+                        className="px-4 py-2 text-sm text-brand-red hover:text-red-400 font-semibold rounded-lg transition-colors"
                       >
-                        {item.name}
+                        {"Tüm Hizmetler →"}
                       </Link>
-                    ))}
+                      <div className="my-1 border-t border-white/10" />
+                      {hizmetMenuItems.map((item) => (
+                        <Link
+                          key={item.href}
+                          href={item.href}
+                          onClick={() => setOpenDesktopMenu(null)}
+                          className="px-4 py-2 text-sm text-gray-300 hover:text-white hover:bg-white/5 rounded-lg transition-colors"
+                        >
+                          {item.name}
+                        </Link>
+                      ))}
+                    </div>
                   </div>
-                </div>
+                )}
               </div>
 
               {/* Bölgeler Dropdown */}
-              <div className="relative group">
-                <Link href="/bolgeler" className="flex items-center gap-1 text-gray-300 hover:text-white transition-colors font-medium">
+              <div
+                className="relative"
+                onMouseEnter={() => setOpenDesktopMenu("bolgeler")}
+              >
+                <Link
+                  href="/bolgeler"
+                  className="flex items-center gap-1 text-gray-300 hover:text-white transition-colors font-medium"
+                >
                   Bölgeler
-                  <ChevronDown className="w-4 h-4 text-gray-400 group-hover:rotate-180 transition-transform pointer-events-none" />
+                  <ChevronDown
+                    className={cn(
+                      "w-4 h-4 text-gray-400 transition-transform pointer-events-none",
+                      openDesktopMenu === "bolgeler" ? "rotate-180" : ""
+                    )}
+                  />
                 </Link>
-                <div className="absolute top-full left-0 mt-2 w-52 bg-[#1f1f1f] border border-white/10 rounded-xl shadow-xl opacity-0 invisible group-hover:opacity-100 group-hover:visible transition-all translate-y-2 group-hover:translate-y-0">
-                  <div className="p-2 flex flex-col gap-1">
-                    {topBölgeler.map((bolge) => (
+                {openDesktopMenu === "bolgeler" && (
+                  <div className="absolute top-full left-0 mt-2 w-52 bg-[#1f1f1f] border border-white/10 rounded-xl shadow-xl z-50">
+                    <div className="p-2 flex flex-col gap-1">
+                      {topBölgeler.map((bolge) => (
+                        <Link
+                          key={bolge.slug}
+                          href={`/bolgeler/${bolge.slug}`}
+                          onClick={() => setOpenDesktopMenu(null)}
+                          className="px-4 py-2 text-sm text-gray-300 hover:text-white hover:bg-white/5 rounded-lg transition-colors"
+                        >
+                          {bolge.name}
+                        </Link>
+                      ))}
+                      <div className="my-1 border-t border-white/10" />
                       <Link
-                        key={bolge.slug}
-                        href={`/bolgeler/${bolge.slug}`}
-                        className="px-4 py-2 text-sm text-gray-300 hover:text-white hover:bg-white/5 rounded-lg transition-colors"
+                        href="/antalya"
+                        onClick={() => setOpenDesktopMenu(null)}
+                        className="text-left px-4 py-2 text-sm text-brand-red hover:text-red-400 font-medium"
                       >
-                        {bolge.name}
+                        {"Antalya Rehberi →"}
                       </Link>
-                    ))}
-                    <div className="my-1 border-t border-white/10" />
-                    <Link
-                      href="/antalya"
-                      className="text-left px-4 py-2 text-sm text-brand-red hover:text-red-400 font-medium"
-                    >
-                      {"Antalya Rehberi →"}
-                    </Link>
+                    </div>
                   </div>
-                </div>
+                )}
               </div>
 
-              {/* Markalar Dropdown — type-based URLs */}
-              <div className="relative group">
-                <Link href="/servis" className="flex items-center gap-1 text-gray-300 hover:text-white transition-colors font-medium">
+              {/* Markalar Dropdown */}
+              <div
+                className="relative"
+                onMouseEnter={() => setOpenDesktopMenu("markalar")}
+              >
+                <Link
+                  href="/servis"
+                  className="flex items-center gap-1 text-gray-300 hover:text-white transition-colors font-medium"
+                >
                   Markalar
-                  <ChevronDown className="w-4 h-4 text-gray-400 group-hover:rotate-180 transition-transform pointer-events-none" />
+                  <ChevronDown
+                    className={cn(
+                      "w-4 h-4 text-gray-400 transition-transform pointer-events-none",
+                      openDesktopMenu === "markalar" ? "rotate-180" : ""
+                    )}
+                  />
                 </Link>
-                <div className="absolute top-full left-0 mt-2 w-56 bg-[#1f1f1f] border border-white/10 rounded-xl shadow-xl opacity-0 invisible group-hover:opacity-100 group-hover:visible transition-all translate-y-2 group-hover:translate-y-0">
-                  <div className="p-2 flex flex-col gap-1">
-                    <p className="px-4 pt-1 pb-0.5 text-[10px] uppercase tracking-widest text-gray-500 font-bold">Klima</p>
-                    {topKlimaMarkalar.map((marka) => (
+                {openDesktopMenu === "markalar" && (
+                  <div className="absolute top-full left-0 mt-2 w-56 bg-[#1f1f1f] border border-white/10 rounded-xl shadow-xl z-50">
+                    <div className="p-2 flex flex-col gap-1">
+                      <p className="px-4 pt-1 pb-0.5 text-[10px] uppercase tracking-widest text-gray-500 font-bold">Klima</p>
+                      {topKlimaMarkalar.map((marka) => (
+                        <Link
+                          key={`desktop-klima-${marka.slug}`}
+                          href={`/servis/${marka.slug}-klima-servisi`}
+                          onClick={() => setOpenDesktopMenu(null)}
+                          className="px-4 py-2 text-sm text-gray-300 hover:text-white hover:bg-white/5 rounded-lg transition-colors"
+                        >
+                          {marka.name}
+                        </Link>
+                      ))}
                       <Link
-                        key={`desktop-klima-${marka.slug}`}
-                        href={`/servis/${marka.slug}-klima-servisi`}
-                        className="px-4 py-2 text-sm text-gray-300 hover:text-white hover:bg-white/5 rounded-lg transition-colors"
+                        href="/servis"
+                        onClick={() => setOpenDesktopMenu(null)}
+                        className="px-4 py-1.5 text-sm text-brand-red hover:text-red-400 font-semibold flex items-center gap-1"
                       >
-                        {marka.name}
+                        {"Tümünü Gör →"}
                       </Link>
-                    ))}
-                    <Link
-                      href="/servis"
-                      className="px-4 py-1.5 text-sm text-brand-red hover:text-red-400 font-semibold flex items-center gap-1"
-                    >
-                      {"Tümünü Gör →"}
-                    </Link>
-                    <div className="my-1 border-t border-white/10" />
-                    <p className="px-4 pt-1 pb-0.5 text-[10px] uppercase tracking-widest text-gray-500 font-bold">Beyaz Eşya</p>
-                    {topBeyazEsyaMarkalar.map((marka) => (
+                      <div className="my-1 border-t border-white/10" />
+                      <p className="px-4 pt-1 pb-0.5 text-[10px] uppercase tracking-widest text-gray-500 font-bold">Beyaz Eşya</p>
+                      {topBeyazEsyaMarkalar.map((marka) => (
+                        <Link
+                          key={`desktop-beyaz-${marka.slug}`}
+                          href={`/servis/${marka.slug}-beyaz-esya-servisi`}
+                          onClick={() => setOpenDesktopMenu(null)}
+                          className="px-4 py-2 text-sm text-gray-300 hover:text-white hover:bg-white/5 rounded-lg transition-colors"
+                        >
+                          {marka.name}
+                        </Link>
+                      ))}
                       <Link
-                        key={`desktop-beyaz-${marka.slug}`}
-                        href={`/servis/${marka.slug}-beyaz-esya-servisi`}
-                        className="px-4 py-2 text-sm text-gray-300 hover:text-white hover:bg-white/5 rounded-lg transition-colors"
+                        href="/servis"
+                        onClick={() => setOpenDesktopMenu(null)}
+                        className="px-4 py-1.5 text-sm text-brand-red hover:text-red-400 font-semibold flex items-center gap-1"
                       >
-                        {marka.name}
+                        {"Tümünü Gör →"}
                       </Link>
-                    ))}
-                    <Link
-                      href="/servis"
-                      className="px-4 py-1.5 text-sm text-brand-red hover:text-red-400 font-semibold flex items-center gap-1"
-                    >
-                      {"Tümünü Gör →"}
-                    </Link>
+                    </div>
                   </div>
-                </div>
+                )}
               </div>
 
               <Link href="/iletisim" className="text-gray-300 hover:text-white transition-colors font-medium">
@@ -232,6 +284,7 @@ export default function Header() {
             <div className="flex items-stretch min-h-[52px]">
               <Link
                 href="/hizmetler"
+                onClick={() => setIsMobileMenuOpen(false)}
                 className="flex-1 flex items-center py-3.5 text-white font-semibold text-base active:text-brand-red transition-colors"
               >
                 Hizmetler
@@ -250,6 +303,7 @@ export default function Header() {
                 <Link
                   key={`mobile-hizmet-${item.href}`}
                   href={item.href}
+                  onClick={() => setIsMobileMenuOpen(false)}
                   className="text-gray-400 text-sm py-2.5 pl-4 pr-2 rounded-lg hover:bg-white/5 hover:text-white active:text-brand-red transition-colors"
                 >
                   {item.name}
@@ -263,6 +317,7 @@ export default function Header() {
             <div className="flex items-stretch min-h-[52px]">
               <Link
                 href="/bolgeler"
+                onClick={() => setIsMobileMenuOpen(false)}
                 className="flex-1 flex items-center py-3.5 text-white font-semibold text-base active:text-brand-red transition-colors"
               >
                 Bölgeler
@@ -281,6 +336,7 @@ export default function Header() {
                 <Link
                   key={`mobile-bolge-${bolge.slug}`}
                   href={`/bolgeler/${bolge.slug}`}
+                  onClick={() => setIsMobileMenuOpen(false)}
                   className="text-gray-400 text-sm py-2.5 pl-4 pr-2 rounded-lg hover:bg-white/5 hover:text-white active:text-brand-red transition-colors"
                 >
                   {bolge.name}
@@ -288,6 +344,7 @@ export default function Header() {
               ))}
               <Link
                 href="/antalya"
+                onClick={() => setIsMobileMenuOpen(false)}
                 className="text-brand-red font-semibold text-sm py-2.5 pl-4 pr-2 hover:text-red-400 transition-colors"
               >
                 {"Antalya Rehberi →"}
@@ -300,6 +357,7 @@ export default function Header() {
             <div className="flex items-stretch min-h-[52px]">
               <Link
                 href="/servis"
+                onClick={() => setIsMobileMenuOpen(false)}
                 className="flex-1 flex items-center py-3.5 text-white font-semibold text-base active:text-brand-red transition-colors"
               >
                 Markalar
@@ -320,6 +378,7 @@ export default function Header() {
                   <Link
                     key={`mobile-klima-${marka.slug}`}
                     href={`/servis/${marka.slug}-klima-servisi`}
+                    onClick={() => setIsMobileMenuOpen(false)}
                     className="text-gray-400 text-sm py-2.5 pl-4 pr-2 rounded-lg hover:bg-white/5 hover:text-white active:text-brand-red transition-colors"
                   >
                     {marka.name}
@@ -327,6 +386,7 @@ export default function Header() {
                 ))}
                 <Link
                   href="/servis"
+                  onClick={() => setIsMobileMenuOpen(false)}
                   className="text-brand-red font-semibold text-sm py-2 pl-4 pr-2 hover:text-red-400 transition-colors"
                 >
                   {"Tümünü Gör →"}
@@ -337,6 +397,7 @@ export default function Header() {
                   <Link
                     key={`mobile-beyaz-${marka.slug}`}
                     href={`/servis/${marka.slug}-beyaz-esya-servisi`}
+                    onClick={() => setIsMobileMenuOpen(false)}
                     className="text-gray-400 text-sm py-2.5 pl-4 pr-2 rounded-lg hover:bg-white/5 hover:text-white active:text-brand-red transition-colors"
                   >
                     {marka.name}
@@ -344,6 +405,7 @@ export default function Header() {
                 ))}
                 <Link
                   href="/servis"
+                  onClick={() => setIsMobileMenuOpen(false)}
                   className="text-brand-red font-semibold text-sm py-2 pl-4 pr-2 hover:text-red-400 transition-colors"
                 >
                   {"Tümünü Gör →"}
@@ -356,6 +418,7 @@ export default function Header() {
           <div className="border-b border-white/10">
             <Link
               href="/iletisim"
+              onClick={() => setIsMobileMenuOpen(false)}
               className="flex items-center min-h-[52px] py-3.5 text-white font-semibold text-base active:text-brand-red transition-colors"
             >
               İletişim
