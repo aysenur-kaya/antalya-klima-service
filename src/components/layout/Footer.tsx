@@ -18,9 +18,9 @@ export default function Footer() {
       
       <div className="container mx-auto px-4 md:px-6 relative z-10">
         
-        {/* Top Section / Brand & CTA */}
-        <div className="grid grid-cols-1 lg:grid-cols-2 gap-10 border-b border-white/10 pb-12 mb-12">
-          <div className="flex flex-col items-start gap-4">
+        {/* Top Section / Brand only — telefon/WhatsApp CTA global ContactCTA bileşenindedir */}
+        <div className="border-b border-white/10 pb-12 mb-12">
+          <div className="flex flex-col items-start gap-4 max-w-xl">
             <Link href="/" className="flex items-center gap-2 group mb-2">
               <div className="w-12 h-12 rounded-xl bg-brand-red flex items-center justify-center text-white font-bold text-2xl shadow-[0_0_20px_rgba(200,30,30,0.4)] group-hover:scale-105 transition-transform">
                 A
@@ -32,23 +32,6 @@ export default function Footer() {
             <p className="text-lg text-gray-400 max-w-md">
               Antalya genelinde klima ve beyaz eşya servis ihtiyaçlarınız için hızlı, güvenilir ve profesyonel teknik destek sunuyoruz.
             </p>
-          </div>
-          
-          <div className="hidden md:flex flex-col sm:flex-row gap-4 items-start sm:items-center lg:justify-end">
-            <div className="text-left sm:text-right sm:mr-4">
-              <p className="text-white font-medium text-lg">Aynı Gün Servis</p>
-              <p className="text-sm text-gray-400">Hemen uzman ekibimizi çağırın</p>
-            </div>
-            <div className="flex flex-col sm:flex-row gap-3 w-full sm:w-auto">
-              <a href={`tel:${CONTACT_INFO.phone}`} className="w-full sm:w-auto bg-brand-red hover:bg-red-700 text-white px-6 py-4 rounded-xl font-medium flex items-center justify-center gap-2 transition-all hover:-translate-y-1 shadow-[0_10px_20px_rgba(200,30,30,0.3)]">
-                <Phone className="w-5 h-5" />
-                {CONTACT_INFO.phoneFormatted}
-              </a>
-              <a href={CONTACT_INFO.whatsapp} className="w-full sm:w-auto bg-[#25D366] hover:bg-[#20b858] text-white px-6 py-4 rounded-xl font-medium flex items-center justify-center gap-2 transition-all hover:-translate-y-1 shadow-[0_10px_20px_rgba(37,211,102,0.3)]">
-                <MessageCircle className="w-5 h-5" />
-                WhatsApp
-              </a>
-            </div>
           </div>
         </div>
 

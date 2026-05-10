@@ -105,7 +105,8 @@ export default function Header() {
                   />
                 </Link>
                 {openDesktopMenu === "hizmetler" && (
-                  <div className="absolute top-full left-0 mt-2 w-56 bg-[#1f1f1f] border border-white/10 rounded-xl shadow-xl z-50">
+                  <div className="absolute top-full left-0 z-50 w-56 pt-2" role="presentation">
+                    <div className="bg-[#1f1f1f] border border-white/10 rounded-xl shadow-xl">
                     <div className="p-2 flex flex-col gap-1">
                       <Link
                         href="/hizmetler"
@@ -125,6 +126,7 @@ export default function Header() {
                           {item.name}
                         </Link>
                       ))}
+                    </div>
                     </div>
                   </div>
                 )}
@@ -148,7 +150,8 @@ export default function Header() {
                   />
                 </Link>
                 {openDesktopMenu === "bolgeler" && (
-                  <div className="absolute top-full left-0 mt-2 w-52 bg-[#1f1f1f] border border-white/10 rounded-xl shadow-xl z-50">
+                  <div className="absolute top-full left-0 z-50 w-52 pt-2" role="presentation">
+                    <div className="bg-[#1f1f1f] border border-white/10 rounded-xl shadow-xl">
                     <div className="p-2 flex flex-col gap-1">
                       {topBölgeler.map((bolge) => (
                         <Link
@@ -168,6 +171,7 @@ export default function Header() {
                       >
                         {"Antalya Rehberi →"}
                       </Link>
+                    </div>
                     </div>
                   </div>
                 )}
@@ -191,7 +195,8 @@ export default function Header() {
                   />
                 </Link>
                 {openDesktopMenu === "markalar" && (
-                  <div className="absolute top-full left-0 mt-2 w-56 bg-[#1f1f1f] border border-white/10 rounded-xl shadow-xl z-50">
+                  <div className="absolute top-full left-0 z-50 w-56 pt-2" role="presentation">
+                    <div className="bg-[#1f1f1f] border border-white/10 rounded-xl shadow-xl">
                     <div className="p-2 flex flex-col gap-1">
                       <p className="px-4 pt-1 pb-0.5 text-[10px] uppercase tracking-widest text-gray-500 font-bold">Klima</p>
                       {topKlimaMarkalar.map((marka) => (
@@ -230,6 +235,7 @@ export default function Header() {
                       >
                         {"Tümünü Gör →"}
                       </Link>
+                    </div>
                     </div>
                   </div>
                 )}
