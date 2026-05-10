@@ -1,9 +1,11 @@
 import React from "react";
 import ContactCTA from "@/components/sections/ContactCTA";
+import { SITE_URL } from "@/lib/constants";
 
 export const metadata = {
   title: "Kullanım Şartları",
   description: "Antalya Servisi web sitesi kullanım şartları ve kuralları.",
+  alternates: { canonical: `${SITE_URL}/kullanim-sartlari` },
 };
 
 export default function SartlarPage() {

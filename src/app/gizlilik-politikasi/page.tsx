@@ -1,9 +1,11 @@
 import React from "react";
 import ContactCTA from "@/components/sections/ContactCTA";
+import { SITE_URL } from "@/lib/constants";
 
 export const metadata = {
   title: "Gizlilik Politikası",
   description: "Antalya Servisi gizlilik politikası ve veri güvenliği bilgilendirmesi.",
+  alternates: { canonical: `${SITE_URL}/gizlilik-politikasi` },
 };
 
 export default function GizlilikPage() {

@@ -2,12 +2,14 @@ import { Metadata } from "next";
 import Link from "next/link";
 import { MapPin, ChevronRight, Users } from "lucide-react";
 import { ilceler } from "@/lib/data";
+import { SITE_URL } from "@/lib/constants";
 import HeroSection from "@/components/sections/HeroSection";
 import ContactCTA from "@/components/sections/ContactCTA";
 
 export const metadata: Metadata = {
   title: "Antalya Hizmet Bölgelerimiz | Tüm İlçeler ve Mahalleler",
   description: "Antalya geneli klima ve beyaz eşya servis hizmeti verdiğimiz tüm ilçeler ve mahalleler. Muratpaşa, Konyaaltı, Kepez ve tüm Antalya bölgeleri.",
+  alternates: { canonical: `${SITE_URL}/bolgeler` },
 };
 
 export default function BolgelerPage() {

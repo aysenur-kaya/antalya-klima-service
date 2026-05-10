@@ -93,6 +93,15 @@ export default async function ServisMarkaDetayPage({ params }: PageProps) {
         subtitle={`${brand.name} marka cihazınız için Antalya genelinde bakım, arıza tespiti ve garantili özel servis yönlendirmesi.`}
       />
 
+      {/* Yasal uyarı — marka bağımsız özel servis bildirimi */}
+      <div className="bg-amber-50 border-y border-amber-200 py-3 px-4">
+        <div className="container mx-auto px-4 md:px-6">
+          <p className="text-sm text-amber-800 text-center leading-snug">
+            <strong>Özel Servis Bildirimi:</strong> Bu sayfa marka bağımsız özel teknik servis hizmeti içindir. Yetkili servis değildir. Garanti kapsamındaki cihazlar için markanın resmi yetkili servisini tercih ediniz.
+          </p>
+        </div>
+      </div>
+
       <section className="py-20 bg-white">
         <div className="container mx-auto px-4 md:px-6">
           <div className="grid grid-cols-1 lg:grid-cols-3 gap-10">

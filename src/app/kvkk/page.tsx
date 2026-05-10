@@ -1,9 +1,11 @@
 import React from "react";
 import ContactCTA from "@/components/sections/ContactCTA";
+import { SITE_URL } from "@/lib/constants";
 
 export const metadata = {
   title: "KVKK Aydınlatma Metni",
   description: "Antalya Servisi Kişisel Verilerin Korunması Kanunu (KVKK) aydınlatma metni.",
+  alternates: { canonical: `${SITE_URL}/kvkk` },
 };
 
 export default function KVKKPage() {

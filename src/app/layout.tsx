@@ -70,41 +70,54 @@ export default function RootLayout({
 }: Readonly<{
   children: React.ReactNode;
 }>) {
+  // Tüm schema değerleri CONTACT_INFO'dan türetilir.
+  // Gerçek telefon/adres girildiğinde otomatik tüm schema'lara yansır.
   const organizationSchema = {
     "@context": "https://schema.org",
     "@type": "Organization",
-    "name": "Antalya Servisi",
+    "@id": `${SITE_URL}/#organization`,
+    "name": CONTACT_INFO.name,
     "url": SITE_URL,
-    "logo": `${SITE_URL}/logo.png`,
+    "logo": {
+      "@type": "ImageObject",
+      "url": `${SITE_URL}/logo.png`,
+      "width": 400,
+      "height": 100,
+    },
     "contactPoint": {
       "@type": "ContactPoint",
       "telephone": CONTACT_INFO.phone,
       "contactType": "customer service",
       "areaServed": "TR",
-      "availableLanguage": "Turkish"
-    }
+      "availableLanguage": "Turkish",
+    },
   };
 
   const localBusinessSchema = {
     "@context": "https://schema.org",
-    "@type": "LocalBusiness",
-    "name": "Antalya Servisi - Teknik Servis",
+    "@type": ["LocalBusiness", "HVACBusiness"],
+    "@id": `${SITE_URL}/#local-business`,
+    "name": `${CONTACT_INFO.name} - Klima ve Beyaz Eşya Teknik Servisi`,
     "image": `${SITE_URL}/og-image.jpg`,
-    "@id": SITE_URL,
     "url": SITE_URL,
     "telephone": CONTACT_INFO.phone,
     "address": {
       "@type": "PostalAddress",
-      "streetAddress": "Antalya Geneli Hizmet",
-      "addressLocality": "Antalya",
-      "addressRegion": "Antalya",
+      // TODO: Gerçek sokak adresi girildiğinde burayı güncelleyin
+      "streetAddress": CONTACT_INFO.addressFull,
+      "addressLocality": CONTACT_INFO.city,
+      "addressRegion": CONTACT_INFO.city,
       "postalCode": "07000",
-      "addressCountry": "TR"
+      "addressCountry": "TR",
     },
     "geo": {
       "@type": "GeoCoordinates",
       "latitude": 36.8841,
-      "longitude": 30.7056
+      "longitude": 30.7056,
+    },
+    "areaServed": {
+      "@type": "City",
+      "name": "Antalya",
     },
     "openingHoursSpecification": {
       "@type": "OpeningHoursSpecification",
@@ -114,11 +127,11 @@ export default function RootLayout({
         "Wednesday",
         "Thursday",
         "Friday",
-        "Saturday"
+        "Saturday",
       ],
       "opens": "08:30",
-      "closes": "19:30"
-    }
+      "closes": "19:30",
+    },
   };
 
   return (

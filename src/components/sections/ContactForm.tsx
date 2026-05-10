@@ -2,8 +2,9 @@
 
 import { useState } from "react";
 import Link from "next/link";
-import { Send, CheckCircle2 } from "lucide-react";
+import { MessageCircle, CheckCircle2 } from "lucide-react";
 import { cn } from "@/lib/utils";
+import { CONTACT_INFO } from "@/lib/constants";
 
 const konular = [
   "Klima Bakım",
@@ -35,11 +36,25 @@ export default function ContactForm() {
   const handleSubmit = (e: React.FormEvent) => {
     e.preventDefault();
     setLoading(true);
-    // Frontend-only — simulates a short delay then shows success state
+
+    // Formdaki bilgileri WhatsApp mesajına dönüştür ve yönlendir.
+    // Backend email/CRM entegrasyonu yapılana kadar bu yöntem lead kaybını önler.
+    const lines = [
+      `*Servis Talebi — Antalya Servisi*`,
+      `Ad Soyad: ${form.adSoyad}`,
+      `Telefon: ${form.telefon}`,
+      form.konu ? `Konu: ${form.konu}` : null,
+      form.mesaj ? `Mesaj: ${form.mesaj}` : null,
+    ].filter(Boolean) as string[];
+
+    const waUrl = `${CONTACT_INFO.whatsapp}?text=${encodeURIComponent(lines.join("\n"))}`;
+
+    // Kısa gecikme ile UX akışını koruyalım, sonra WhatsApp aç
     setTimeout(() => {
       setLoading(false);
       setSent(true);
-    }, 800);
+      window.open(waUrl, "_blank", "noopener,noreferrer");
+    }, 600);
   };
 
   if (sent) {
@@ -49,16 +64,16 @@ export default function ContactForm() {
           <CheckCircle2 className="h-10 w-10 text-green-500" />
         </div>
         <div>
-          <h3 className="text-2xl font-bold text-brand-dark mb-2">Mesajınız alındı!</h3>
+          <h3 className="text-2xl font-bold text-brand-dark mb-2">WhatsApp açıldı!</h3>
           <p className="text-gray-600 leading-relaxed">
-            En kısa sürede ekibimiz sizi arayacak veya WhatsApp üzerinden dönüş yapacak.
+            Bilgileriniz WhatsApp mesajına aktarıldı. Göndermek için WhatsApp&apos;ta &ldquo;Gönder&rdquo;e basın.
           </p>
         </div>
         <button
           onClick={() => { setSent(false); setForm({ adSoyad: "", telefon: "", konu: "", mesaj: "" }); }}
           className="text-sm font-semibold text-brand-red hover:underline"
         >
-          Yeni mesaj gönder
+          Yeni talep oluştur
         </button>
       </div>
     );
@@ -151,14 +166,14 @@ export default function ContactForm() {
       <button
         type="submit"
         disabled={loading}
-        className="w-full flex items-center justify-center gap-3 rounded-xl bg-brand-red py-4 text-sm font-bold text-white transition hover:bg-red-700 active:scale-95 disabled:opacity-60 shadow-lg shadow-red-200"
+        className="w-full flex items-center justify-center gap-3 rounded-xl bg-[#25D366] hover:bg-[#20b858] py-4 text-sm font-bold text-white transition active:scale-95 disabled:opacity-60 shadow-lg shadow-green-200"
       >
         {loading ? (
           <span className="inline-block h-4 w-4 animate-spin rounded-full border-2 border-white border-t-transparent" />
         ) : (
-          <Send className="h-4 w-4" />
+          <MessageCircle className="h-4 w-4" />
         )}
-        {loading ? "Gönderiliyor…" : "Talebi Gönder"}
+        {loading ? "Hazırlanıyor…" : "WhatsApp ile Gönder"}
       </button>
 
       <p className="mt-4 text-center text-xs text-gray-400">

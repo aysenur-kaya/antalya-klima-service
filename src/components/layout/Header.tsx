@@ -2,6 +2,7 @@
 
 import { useState, useEffect } from "react";
 import Link from "next/link";
+import { usePathname } from "next/navigation";
 import { Menu, X, Phone, MessageCircle, ChevronDown } from "lucide-react";
 import { cn } from "@/lib/utils";
 import { ilceler, klimaMarkalari, beyazEsyaMarkalari } from "@/lib/data";
@@ -17,6 +18,7 @@ export default function Header() {
   const [isScrolled, setIsScrolled] = useState(false);
   const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
   const [openAccordion, setOpenAccordion] = useState<string | null>(null);
+  const pathname = usePathname();
 
   useEffect(() => {
     const handleScroll = () => {
@@ -35,6 +37,12 @@ export default function Header() {
       document.body.style.overflow = "";
     }
   }, [isMobileMenuOpen]);
+
+  // Route değiştiğinde mobil menüyü kapat
+  useEffect(() => {
+    setIsMobileMenuOpen(false);
+    setOpenAccordion(null);
+  }, [pathname]);
 
   // Top items for dropdowns
   const topBölgeler = ilceler.slice(0, 6);
@@ -76,12 +84,10 @@ export default function Header() {
             <nav className="hidden lg:flex items-center gap-8">
               {/* Hizmetler Dropdown */}
               <div className="relative group">
-                <div className="flex items-center gap-1 cursor-pointer">
-                  <Link href="/hizmetler" className="text-gray-300 hover:text-white transition-colors font-medium">
-                    Hizmetler
-                  </Link>
+                <Link href="/hizmetler" className="flex items-center gap-1 text-gray-300 hover:text-white transition-colors font-medium">
+                  Hizmetler
                   <ChevronDown className="w-4 h-4 text-gray-400 group-hover:rotate-180 transition-transform pointer-events-none" />
-                </div>
+                </Link>
                 <div className="absolute top-full left-0 mt-2 w-56 bg-[#1f1f1f] border border-white/10 rounded-xl shadow-xl opacity-0 invisible group-hover:opacity-100 group-hover:visible transition-all translate-y-2 group-hover:translate-y-0">
                   <div className="p-2 flex flex-col gap-1">
                     <Link
@@ -106,12 +112,10 @@ export default function Header() {
 
               {/* Bölgeler Dropdown */}
               <div className="relative group">
-                <div className="flex items-center gap-1 cursor-pointer">
-                  <Link href="/bolgeler" className="text-gray-300 hover:text-white transition-colors font-medium">
-                    Bölgeler
-                  </Link>
+                <Link href="/bolgeler" className="flex items-center gap-1 text-gray-300 hover:text-white transition-colors font-medium">
+                  Bölgeler
                   <ChevronDown className="w-4 h-4 text-gray-400 group-hover:rotate-180 transition-transform pointer-events-none" />
-                </div>
+                </Link>
                 <div className="absolute top-full left-0 mt-2 w-52 bg-[#1f1f1f] border border-white/10 rounded-xl shadow-xl opacity-0 invisible group-hover:opacity-100 group-hover:visible transition-all translate-y-2 group-hover:translate-y-0">
                   <div className="p-2 flex flex-col gap-1">
                     {topBölgeler.map((bolge) => (
@@ -136,12 +140,10 @@ export default function Header() {
 
               {/* Markalar Dropdown — type-based URLs */}
               <div className="relative group">
-                <div className="flex items-center gap-1 cursor-pointer">
-                  <Link href="/servis" className="text-gray-300 hover:text-white transition-colors font-medium">
-                    Markalar
-                  </Link>
+                <Link href="/servis" className="flex items-center gap-1 text-gray-300 hover:text-white transition-colors font-medium">
+                  Markalar
                   <ChevronDown className="w-4 h-4 text-gray-400 group-hover:rotate-180 transition-transform pointer-events-none" />
-                </div>
+                </Link>
                 <div className="absolute top-full left-0 mt-2 w-56 bg-[#1f1f1f] border border-white/10 rounded-xl shadow-xl opacity-0 invisible group-hover:opacity-100 group-hover:visible transition-all translate-y-2 group-hover:translate-y-0">
                   <div className="p-2 flex flex-col gap-1">
                     <p className="px-4 pt-1 pb-0.5 text-[10px] uppercase tracking-widest text-gray-500 font-bold">Klima</p>
@@ -230,7 +232,6 @@ export default function Header() {
             <div className="flex items-stretch min-h-[52px]">
               <Link
                 href="/hizmetler"
-                onClick={() => setIsMobileMenuOpen(false)}
                 className="flex-1 flex items-center py-3.5 text-white font-semibold text-base active:text-brand-red transition-colors"
               >
                 Hizmetler
@@ -250,7 +251,6 @@ export default function Header() {
                   key={`mobile-hizmet-${item.href}`}
                   href={item.href}
                   className="text-gray-400 text-sm py-2.5 pl-4 pr-2 rounded-lg hover:bg-white/5 hover:text-white active:text-brand-red transition-colors"
-                  onClick={() => setIsMobileMenuOpen(false)}
                 >
                   {item.name}
                 </Link>
@@ -263,7 +263,6 @@ export default function Header() {
             <div className="flex items-stretch min-h-[52px]">
               <Link
                 href="/bolgeler"
-                onClick={() => setIsMobileMenuOpen(false)}
                 className="flex-1 flex items-center py-3.5 text-white font-semibold text-base active:text-brand-red transition-colors"
               >
                 Bölgeler
@@ -283,7 +282,6 @@ export default function Header() {
                   key={`mobile-bolge-${bolge.slug}`}
                   href={`/bolgeler/${bolge.slug}`}
                   className="text-gray-400 text-sm py-2.5 pl-4 pr-2 rounded-lg hover:bg-white/5 hover:text-white active:text-brand-red transition-colors"
-                  onClick={() => setIsMobileMenuOpen(false)}
                 >
                   {bolge.name}
                 </Link>
@@ -291,7 +289,6 @@ export default function Header() {
               <Link
                 href="/antalya"
                 className="text-brand-red font-semibold text-sm py-2.5 pl-4 pr-2 hover:text-red-400 transition-colors"
-                onClick={() => setIsMobileMenuOpen(false)}
               >
                 {"Antalya Rehberi →"}
               </Link>
@@ -303,7 +300,6 @@ export default function Header() {
             <div className="flex items-stretch min-h-[52px]">
               <Link
                 href="/servis"
-                onClick={() => setIsMobileMenuOpen(false)}
                 className="flex-1 flex items-center py-3.5 text-white font-semibold text-base active:text-brand-red transition-colors"
               >
                 Markalar
@@ -325,7 +321,6 @@ export default function Header() {
                     key={`mobile-klima-${marka.slug}`}
                     href={`/servis/${marka.slug}-klima-servisi`}
                     className="text-gray-400 text-sm py-2.5 pl-4 pr-2 rounded-lg hover:bg-white/5 hover:text-white active:text-brand-red transition-colors"
-                    onClick={() => setIsMobileMenuOpen(false)}
                   >
                     {marka.name}
                   </Link>
@@ -333,7 +328,6 @@ export default function Header() {
                 <Link
                   href="/servis"
                   className="text-brand-red font-semibold text-sm py-2 pl-4 pr-2 hover:text-red-400 transition-colors"
-                  onClick={() => setIsMobileMenuOpen(false)}
                 >
                   {"Tümünü Gör →"}
                 </Link>
@@ -344,7 +338,6 @@ export default function Header() {
                     key={`mobile-beyaz-${marka.slug}`}
                     href={`/servis/${marka.slug}-beyaz-esya-servisi`}
                     className="text-gray-400 text-sm py-2.5 pl-4 pr-2 rounded-lg hover:bg-white/5 hover:text-white active:text-brand-red transition-colors"
-                    onClick={() => setIsMobileMenuOpen(false)}
                   >
                     {marka.name}
                   </Link>
@@ -352,7 +345,6 @@ export default function Header() {
                 <Link
                   href="/servis"
                   className="text-brand-red font-semibold text-sm py-2 pl-4 pr-2 hover:text-red-400 transition-colors"
-                  onClick={() => setIsMobileMenuOpen(false)}
                 >
                   {"Tümünü Gör →"}
                 </Link>
@@ -364,7 +356,6 @@ export default function Header() {
           <div className="border-b border-white/10">
             <Link
               href="/iletisim"
-              onClick={() => setIsMobileMenuOpen(false)}
               className="flex items-center min-h-[52px] py-3.5 text-white font-semibold text-base active:text-brand-red transition-colors"
             >
               İletişim
