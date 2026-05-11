@@ -28,8 +28,22 @@ import { getAllGuideSlugs } from "@/lib/guides";
 // Constants
 // ---------------------------------------------------------------------------
 
-/** Derleme tarihi — statik lastmod güncel kalsın */
-export const SITEMAP_LAST_MODIFIED = new Date().toISOString().slice(0, 10);
+/**
+ * Segment bazlı sabit lastmod (YYYY-MM-DD). Her build’de değişmediği için tüm
+ * URL’lerin aynı anda “güncellenmiş” görünmesi engellenir; içerik güncellemesinde
+ * ilgili segment tarihini manuel ilerletin.
+ */
+export const SITEMAP_INDEX_LASTMOD = "2026-05-11";
+
+export const SITEMAP_URLSET_LASTMOD = {
+  static: "2026-05-11",
+  services: "2026-05-10",
+  districts: "2026-05-08",
+  neighborhoods: "2026-04-18",
+  brands: "2026-05-09",
+} as const;
+
+export type SitemapUrlsetSegment = keyof typeof SITEMAP_URLSET_LASTMOD;
 
 export const SEGMENT_URLS = {
   static:        `${SITE_URL}/sitemap-static.xml`,
@@ -76,22 +90,29 @@ function u(path: string, priority: number, changefreq = "weekly"): UrlEntry {
   return { path, priority, changefreq };
 }
 
-function toUrlTag({ path, priority, changefreq = "weekly" }: UrlEntry): string {
+function toUrlTag(
+  { path, priority, changefreq = "weekly" }: UrlEntry,
+  lastmod: string
+): string {
   return [
     "  <url>",
     `    <loc>${SITE_URL}${path}</loc>`,
-    `    <lastmod>${SITEMAP_LAST_MODIFIED}</lastmod>`,
+    `    <lastmod>${lastmod}</lastmod>`,
     `    <changefreq>${changefreq}</changefreq>`,
     `    <priority>${priority.toFixed(2)}</priority>`,
     "  </url>",
   ].join("\n");
 }
 
-export function buildUrlsetXml(entries: UrlEntry[]): string {
+export function buildUrlsetXml(
+  entries: UrlEntry[],
+  segment: SitemapUrlsetSegment
+): string {
+  const lastmod = SITEMAP_URLSET_LASTMOD[segment];
   return [
     '<?xml version="1.0" encoding="UTF-8"?>',
     '<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">',
-    ...entries.map(toUrlTag),
+    ...entries.map((e) => toUrlTag(e, lastmod)),
     "</urlset>",
   ].join("\n");
 }
@@ -99,7 +120,7 @@ export function buildUrlsetXml(entries: UrlEntry[]): string {
 export function buildSitemapIndexXml(urls: string[]): string {
   const items = urls.map(
     (loc) =>
-      `  <sitemap>\n    <loc>${loc}</loc>\n    <lastmod>${SITEMAP_LAST_MODIFIED}</lastmod>\n  </sitemap>`
+      `  <sitemap>\n    <loc>${loc}</loc>\n    <lastmod>${SITEMAP_INDEX_LASTMOD}</lastmod>\n  </sitemap>`
   );
   return [
     '<?xml version="1.0" encoding="UTF-8"?>',

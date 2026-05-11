@@ -261,6 +261,12 @@ export default async function DynamicServicePage({ params }: PageProps) {
     resolvedParams.slug,
     slugPath
   );
+
+  const isPureAntalyaLevelIndexable =
+    !ilce && !mahalle && !marka && resolvedParams.slug.length === 1;
+  const includeCatchAllFaqJsonLd =
+    !catchAllSeoFlags.noindex &&
+    (Boolean(ilce) || Boolean(mahalle) || isPureAntalyaLevelIndexable);
   const testimonialItems = getTestimonialsForContext({
     serviceName,
     serviceType,
@@ -480,7 +486,7 @@ export default async function DynamicServicePage({ params }: PageProps) {
 
       <ContextTestimonials items={testimonialItems} />
 
-      <FAQSection faqs={pageFaqs} includeFaqJsonLd={!catchAllSeoFlags.noindex} />
+      <FAQSection faqs={pageFaqs} includeFaqJsonLd={includeCatchAllFaqJsonLd} />
 
       <ContactCTA
         headline={`${locationText} için size en yakın ekibi yönlendirelim.`}

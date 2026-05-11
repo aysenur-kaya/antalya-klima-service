@@ -3,5 +3,5 @@ import { buildUrlsetXml, servicesSegmentUrls, xmlResponse } from "@/lib/sitemap-
 export const dynamic = "force-static";
 
 export function GET() {
-  return xmlResponse(buildUrlsetXml(servicesSegmentUrls()));
+  return xmlResponse(buildUrlsetXml(servicesSegmentUrls(), "services"));
 }

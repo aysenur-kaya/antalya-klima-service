@@ -1,4 +1,3 @@
-import type { Metadata } from "next";
 import Link from "next/link";
 import { MapPin, Wrench, Home, ArrowRight } from "lucide-react";
 import HeroSection from "@/components/sections/HeroSection";
@@ -9,15 +8,16 @@ import ContextTestimonials from "@/components/sections/ContextTestimonials";
 import WhyChooseUs from "@/components/sections/WhyChooseUs";
 import { ilceler } from "@/lib/data";
 import { klimaServicePages } from "@/lib/services";
-import { SITE_URL } from "@/lib/constants";
+import { buildMetadata } from "@/lib/metadata";
 import { getTestimonialsForContext } from "@/lib/testimonials";
 import { WHATSAPP_PREFILL_GENERAL } from "@/lib/whatsapp";
 
-export const metadata: Metadata = {
+export const metadata = buildMetadata({
   title: "Antalya Klima Servisi Bölgeleri | İlçe ve Mahalle Rehberi",
-  description: "Antalya'nın tüm ilçeleri ve mahalleleri için klima servisi, bakım, tamir, montaj ve gaz dolumu sayfalarına ulaşın.",
-  alternates: { canonical: `${SITE_URL}/antalya` },
-};
+  description:
+    "Antalya'nın tüm ilçeleri ve mahalleleri için klima servisi, bakım, tamir, montaj ve gaz dolumu sayfalarına ulaşın.",
+  path: "/antalya",
+});
 
 export default function AntalyaPage() {
   const mahalleCount = ilceler.reduce((total, ilce) => total + ilce.mahalleler.length, 0);

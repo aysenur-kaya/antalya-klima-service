@@ -3,5 +3,5 @@ import { buildUrlsetXml, neighborhoodsSegmentUrls, xmlResponse } from "@/lib/sit
 export const dynamic = "force-static";
 
 export function GET() {
-  return xmlResponse(buildUrlsetXml(neighborhoodsSegmentUrls()));
+  return xmlResponse(buildUrlsetXml(neighborhoodsSegmentUrls(), "neighborhoods"));
 }

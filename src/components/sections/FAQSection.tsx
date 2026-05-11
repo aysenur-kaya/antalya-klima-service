@@ -13,8 +13,9 @@ type FAQSectionProps = {
   faqs?: FaqItem[];
   /**
    * FAQPage JSON-LD: varsayılan SSS ile gereksiz tekrarı önlemek için yalnızca
-   * `faqs` prop’u verildiğinde veya açıkça true yapıldığında basılır (örn. ana sayfa).
-   * noindex programmatic sayfalarda false geçerek şema tekrarını kesin.
+   * `faqs` verildiğinde veya açıkça true yapıldığında basılır (örn. ana sayfa, rehber).
+   * Programmatic catch-all ve ilçe hub’larında allowlist (yüksek değer / indexable)
+   * mantığı çağıran sayfada `includeFaqJsonLd` ile kontrol edilir.
    */
   includeFaqJsonLd?: boolean;
 };

@@ -272,7 +272,7 @@ export default async function RehberDetailPage({ params }: PageProps) {
           </p>
         </div>
 
-        <FAQSection faqs={guide.faq} />
+        <FAQSection faqs={guide.faq} includeFaqJsonLd />
 
         <ContactCTA
           headline="Teknik destek ve servis planlaması"

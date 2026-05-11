@@ -1,4 +1,3 @@
-import type { Metadata } from "next";
 import Link from "next/link";
 import { Thermometer, WashingMachine } from "lucide-react";
 import HeroSection from "@/components/sections/HeroSection";
@@ -7,14 +6,16 @@ import LocalTrustStrip from "@/components/sections/LocalTrustStrip";
 import ServiceProcessSection from "@/components/sections/ServiceProcessSection";
 import ContextTestimonials from "@/components/sections/ContextTestimonials";
 import { beyazEsyaMarkalari, klimaMarkalari } from "@/lib/data";
+import { buildMetadata } from "@/lib/metadata";
 import { getTestimonialsForContext } from "@/lib/testimonials";
 import { WHATSAPP_PREFILL_GENERAL } from "@/lib/whatsapp";
 
-export const metadata: Metadata = {
+export const metadata = buildMetadata({
   title: "Servis Markaları | Antalya Klima ve Beyaz Eşya Servisi",
-  description: "Antalya genelinde klima ve beyaz eşya için hizmet verdiğimiz marka sayfaları. Markanızı seçerek servis detaylarına ulaşın.",
-  alternates: { canonical: "/servis" },
-};
+  description:
+    "Antalya genelinde klima ve beyaz eşya için hizmet verdiğimiz marka sayfaları. Markanızı seçerek servis detaylarına ulaşın.",
+  path: "/servis",
+});
 
 const groups = [
   {

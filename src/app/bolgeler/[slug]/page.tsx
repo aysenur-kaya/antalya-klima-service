@@ -11,6 +11,7 @@ import WhyChooseUs from "@/components/sections/WhyChooseUs";
 import JsonLd from "@/components/seo/JsonLd";
 import { klimaServicePages } from "@/lib/services";
 import { getDistrictHeroSubtitle, getDistrictVoice, getNeighborIlceler } from "@/lib/local-content";
+import { isHighPriorityDistrict } from "@/lib/neighborhood-seo";
 import ServiceProcessSection from "@/components/sections/ServiceProcessSection";
 import NearbyAreasSection from "@/components/sections/NearbyAreasSection";
 import LocalTrustStrip from "@/components/sections/LocalTrustStrip";
@@ -236,7 +237,7 @@ export default async function DistrictRegionsPage({ params }: PageProps) {
 
       <ContextTestimonials items={districtTestimonials} />
 
-      <FAQSection faqs={districtFaqs} />
+      <FAQSection faqs={districtFaqs} includeFaqJsonLd={isHighPriorityDistrict(ilce.slug)} />
 
       <ContactCTA
         headline={`${ilce.name} için size en yakın teknik ekibi yönlendirelim.`}
