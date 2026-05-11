@@ -16,7 +16,7 @@ export default function Footer() {
 
   return (
     <footer className="relative bg-neutral-50 pt-20 pb-10 overflow-hidden text-neutral-700 border-t border-gray-200">
-      <div className="absolute top-0 left-1/2 -translate-x-1/2 w-[600px] h-[240px] bg-brand-red/[0.06] blur-[90px] pointer-events-none rounded-full" />
+      <div className="absolute top-0 left-1/2 -translate-x-1/2 w-[600px] h-[240px] bg-brand-red/[0.018] blur-[90px] pointer-events-none rounded-full" />
 
       <div className="container mx-auto px-4 md:px-6 relative z-10">
         <div className="border-b border-gray-200 pb-12 mb-12">

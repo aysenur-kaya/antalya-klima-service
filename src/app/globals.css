@@ -1,9 +1,9 @@
 @import "tailwindcss";
 
 @theme {
-  /* Primary kırmızı + koyu kırmızı vurgu; metin koyu gri; zemin açık */
-  --color-brand-red: #c81e1e;
-  --color-brand-red-dark: #9f1414;
+  /* Primary: net, turuncuya kaçmayan kurumsal kırmızı */
+  --color-brand-red: #c62828;
+  --color-brand-red-dark: #9a1a1a;
   --color-brand-dark: #1e293b;
   --color-brand-gray: #f1f5f9;
   --color-brand-light: #f8fafc;
@@ -16,7 +16,7 @@
   :root {
     --background: #ffffff;
     --foreground: #1e293b;
-    --primary: #c81e1e;
+    --primary: #c62828;
     --primary-foreground: #ffffff;
     --card: #ffffff;
     --card-foreground: #1e293b;
@@ -44,11 +44,11 @@
     border: 1px solid rgba(226, 232, 240, 0.9);
   }
 
-  /* Açık hero: beyaz + çok hafif kırmızı yıkama — koyu gradient yok */
+  /* Açık hero: ferah beyaz + minimal kırmızı ambient (~%70 daha hafif) */
   .premium-gradient {
     background:
-      radial-gradient(ellipse 90% 60% at 50% -20%, rgba(200, 30, 30, 0.07), transparent 55%),
-      linear-gradient(180deg, #ffffff 0%, #fef7f7 42%, #fffbfb 100%);
+      radial-gradient(ellipse 90% 60% at 50% -20%, rgba(198, 40, 40, 0.021), transparent 55%),
+      linear-gradient(180deg, #ffffff 0%, #fcfcfc 46%, #fafafa 100%);
   }
 
   .text-gradient {

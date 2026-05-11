@@ -92,7 +92,7 @@ export default async function RehberDetailPage({ params }: PageProps) {
 
       <article className="bg-white min-h-screen">
         <header className="relative premium-gradient text-neutral-900 pt-[128px] pb-14 lg:pt-[164px] lg:pb-20 overflow-hidden border-b border-gray-200">
-          <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[640px] h-[640px] bg-brand-red/[0.07] blur-[130px] rounded-full pointer-events-none" />
+          <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[640px] h-[640px] bg-brand-red/[0.021] blur-[130px] rounded-full pointer-events-none" />
           <div className="container mx-auto px-4 md:px-6 relative z-10 max-w-4xl">
             <nav aria-label="Breadcrumb" className="text-xs md:text-sm text-neutral-500 mb-6">
               <ol className="flex flex-wrap gap-x-2 gap-y-1">

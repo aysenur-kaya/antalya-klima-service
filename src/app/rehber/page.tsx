@@ -22,7 +22,7 @@ export default function RehberIndexPage() {
   return (
     <div className="bg-white min-h-screen">
       <section className="relative premium-gradient text-neutral-900 pt-[128px] pb-16 lg:pt-[164px] lg:pb-24 overflow-hidden border-b border-gray-200">
-        <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[600px] h-[600px] bg-brand-red/[0.08] blur-[120px] rounded-full pointer-events-none" />
+        <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[600px] h-[600px] bg-brand-red/[0.024] blur-[120px] rounded-full pointer-events-none" />
         <div className="container mx-auto px-4 md:px-6 relative z-10">
           <div className="max-w-3xl">
             <div className="inline-flex items-center gap-2 px-4 py-2 rounded-full bg-red-50 border border-red-100 text-brand-red font-medium text-sm mb-6">

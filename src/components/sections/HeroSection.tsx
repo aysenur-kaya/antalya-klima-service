@@ -21,7 +21,7 @@ export default function HeroSection({
 
   return (
     <section className="relative premium-gradient text-neutral-900 pt-[128px] pb-20 lg:pt-[164px] lg:pb-32 overflow-hidden border-b border-gray-200">
-      <div className="absolute top-1/3 left-1/2 -translate-x-1/2 w-[min(100%,720px)] h-[420px] bg-brand-red/[0.06] blur-[100px] rounded-full pointer-events-none" />
+      <div className="absolute top-1/3 left-1/2 -translate-x-1/2 w-[min(100%,720px)] h-[420px] bg-brand-red/[0.018] blur-[100px] rounded-full pointer-events-none" />
 
       <div className="container mx-auto px-4 md:px-6 relative z-10">
         <div className="max-w-3xl mx-auto text-center">
@@ -41,7 +41,7 @@ export default function HeroSection({
           <div className="flex flex-col sm:flex-row gap-6 justify-center items-center mb-6">
             <a
               href={`tel:${CONTACT_INFO.phone}`}
-              className="w-full sm:w-auto bg-brand-red hover:bg-[#9f1414] text-white px-8 py-4 rounded-xl font-bold flex items-center justify-center gap-3 transition-all hover:scale-[1.02] shadow-lg shadow-brand-red/25 text-lg"
+              className="w-full sm:w-auto bg-brand-red hover:bg-brand-red-dark text-white px-8 py-4 rounded-xl font-bold flex items-center justify-center gap-3 transition-all hover:scale-[1.02] shadow-lg shadow-brand-red/25 text-lg"
             >
               <Phone className="w-6 h-6" aria-hidden />
               {primaryCtaText}

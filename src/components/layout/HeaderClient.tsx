@@ -14,10 +14,32 @@ export type HeaderMenuData = {
 };
 
 const dropPanel =
-  "bg-white border border-gray-200 rounded-xl shadow-xl ring-1 ring-black/5";
+  "bg-white/95 backdrop-blur-xl border border-white/40 rounded-xl shadow-[0_20px_50px_-12px_rgba(198,40,40,0.22)] ring-1 ring-black/5";
 
 const dropItem =
   "px-4 py-2 text-sm text-neutral-700 hover:text-brand-red hover:bg-red-50 rounded-lg transition-colors";
+
+/** Masaüstü nav: açık kırmızı bar üzerinde */
+function navOnRed(active: boolean, menuOpen: boolean, extra = "") {
+  return cn(
+    "flex items-center gap-1 font-medium transition-all duration-200 rounded-lg px-2 py-1 -mx-0.5",
+    extra,
+    active
+      ? "text-white font-semibold bg-white/20 ring-1 ring-white/40 shadow-[inset_0_1px_0_0_rgba(255,255,255,0.22)]"
+      : menuOpen
+        ? "text-white"
+        : "text-white/90 hover:text-white hover:bg-white/12"
+  );
+}
+
+function simpleLinkOnRed(active: boolean) {
+  return cn(
+    "transition-all duration-200 rounded-lg px-2 py-1 -mx-0.5 font-medium",
+    active
+      ? "text-white font-semibold bg-white/20 ring-1 ring-white/38"
+      : "text-white/90 hover:text-white hover:bg-white/10"
+  );
+}
 
 export default function HeaderClient({
   menuData,
@@ -77,47 +99,57 @@ export default function HeaderClient({
   const isRehberActive = pathname === "/rehber" || pathname.startsWith("/rehber/");
   const isIletisimActive = pathname === "/iletisim";
 
-  const navTop = (active: boolean) =>
-    cn(
-      "font-medium transition-colors",
-      active ? "text-brand-red" : "text-neutral-800 hover:text-brand-red"
-    );
+  const isHizmetPath = pathname === "/hizmetler" || pathname.startsWith("/hizmetler/");
+  const isBolgePath = pathname === "/bolgeler" || pathname.startsWith("/bolgeler/");
+  const isServisPath = pathname === "/servis" || pathname.startsWith("/servis/");
 
   return (
     <>
       <header
         className={cn(
-          "fixed top-0 left-0 right-0 z-50 transition-all duration-300 border-b border-gray-200 bg-white",
+          "fixed top-0 left-0 right-0 z-50 isolate transition-all duration-500 ease-out",
+          "border-b border-white/25",
           isMobileMenuOpen && "z-[70]",
-          isScrolled || isMobileMenuOpen ? "shadow-sm py-3" : "py-5"
+          isScrolled || isMobileMenuOpen
+            ? "py-3 shadow-[0_12px_40px_-12px_rgba(0,0,0,0.22)] backdrop-blur-xl backdrop-saturate-125"
+            : "py-5 shadow-[0_8px_32px_-14px_rgba(0,0,0,0.16)] backdrop-blur-md backdrop-saturate-125"
         )}
       >
-        <div className="container mx-auto px-4 md:px-6">
+        {/* Tek renk kurumsal kırmızı; scroll’da hafif cam */}
+        <div
+          aria-hidden
+          className={cn(
+            "absolute inset-0 -z-20 bg-[#c62828] transition-[opacity,background-color] duration-500",
+            isScrolled || isMobileMenuOpen ? "opacity-[0.96]" : "opacity-100"
+          )}
+        />
+        <div
+          aria-hidden
+          className="absolute top-0 left-0 right-0 h-px bg-gradient-to-r from-transparent via-white/35 to-transparent pointer-events-none"
+        />
+
+        <div className="container mx-auto px-4 md:px-6 relative">
           <div className="flex items-center justify-between">
-            <Link href="/" onClick={closeAllMenus} className="flex items-center gap-2 group">
-              <div className="w-10 h-10 rounded-xl bg-brand-red flex items-center justify-center text-white font-bold text-xl shadow-md shadow-brand-red/25 group-hover:scale-105 transition-transform">
+            <Link href="/" onClick={closeAllMenus} className="flex items-center gap-2.5 group">
+              <div className="w-10 h-10 md:w-11 md:h-11 rounded-xl bg-white/18 backdrop-blur-md border border-white/40 flex items-center justify-center text-white font-bold text-lg md:text-xl shadow-[0_6px_24px_rgba(0,0,0,0.12),inset_0_1px_0_0_rgba(255,255,255,0.45)] group-hover:scale-[1.04] transition-transform duration-300">
                 A
               </div>
-              <span className="text-xl md:text-2xl font-bold text-neutral-900 tracking-tight">
-                Antalya <span className="text-brand-red">Servisi</span>
+              <span className="text-xl md:text-2xl font-bold text-white tracking-tight drop-shadow-md">
+                Antalya <span className="text-white/85 font-extrabold">Servisi</span>
               </span>
             </Link>
 
-            <nav className="hidden lg:flex items-center gap-8" onMouseLeave={closeAllMenus}>
+            <nav className="hidden lg:flex items-center gap-7" onMouseLeave={closeAllMenus}>
               <div className="relative" onMouseEnter={() => setOpenDesktopMenu("hizmetler")}>
                 <Link
                   href="/hizmetler"
                   onClick={closeAllMenus}
-                  className={cn(
-                    "flex items-center gap-1",
-                    openDesktopMenu === "hizmetler" ? "text-brand-red" : "text-neutral-800 hover:text-brand-red",
-                    "font-medium transition-colors"
-                  )}
+                  className={navOnRed(isHizmetPath, openDesktopMenu === "hizmetler")}
                 >
                   Hizmetler
                   <ChevronDown
                     className={cn(
-                      "w-4 h-4 text-neutral-500 transition-transform pointer-events-none",
+                      "w-4 h-4 text-white/65 transition-transform pointer-events-none",
                       openDesktopMenu === "hizmetler" ? "rotate-180" : ""
                     )}
                   />
@@ -149,15 +181,12 @@ export default function HeaderClient({
                 <Link
                   href="/bolgeler"
                   onClick={closeAllMenus}
-                  className={cn(
-                    "flex items-center gap-1 font-medium transition-colors",
-                    openDesktopMenu === "bolgeler" ? "text-brand-red" : "text-neutral-800 hover:text-brand-red"
-                  )}
+                  className={navOnRed(isBolgePath, openDesktopMenu === "bolgeler")}
                 >
                   Bölgeler
                   <ChevronDown
                     className={cn(
-                      "w-4 h-4 text-neutral-500 transition-transform pointer-events-none",
+                      "w-4 h-4 text-white/65 transition-transform pointer-events-none",
                       openDesktopMenu === "bolgeler" ? "rotate-180" : ""
                     )}
                   />
@@ -189,15 +218,12 @@ export default function HeaderClient({
                 <Link
                   href="/servis"
                   onClick={closeAllMenus}
-                  className={cn(
-                    "flex items-center gap-1 font-medium transition-colors",
-                    openDesktopMenu === "markalar" ? "text-brand-red" : "text-neutral-800 hover:text-brand-red"
-                  )}
+                  className={navOnRed(isServisPath, openDesktopMenu === "markalar")}
                 >
                   Markalar
                   <ChevronDown
                     className={cn(
-                      "w-4 h-4 text-neutral-500 transition-transform pointer-events-none",
+                      "w-4 h-4 text-white/65 transition-transform pointer-events-none",
                       openDesktopMenu === "markalar" ? "rotate-180" : ""
                     )}
                   />
@@ -249,30 +275,30 @@ export default function HeaderClient({
                 )}
               </div>
 
-              <Link href="/rehber" onClick={closeAllMenus} className={navTop(isRehberActive)}>
+              <Link href="/rehber" onClick={closeAllMenus} className={simpleLinkOnRed(isRehberActive)}>
                 Rehber
               </Link>
 
-              <Link href="/iletisim" onClick={closeAllMenus} className={navTop(isIletisimActive)}>
+              <Link href="/iletisim" onClick={closeAllMenus} className={simpleLinkOnRed(isIletisimActive)}>
                 İletişim
               </Link>
             </nav>
 
-            <div className="hidden lg:flex items-center gap-4">
+            <div className="hidden lg:flex items-center gap-3">
               <a
                 href={`tel:${phone}`}
                 onClick={closeAllMenus}
-                className="flex items-center gap-2 text-neutral-800 font-medium hover:text-brand-red transition-colors"
+                className="flex items-center gap-2 text-white font-medium pr-1 transition-colors duration-200 hover:text-white"
               >
-                <Phone className="w-5 h-5 text-brand-red" aria-hidden />
-                <span>{phoneFormatted}</span>
+                <Phone className="w-5 h-5 text-white/90 shrink-0" aria-hidden />
+                <span className="text-white/95">{phoneFormatted}</span>
               </a>
               <a
                 href={whatsappHref}
                 target="_blank"
                 rel="noreferrer"
                 onClick={closeAllMenus}
-                className="border-2 border-brand-red text-brand-red hover:bg-brand-red hover:text-white px-5 py-2.5 rounded-full font-medium flex items-center gap-2 transition-all hover:scale-[1.02] shadow-sm"
+                className="border-2 border-white/90 text-white bg-white/10 hover:bg-white hover:text-[#c62828] hover:border-white px-5 py-2.5 rounded-full font-semibold flex items-center gap-2 transition-colors duration-200 shadow-[0_4px_18px_rgba(0,0,0,0.12)] backdrop-blur-sm"
               >
                 <MessageCircle className="w-5 h-5 shrink-0" aria-hidden />
                 WhatsApp
@@ -281,7 +307,7 @@ export default function HeaderClient({
 
             <button
               type="button"
-              className="lg:hidden text-neutral-800 p-2 relative z-[70] rounded-lg focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-brand-red/50 focus-visible:ring-offset-2 focus-visible:ring-offset-white"
+              className="lg:hidden text-white p-2 relative z-[70] rounded-xl focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-white/70 focus-visible:ring-offset-2 focus-visible:ring-offset-[#c62828] hover:bg-white/10 transition-colors"
               onClick={() => setIsMobileMenuOpen((v) => !v)}
               aria-label={isMobileMenuOpen ? "Menüyü kapat" : "Menüyü aç"}
               aria-expanded={isMobileMenuOpen}

@@ -16,7 +16,7 @@ export default function BeyazEsyaMarkalariPage() {
     <>
       {/* Hero */}
       <section className="relative premium-gradient text-neutral-900 pt-[128px] pb-16 lg:pt-[164px] lg:pb-20 overflow-hidden border-b border-gray-200">
-        <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[700px] h-[700px] bg-brand-red/[0.08] blur-[140px] rounded-full pointer-events-none" />
+        <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[700px] h-[700px] bg-brand-red/[0.024] blur-[140px] rounded-full pointer-events-none" />
         <div className="container mx-auto px-4 md:px-6 relative z-10 text-center">
           <div className="inline-flex items-center gap-2 px-4 py-2 rounded-full bg-red-50 border border-red-100 text-brand-red font-medium text-sm mb-6">
             <WashingMachine className="w-4 h-4" />
