@@ -58,7 +58,7 @@ export default function Home() {
       <LocationGrid locations={allAntalyaDistricts} basePath="" title="Antalya Geneli Hizmet Bölgelerimiz" />
       <ServiceProcessSection />
       <ContextTestimonials items={homeStories} />
-      <FAQSection />
+      <FAQSection includeFaqJsonLd />
       <ContactCTA
         whatsappPrefill={WHATSAPP_PREFILL_GENERAL}
         primaryButtonLabel="Servis Talebi Oluştur"

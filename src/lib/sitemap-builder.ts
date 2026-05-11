@@ -9,7 +9,8 @@
  *   /sitemap-neighborhoods.xml → mahalle landings
  *   /sitemap-brands.xml       → /servis/* canonical brand pages
  *
- * Canonical alignment:
+ *   - İlçe bazlı fiyat detay URL’leri (bolgeler altında) yalnızca yüksek öncelikli ilçelerde
+ *     (neighborhood-seo ile aynı liste) — ince/çoğaltıcı URL yükünü azaltır.
  *   - /antalya/[brand]-* and /[brand]-* (no district) are EXCLUDED because
  *     those pages carry canonical → /servis/* — including them would submit
  *     non-canonical URLs to search engines.
@@ -19,7 +20,7 @@
 
 import { SITE_URL } from "@/lib/constants";
 import { ilceler, klimaMarkalari, beyazEsyaMarkalari } from "@/lib/data";
-import { isIndexableNeighborhood } from "@/lib/neighborhood-seo";
+import { isHighPriorityDistrict, isIndexableNeighborhood } from "@/lib/neighborhood-seo";
 import { allServicePages, klimaServicePages } from "@/lib/services";
 import { getAllGuideSlugs } from "@/lib/guides";
 
@@ -165,6 +166,7 @@ export function districtsSegmentUrls(): UrlEntry[] {
     entries.push(u(`/bolgeler/${ilce.slug}/fiyatlar`, 0.6, "monthly"));
 
     for (const service of klimaServicePages.filter((s) => s.slug !== "klima-servisi")) {
+      if (!isHighPriorityDistrict(ilce.slug)) continue;
       entries.push(u(`/bolgeler/${ilce.slug}/fiyatlar/${service.slug}`, 0.5, "monthly"));
     }
 

@@ -4,6 +4,7 @@ import Link from "next/link";
 import { MapPin, ChevronRight, Phone, MessageCircle } from "lucide-react";
 import { getIlceBySlug, ilceler } from "@/lib/data";
 import { SITE_URL, CONTACT_INFO } from "@/lib/constants";
+import { buildMetadata } from "@/lib/metadata";
 import HeroSection from "@/components/sections/HeroSection";
 import ContactCTA from "@/components/sections/ContactCTA";
 import WhyChooseUs from "@/components/sections/WhyChooseUs";
@@ -33,13 +34,14 @@ export async function generateMetadata(
     return { title: "Bölge Bulunamadı" };
   }
 
-  return {
+  return buildMetadata({
     title: `${ilce.name} Servis Bölgeleri ve Mahalleler | Antalya Servisi`,
-    description: `${ilce.name} ilçesindeki tüm mahallelerde klima ve beyaz eşya teknik servis hizmeti. ${ilce.mahalleler.slice(0, 3).map(m => m.name).join(", ")} ve tüm bölgeler.`,
-    alternates: {
-      canonical: `${SITE_URL}/bolgeler/${ilce.slug}`
-    }
-  };
+    description: `${ilce.name} ilçesindeki tüm mahallelerde klima ve beyaz eşya teknik servis hizmeti. ${ilce.mahalleler
+      .slice(0, 3)
+      .map((m) => m.name)
+      .join(", ")} ve tüm bölgeler.`,
+    path: `/bolgeler/${ilce.slug}`,
+  });
 }
 
 export async function generateStaticParams() {

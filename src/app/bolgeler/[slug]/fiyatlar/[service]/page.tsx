@@ -5,7 +5,7 @@ import HeroSection from "@/components/sections/HeroSection";
 import ContactCTA from "@/components/sections/ContactCTA";
 import { getIlceBySlug, ilceler } from "@/lib/data";
 import { getServicePageBySlug, klimaServicePages, servicePriceItems } from "@/lib/services";
-import { SITE_URL } from "@/lib/constants";
+import { buildMetadata } from "@/lib/metadata";
 import { buildDistrictServiceFiyatWhatsappMessage } from "@/lib/whatsapp";
 
 interface PageProps {
@@ -29,11 +29,11 @@ export async function generateMetadata({ params }: PageProps): Promise<Metadata>
     return { title: "Fiyat Sayfası Bulunamadı" };
   }
 
-  return {
+  return buildMetadata({
     title: `${ilce.name} ${service.shortTitle} Fiyatı | Antalya Servisi`,
     description: `${ilce.name} ${service.shortTitle.toLowerCase()} için fiyat bilgisi, kapsam ve servis süreci. Net fiyat keşif sonrası belirlenir.`,
-    alternates: { canonical: `${SITE_URL}/bolgeler/${ilce.slug}/fiyatlar/${service.slug}` },
-  };
+    path: `/bolgeler/${ilce.slug}/fiyatlar/${service.slug}`,
+  });
 }
 
 export default async function IlceHizmetFiyatPage({ params }: PageProps) {

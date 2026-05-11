@@ -6,14 +6,22 @@ import BrandGrid from "@/components/sections/BrandGrid";
 import ContactCTA from "@/components/sections/ContactCTA";
 import HeroSection from "@/components/sections/HeroSection";
 import JsonLd from "@/components/seo/JsonLd";
+import { buildMetadata } from "@/lib/metadata";
+import { buildBreadcrumbSchema } from "@/lib/schema";
 import LocalTrustStrip from "@/components/sections/LocalTrustStrip";
 import ServiceProcessSection from "@/components/sections/ServiceProcessSection";
 import ContextTestimonials from "@/components/sections/ContextTestimonials";
+import WhyChooseUs from "@/components/sections/WhyChooseUs";
 import { allBrands, beyazEsyaMarkalari, getBrandBySlug, ilceler, klimaMarkalari } from "@/lib/data";
 import { SITE_URL } from "@/lib/constants";
 import { getTestimonialsForContext } from "@/lib/testimonials";
 import { buildLandingWhatsappMessage } from "@/lib/whatsapp";
-import WhyChooseUs from "@/components/sections/WhyChooseUs";
+import {
+  brandServisBodyLead,
+  brandServisHeroSubtitle,
+  brandServisMetaDescription,
+  brandServisMetaTitle,
+} from "@/lib/brand-page-copy";
 
 interface PageProps {
   params: Promise<{ slug: string }>;
@@ -49,20 +57,25 @@ export async function generateMetadata({ params }: PageProps): Promise<Metadata>
     return { title: "Marka Bulunamadı" };
   }
 
-  const title = `Antalya ${parsed.brand.name} ${parsed.serviceName} | Özel Servis`;
-  const description = `Antalya genelinde ${parsed.brand.name} ${parsed.serviceName.toLowerCase()} için bakım, arıza tespiti ve teknik destek. İlçe ve hizmet sayfalarına hızlı geçiş.`;
+  const title = brandServisMetaTitle(
+    parsed.brand.name,
+    parsed.serviceName,
+    parsed.brand.slug,
+    parsed.type
+  );
+  const description = brandServisMetaDescription(
+    parsed.brand.name,
+    parsed.serviceName,
+    parsed.brand.slug,
+    parsed.type
+  );
 
-  return {
+  return buildMetadata({
     title,
     description,
-    alternates: { canonical: `${SITE_URL}/servis/${slug}` },
-    openGraph: {
-      title,
-      description,
-      url: `${SITE_URL}/servis/${slug}`,
-      type: "article",
-    },
-  };
+    path: `/servis/${slug}`,
+    type: "article",
+  });
 }
 
 export default async function ServisMarkaDetayPage({ params }: PageProps) {
@@ -105,12 +118,22 @@ export default async function ServisMarkaDetayPage({ params }: PageProps) {
     brandName: brand.name,
   });
 
+  const brandWaHeroSub = brandServisHeroSubtitle(brand.name, brand.slug, type);
+  const brandBodyLead = brandServisBodyLead(brand.name, brand.slug, type);
+
+  const breadcrumbSchema = buildBreadcrumbSchema([
+    { name: "Ana Sayfa", path: "/" },
+    { name: "Marka servisleri", path: "/servis" },
+    { name: `${brand.name} ${serviceName}`, path: `/servis/${slug}` },
+  ]);
+
   return (
     <>
+      <JsonLd data={breadcrumbSchema} />
       <JsonLd data={serviceSchema} />
       <HeroSection
         title={`Antalya ${brand.name} ${serviceName}`}
-        subtitle={`${brand.name} marka cihazınız için Antalya genelinde bakım, arıza tespiti ve garantili özel servis yönlendirmesi.`}
+        subtitle={brandWaHeroSub}
         primaryCtaText="Hemen Ara"
         secondaryCtaText="WhatsApp'tan Yaz"
         whatsappPrefill={brandWaMsg}
@@ -118,10 +141,15 @@ export default async function ServisMarkaDetayPage({ params }: PageProps) {
       />
 
       {/* Yasal uyarı — marka bağımsız özel servis bildirimi */}
-      <div className="bg-amber-50 border-y border-amber-200 py-3 px-4">
+      <div
+        role="note"
+        aria-label="Özel servis açıklaması"
+        className="bg-amber-50 border-y border-amber-200 py-3.5 px-4"
+      >
         <div className="container mx-auto px-4 md:px-6">
-          <p className="text-sm text-amber-800 text-center leading-snug">
-            <strong>Özel Servis Bildirimi:</strong> Bu sayfa marka bağımsız özel teknik servis hizmeti içindir. Yetkili servis değildir. Garanti kapsamındaki cihazlar için markanın resmi yetkili servisini tercih ediniz.
+          <p className="text-sm text-amber-950 text-center leading-snug max-w-3xl mx-auto">
+            <strong className="font-semibold">Özel servis:</strong> Bu sayfa marka bağımsız özel teknik servis hizmeti içindir.{" "}
+            <span className="font-medium">Yetkili servis değildir.</span> Garanti kapsamındaki cihazlar için markanın resmi yetkili servisini tercih edin.
           </p>
         </div>
       </div>
@@ -135,7 +163,10 @@ export default async function ServisMarkaDetayPage({ params }: PageProps) {
           <div className="grid grid-cols-1 lg:grid-cols-3 gap-10">
             <article className="lg:col-span-2">
               <div className="rounded-3xl border border-gray-200 bg-brand-light p-5 md:p-8 mb-8">
-                <h2 className="text-3xl font-bold text-brand-dark mb-4">{brand.name} için servis kapsamı</h2>
+                <h2 className="text-3xl font-bold text-brand-dark mb-4">
+                  {brand.name} cihazlarınız için özel servis akışı
+                </h2>
+                <p className="text-gray-600 leading-relaxed mb-6">{brandBodyLead}</p>
                 <p className="text-gray-600 leading-relaxed mb-6">
                   {brand.name} cihazlarda özel servis yaklaşımımız; doğru arıza tespiti, kullanıcıya açık işlem kalemleri ve onay sonrası onarım adımlarına dayanır. Antalya genelinde cihaz modeli, arıza belirtisi ve konum bilgisine göre en uygun ekip yönlendirilir.
                 </p>

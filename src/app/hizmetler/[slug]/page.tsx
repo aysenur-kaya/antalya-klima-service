@@ -5,6 +5,8 @@ import { ArrowRight, CheckCircle2 } from "lucide-react";
 import HeroSection from "@/components/sections/HeroSection";
 import ContactCTA from "@/components/sections/ContactCTA";
 import JsonLd from "@/components/seo/JsonLd";
+import { buildMetadata } from "@/lib/metadata";
+import { buildBreadcrumbSchema } from "@/lib/schema";
 import ServiceProcessSection from "@/components/sections/ServiceProcessSection";
 import LocalTrustStrip from "@/components/sections/LocalTrustStrip";
 import ContextTestimonials from "@/components/sections/ContextTestimonials";
@@ -30,17 +32,12 @@ export async function generateMetadata({ params }: PageProps): Promise<Metadata>
     return { title: "Hizmet Bulunamadı" };
   }
 
-  return {
+  return buildMetadata({
     title: `${service.title} | Antalya Servisi`,
     description: `${service.title} için Antalya genelinde aynı gün, garantili ve profesyonel teknik servis. ${service.summary}`,
-    alternates: { canonical: `${SITE_URL}/hizmetler/${service.slug}` },
-    openGraph: {
-      title: `${service.title} | Antalya Servisi`,
-      description: service.summary,
-      url: `${SITE_URL}/hizmetler/${service.slug}`,
-      type: "article",
-    },
-  };
+    path: `/hizmetler/${service.slug}`,
+    type: "article",
+  });
 }
 
 export default async function HizmetDetayPage({ params }: PageProps) {
@@ -80,12 +77,19 @@ export default async function HizmetDetayPage({ params }: PageProps) {
     serviceName: service.title,
   });
 
+  const breadcrumbSchema = buildBreadcrumbSchema([
+    { name: "Ana Sayfa", path: "/" },
+    { name: "Hizmetler", path: "/hizmetler" },
+    { name: service.title, path: `/hizmetler/${service.slug}` },
+  ]);
+
   return (
     <>
+      <JsonLd data={breadcrumbSchema} />
       <JsonLd data={serviceSchema} />
       <HeroSection
-        title={`Antalya ${service.title}`}
-        subtitle={service.summary}
+        title={service.title}
+        subtitle={`Antalya geneli · ${service.summary}`}
         primaryCtaText="Hemen Ara"
         secondaryCtaText="WhatsApp'tan Yaz"
         whatsappPrefill={hizmetWaMsg}
@@ -101,7 +105,9 @@ export default async function HizmetDetayPage({ params }: PageProps) {
           <div className="grid grid-cols-1 lg:grid-cols-3 gap-10">
             <article className="lg:col-span-2">
               <div className="rounded-3xl border border-gray-200 bg-brand-light p-5 md:p-8 mb-8">
-                <h2 className="text-3xl font-bold text-brand-dark mb-6">Hizmet kapsamı</h2>
+                <h2 id="service-scope" className="text-3xl font-bold text-brand-dark mb-6 scroll-mt-28">
+                  Hizmet kapsamı
+                </h2>
                 <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
                   {service.scope.map((item) => (
                     <div key={item} className="flex items-start gap-3 rounded-2xl bg-white p-4 border border-gray-100">
@@ -126,7 +132,19 @@ export default async function HizmetDetayPage({ params }: PageProps) {
               </div>
 
               <div className="rounded-3xl border border-gray-200 p-5 md:p-8">
-                <h3 className="text-2xl font-bold text-brand-dark mb-4">İlgili aramalar</h3>
+                <h3 className="text-2xl font-bold text-brand-dark mb-4">Arama ve içerik merkezi</h3>
+                <p className="text-gray-600 text-sm leading-relaxed mb-4">
+                  Şehir rehberi ve sık sorulan arıza notları için{" "}
+                  <Link href="/rehber" className="font-semibold text-brand-red hover:underline">
+                    teknik rehbere
+                  </Link>{" "}
+                  göz atabilir; tüm hizmet özetleri için{" "}
+                  <Link href="/hizmetler" className="font-semibold text-brand-red hover:underline">
+                    hizmetler dizinine
+                  </Link>{" "}
+                  dönebilirsiniz.
+                </p>
+                <h4 className="text-lg font-bold text-brand-dark mb-3">İlgili aramalar</h4>
                 <div className="flex flex-wrap gap-3">
                   {service.keywords.map((keyword) => (
                     <span key={keyword} className="rounded-full bg-red-50 px-4 py-2 text-sm font-semibold text-brand-red">
@@ -154,6 +172,9 @@ export default async function HizmetDetayPage({ params }: PageProps) {
               <div className="rounded-3xl border border-gray-200 p-6 md:p-8">
                 <h3 className="text-xl font-bold text-brand-dark mb-4">Sonraki adımlar</h3>
                 <div className="flex flex-col gap-3">
+                  <Link href="/rehber" className="text-sm font-semibold text-gray-700 hover:text-brand-red">
+                    Arıza rehberi (bilgi merkezi)
+                  </Link>
                   <Link href="/servis" className="text-sm font-semibold text-gray-700 hover:text-brand-red">
                     Marka sayfalarını incele
                   </Link>

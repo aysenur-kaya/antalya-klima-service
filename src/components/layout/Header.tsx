@@ -290,9 +290,12 @@ export default function Header() {
 
             {/* Mobile Menu Toggle */}
             <button
-              className="lg:hidden text-white p-2 relative z-[70]"
+              type="button"
+              className="lg:hidden text-white p-2 relative z-[70] rounded-lg focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-brand-red/70 focus-visible:ring-offset-2 focus-visible:ring-offset-[#111111]"
               onClick={() => setIsMobileMenuOpen(!isMobileMenuOpen)}
-              aria-label="Menüyü aç/kapat"
+              aria-label={isMobileMenuOpen ? "Menüyü kapat" : "Menüyü aç"}
+              aria-expanded={isMobileMenuOpen}
+              aria-controls="site-mobile-nav"
             >
               {isMobileMenuOpen ? <X className="w-6 h-6" /> : <Menu className="w-6 h-6" />}
             </button>
@@ -302,6 +305,7 @@ export default function Header() {
 
       {/* Mobile Menu Overlay */}
       <div
+        id="site-mobile-nav"
         className={cn(
           "lg:hidden fixed inset-0 z-[60] bg-[#111111] transition-all duration-300 overflow-y-auto",
           isMobileMenuOpen

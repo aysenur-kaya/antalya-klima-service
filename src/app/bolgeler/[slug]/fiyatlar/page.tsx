@@ -4,8 +4,8 @@ import { notFound } from "next/navigation";
 import HeroSection from "@/components/sections/HeroSection";
 import ContactCTA from "@/components/sections/ContactCTA";
 import { getIlceBySlug, ilceler } from "@/lib/data";
-import { SITE_URL } from "@/lib/constants";
 import { klimaServicePages, servicePriceItems } from "@/lib/services";
+import { buildMetadata } from "@/lib/metadata";
 import { buildDistrictFiyatListingWhatsappMessage } from "@/lib/whatsapp";
 
 interface PageProps {
@@ -24,11 +24,11 @@ export async function generateMetadata({ params }: PageProps): Promise<Metadata>
     return { title: "Fiyat Listesi Bulunamadı" };
   }
 
-  return {
+  return buildMetadata({
     title: `${ilce.name} Klima Servisi Fiyatları | Antalya Servisi`,
     description: `${ilce.name} klima gaz dolumu, bakım, tamir ve montaj fiyatları. Net fiyat keşif ve onay sonrası belirlenir.`,
-    alternates: { canonical: `${SITE_URL}/bolgeler/${ilce.slug}/fiyatlar` },
-  };
+    path: `/bolgeler/${ilce.slug}/fiyatlar`,
+  });
 }
 
 export default async function IlceFiyatlarPage({ params }: PageProps) {

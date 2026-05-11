@@ -18,11 +18,10 @@ import {
   Ilce,
   Mahalle
 } from "@/lib/data";
-import { getServicePageBySlug } from "@/lib/services";
-import { SITE_URL, CONTACT_INFO } from "@/lib/constants";
+import { CONTACT_INFO } from "@/lib/constants";
 import { buildLandingWhatsappMessage, buildWhatsAppUrl } from "@/lib/whatsapp";
 import { buildMetadata } from "@/lib/metadata";
-import { isIndexableNeighborhood } from "@/lib/neighborhood-seo";
+import { computeCatchAllIndexing } from "@/lib/programmatic-seo";
 import { buildFaqsForCatchAll } from "@/lib/faqs";
 import {
   buildBreadcrumbSchema,
@@ -189,57 +188,17 @@ export async function generateMetadata({ params }: PageProps): Promise<Metadata>
   const title = `${locationText} ${brandText}${serviceName} | 7/24 Teknik Servis`;
   const description = `${locationText} bölgesinde ${brandText}${serviceName.toLowerCase()} ihtiyacınız için aynı gün garantili ve profesyonel teknik destek.${brandText ? ` ${brandText}marka bağımsız özel servis hizmeti.` : ""}`;
 
-  // Canonical strategy to prevent duplicate-intent indexing:
-  //
-  // 1. Marka-only pages (no district, no neighbourhood) — e.g. /samsung-klima-servisi
-  //    or /antalya/samsung-klima-servisi — consolidate authority to the dedicated
-  //    /servis/ brand page which is the canonical source for that brand.
-  //
-  // 2. Pure-service pages (no prefix at all) — e.g. /klima-servisi — defer to the
-  //    editorial /hizmetler/ page which covers the same generic intent.
-  //
-  // 3. All location-specific and Antalya-level landing pages keep their own canonical
-  //    because they serve a distinct geo-modified searcher intent.
-  let canonicalUrl: string;
-
-  if (!ilce && !mahalle && marka) {
-    // Brand-only: consolidate to /servis/
-    canonicalUrl = `${SITE_URL}/servis/${marka.slug}-${serviceType}-servisi`;
-  } else if (!ilce && !mahalle && !marka) {
-    const isAntalyaLevel =
-      (slugs.length === 1 && slugs[0].startsWith("antalya-")) ||
-      (slugs.length === 2 && slugs[0] === "antalya");
-
-    if (!isAntalyaLevel) {
-      // Pure suffix (e.g. /klima-servisi): defer to /hizmetler/
-      const hizmetlerPage = getServicePageBySlug(slugPath);
-      canonicalUrl = hizmetlerPage
-        ? `${SITE_URL}/hizmetler/${hizmetlerPage.slug}`
-        : `${SITE_URL}/${slugPath}`;
-    } else {
-      // Antalya-level landing (e.g. /antalya-klima-servisi): distinct geo intent
-      canonicalUrl = `${SITE_URL}/${slugPath}`;
-    }
-  } else {
-    // Location-specific page: unique, canonical to itself
-    canonicalUrl = `${SITE_URL}/${slugPath}`;
-  }
-
-  const pageUrl = `${SITE_URL}/${slugPath}`;
-  const canonicalMismatch = canonicalUrl !== pageUrl;
-  const lowPriorityNeighborhood = Boolean(
-    mahalle && ilce && !isIndexableNeighborhood(ilce, mahalle)
+  const { noindex, pagePath, canonicalPath } = computeCatchAllIndexing(
+    { ilce, mahalle, marka, serviceType },
+    slugs,
+    slugPath
   );
-  const noindex = canonicalMismatch || lowPriorityNeighborhood;
-
-  const canonicalRel = canonicalUrl.replace(SITE_URL, "") || "/";
-  const pagePathRel = `/${slugPath}`;
 
   return buildMetadata({
     title,
     description,
-    path: pagePathRel,
-    canonicalPath: canonicalRel !== pagePathRel ? canonicalRel : undefined,
+    path: pagePath,
+    canonicalPath,
     type: "article",
     noindex,
   });
@@ -297,6 +256,11 @@ export default async function DynamicServicePage({ params }: PageProps) {
   });
 
   const slugPath = resolvedParams.slug.join("/");
+  const catchAllSeoFlags = computeCatchAllIndexing(
+    { ilce, mahalle, marka, serviceType },
+    resolvedParams.slug,
+    slugPath
+  );
   const testimonialItems = getTestimonialsForContext({
     serviceName,
     serviceType,
@@ -516,7 +480,7 @@ export default async function DynamicServicePage({ params }: PageProps) {
 
       <ContextTestimonials items={testimonialItems} />
 
-      <FAQSection faqs={pageFaqs} />
+      <FAQSection faqs={pageFaqs} includeFaqJsonLd={!catchAllSeoFlags.noindex} />
 
       <ContactCTA
         headline={`${locationText} için size en yakın ekibi yönlendirelim.`}
