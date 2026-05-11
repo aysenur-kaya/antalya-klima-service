@@ -5,8 +5,12 @@ import { ArrowRight, CheckCircle2 } from "lucide-react";
 import HeroSection from "@/components/sections/HeroSection";
 import ContactCTA from "@/components/sections/ContactCTA";
 import JsonLd from "@/components/seo/JsonLd";
+import ServiceProcessSection from "@/components/sections/ServiceProcessSection";
+import LocalTrustStrip from "@/components/sections/LocalTrustStrip";
+import ContextTestimonials from "@/components/sections/ContextTestimonials";
 import { SITE_URL } from "@/lib/constants";
 import { allServicePages, getServicePageBySlug } from "@/lib/services";
+import { getTestimonialsForContext } from "@/lib/testimonials";
 
 interface PageProps {
   params: Promise<{ slug: string }>;
@@ -61,10 +65,25 @@ export default async function HizmetDetayPage({ params }: PageProps) {
     },
   };
 
+  const stories = getTestimonialsForContext({
+    serviceName: service.title,
+    serviceType: service.type,
+    hasBrand: false,
+    seed: `hizmet-${service.slug}`,
+    count: 2,
+  });
+
   return (
     <>
       <JsonLd data={serviceSchema} />
-      <HeroSection title={`Antalya ${service.title}`} subtitle={service.summary} />
+      <HeroSection
+        title={`Antalya ${service.title}`}
+        subtitle={service.summary}
+        primaryCtaText="Servis kaydı için hemen arayın"
+        secondaryCtaText="WhatsApp üzerinden hızlı destek alın"
+      />
+
+      <LocalTrustStrip />
 
       <section className="py-20 bg-white">
         <div className="container mx-auto px-4 md:px-6">
@@ -109,9 +128,9 @@ export default async function HizmetDetayPage({ params }: PageProps) {
 
             <aside className="space-y-6">
               <div className="rounded-3xl bg-brand-dark text-white p-6 md:p-8">
-                <h3 className="text-xl font-bold mb-3">Antalya geneli landing</h3>
+                <h3 className="text-xl font-bold mb-3">Antalya geneli hizmet</h3>
                 <p className="text-gray-400 text-sm leading-relaxed mb-6">
-                  Bu hizmet için şehir bazlı SEO sayfasına geçerek kullanıcıyı servis kaydına yaklaştırın.
+                  Bu hizmet için şehir geneli sayfaya geçerek servis talebi oluşturabilir veya bölge seçebilirsiniz.
                 </p>
                 <Link
                   href={`/antalya-${service.landingSlug}`}
@@ -139,6 +158,10 @@ export default async function HizmetDetayPage({ params }: PageProps) {
           </div>
         </div>
       </section>
+
+      <ServiceProcessSection />
+
+      <ContextTestimonials items={stories} />
 
       <ContactCTA />
     </>

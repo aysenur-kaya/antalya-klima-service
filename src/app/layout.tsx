@@ -3,8 +3,13 @@ import "./globals.css";
 import Header from "@/components/layout/Header";
 import Footer from "@/components/layout/Footer";
 import MobileCTALoader from "@/components/layout/MobileCTALoader";
-import { SITE_URL, CONTACT_INFO } from "@/lib/constants";
+import { SITE_URL } from "@/lib/constants";
 import JsonLd from "@/components/seo/JsonLd";
+import {
+  buildLocalBusinessSchema,
+  buildOrganizationSchema,
+  buildWebsiteSchema,
+} from "@/lib/schema";
 
 const systemFontStack = "-apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Helvetica, Arial, sans-serif, 'Apple Color Emoji', 'Segoe UI Emoji', 'Segoe UI Symbol'";
 
@@ -70,75 +75,12 @@ export default function RootLayout({
 }: Readonly<{
   children: React.ReactNode;
 }>) {
-  // Tüm schema değerleri CONTACT_INFO'dan türetilir.
-  // Gerçek telefon/adres girildiğinde otomatik tüm schema'lara yansır.
-  const organizationSchema = {
-    "@context": "https://schema.org",
-    "@type": "Organization",
-    "@id": `${SITE_URL}/#organization`,
-    "name": CONTACT_INFO.name,
-    "url": SITE_URL,
-    "logo": {
-      "@type": "ImageObject",
-      "url": `${SITE_URL}/logo.png`,
-      "width": 400,
-      "height": 100,
-    },
-    "contactPoint": {
-      "@type": "ContactPoint",
-      "telephone": CONTACT_INFO.phone,
-      "contactType": "customer service",
-      "areaServed": "TR",
-      "availableLanguage": "Turkish",
-    },
-  };
-
-  const localBusinessSchema = {
-    "@context": "https://schema.org",
-    "@type": ["LocalBusiness", "HVACBusiness"],
-    "@id": `${SITE_URL}/#local-business`,
-    "name": `${CONTACT_INFO.name} - Klima ve Beyaz Eşya Teknik Servisi`,
-    "image": `${SITE_URL}/og-image.jpg`,
-    "url": SITE_URL,
-    "telephone": CONTACT_INFO.phone,
-    "address": {
-      "@type": "PostalAddress",
-      // TODO: Gerçek sokak adresi girildiğinde burayı güncelleyin
-      "streetAddress": CONTACT_INFO.addressFull,
-      "addressLocality": CONTACT_INFO.city,
-      "addressRegion": CONTACT_INFO.city,
-      "postalCode": "07000",
-      "addressCountry": "TR",
-    },
-    "geo": {
-      "@type": "GeoCoordinates",
-      "latitude": 36.8841,
-      "longitude": 30.7056,
-    },
-    "areaServed": {
-      "@type": "City",
-      "name": "Antalya",
-    },
-    "openingHoursSpecification": {
-      "@type": "OpeningHoursSpecification",
-      "dayOfWeek": [
-        "Monday",
-        "Tuesday",
-        "Wednesday",
-        "Thursday",
-        "Friday",
-        "Saturday",
-      ],
-      "opens": "08:30",
-      "closes": "19:30",
-    },
-  };
-
   return (
     <html lang="tr" className="scroll-smooth" suppressHydrationWarning>
       <head>
-        <JsonLd data={organizationSchema} />
-        <JsonLd data={localBusinessSchema} />
+        <JsonLd data={buildOrganizationSchema()} />
+        <JsonLd data={buildLocalBusinessSchema()} />
+        <JsonLd data={buildWebsiteSchema()} />
       </head>
       <body 
         suppressHydrationWarning 

@@ -3,7 +3,11 @@ import Link from "next/link";
 import { Thermometer, WashingMachine } from "lucide-react";
 import HeroSection from "@/components/sections/HeroSection";
 import ContactCTA from "@/components/sections/ContactCTA";
+import LocalTrustStrip from "@/components/sections/LocalTrustStrip";
+import ServiceProcessSection from "@/components/sections/ServiceProcessSection";
+import ContextTestimonials from "@/components/sections/ContextTestimonials";
 import { beyazEsyaMarkalari, klimaMarkalari } from "@/lib/data";
+import { getTestimonialsForContext } from "@/lib/testimonials";
 
 export const metadata: Metadata = {
   title: "Servis Markaları | Antalya Klima ve Beyaz Eşya Servisi",
@@ -29,12 +33,24 @@ const groups = [
 ];
 
 export default function ServisMarkalariPage() {
+  const servisStories = getTestimonialsForContext({
+    serviceName: "Klima Servisi",
+    serviceType: "klima",
+    hasBrand: true,
+    seed: "servis-markalar",
+    count: 2,
+  });
+
   return (
     <>
       <HeroSection
-        title="Antalya Servis Markaları"
-        subtitle="Marka bazlı servis sayfaları, kullanıcıyı genel hizmetten cihazına en yakın bilgiye taşıyan SEO katmanıdır."
+        title="Antalya servis markaları"
+        subtitle="Marka ve cihaz türünü seçerek servis bilgilerine hızlıca ulaşabilirsiniz."
+        primaryCtaText="Servis kaydı için hemen arayın"
+        secondaryCtaText="WhatsApp üzerinden hızlı destek alın"
       />
+
+      <LocalTrustStrip />
 
       <section className="py-20 bg-white">
         <div className="container mx-auto px-4 md:px-6">
@@ -73,6 +89,10 @@ export default function ServisMarkalariPage() {
           </div>
         </div>
       </section>
+
+      <ServiceProcessSection />
+
+      <ContextTestimonials items={servisStories} />
 
       <ContactCTA />
     </>

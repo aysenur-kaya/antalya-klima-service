@@ -8,6 +8,14 @@ import HeroSection from "@/components/sections/HeroSection";
 import ContactCTA from "@/components/sections/ContactCTA";
 import JsonLd from "@/components/seo/JsonLd";
 import { klimaServicePages } from "@/lib/services";
+import { getDistrictHeroSubtitle, getDistrictVoice, getNeighborIlceler } from "@/lib/local-content";
+import ServiceProcessSection from "@/components/sections/ServiceProcessSection";
+import NearbyAreasSection from "@/components/sections/NearbyAreasSection";
+import LocalTrustStrip from "@/components/sections/LocalTrustStrip";
+import ContextTestimonials from "@/components/sections/ContextTestimonials";
+import FAQSection from "@/components/sections/FAQSection";
+import { buildFaqsForDistrict } from "@/lib/faqs";
+import { getTestimonialsForContext } from "@/lib/testimonials";
 
 interface PageProps {
   params: Promise<{ slug: string }>;
@@ -71,14 +79,33 @@ export default async function DistrictRegionsPage({ params }: PageProps) {
     ]
   };
 
+  const districtVoice = getDistrictVoice(ilce.slug, ilce.name);
+  const neighborBolgeLinks = getNeighborIlceler(ilce.slug, 6).map((n) => ({
+    href: `/bolgeler/${n.slug}`,
+    label: n.name,
+    hint: "Servis bölgeleri ve mahalleler",
+  }));
+  const districtTestimonials = getTestimonialsForContext({
+    serviceName: "Klima Servisi",
+    serviceType: "klima",
+    hasBrand: false,
+    seed: `bolge-${ilce.slug}`,
+    count: 2,
+  });
+  const districtFaqs = buildFaqsForDistrict(ilce.name, ilce.slug);
+
   return (
     <div className="bg-white min-h-screen">
       <JsonLd data={breadcrumbSchema as Record<string, unknown>} />
       
-      <HeroSection 
-        title={`${ilce.name} Hizmet Bölgelerimiz`} 
-        subtitle={`${ilce.name} ilçesindeki ${ilce.mahalleler.length} mahallenin tamamına aynı gün teknik servis hizmeti sunuyoruz.`}
+      <HeroSection
+        title={`${ilce.name} hizmet bölgelerimiz`}
+        subtitle={getDistrictHeroSubtitle(ilce.name, ilce.slug)}
+        primaryCtaText="Servis kaydı için hemen arayın"
+        secondaryCtaText="WhatsApp üzerinden hızlı destek alın"
       />
+
+      <LocalTrustStrip />
 
       <section className="py-20">
         <div className="container mx-auto px-4 md:px-6">
@@ -123,7 +150,7 @@ export default async function DistrictRegionsPage({ params }: PageProps) {
                   </a>
                   <a href={CONTACT_INFO.whatsapp} className="flex items-center gap-3 bg-white/10 py-3 px-4 rounded-xl font-bold text-sm">
                     <MessageCircle className="w-4 h-4" />
-                    WhatsApp
+                    WhatsApp ile devam
                   </a>
                 </div>
               </div>
@@ -135,8 +162,8 @@ export default async function DistrictRegionsPage({ params }: PageProps) {
                 <h2 className="text-2xl md:text-3xl font-bold text-brand-dark mb-4">
                   {ilce.name} Mahalle Listesi
                 </h2>
-                <p className="text-gray-600">
-                  Aşağıdaki listeden mahallenizi seçerek o bölgeye özel teknik servis sayfamıza ulaşabilir ve detaylı bilgi alabilirsiniz.
+                <p className="text-gray-600 leading-relaxed">
+                  <strong>{ilce.name}</strong> genelinde {ilce.mahalleler.length} mahalle için klima ve beyaz eşya teknik servis yönlendirmesi yapıyoruz. Mahallenize tıklayarak o bölgeye özel sayfadan arıza notunuzu iletebilirsiniz.
                 </p>
               </div>
 
@@ -176,14 +203,11 @@ export default async function DistrictRegionsPage({ params }: PageProps) {
               </div>
 
               <div className="mt-10 p-5 md:p-8 bg-brand-light rounded-3xl border border-gray-200">
-                <h3 className="text-xl font-bold mb-4">{ilce.name} Sakinleri İçin Teknik Servis Çözümleri</h3>
+                <h3 className="text-xl font-bold mb-4">{ilce.name} için yerinde servis</h3>
                 <div className="prose prose-gray text-gray-600 max-w-none">
-                  <p>
-                    {ilce.name} ilçesinin her bir köşesine, merkezden en uzak mahallelerine kadar uzman teknik ekiplerimizle hizmet ulaştırıyoruz. Klima bakımı, arıza tamiri, gaz dolumu ve montaj işlemlerinin yanı sıra; çamaşır makinesi, buzdolabı ve bulaşık makinesi gibi beyaz eşyalarınız için de 1 yıl garantili servis desteği sağlıyoruz.
-                  </p>
-                  <p>
-                    Mobil servis ağımız sayesinde {ilce.name} bölgesinden gelen talepleri aynı gün içerisinde karşılıyor, orijinal yedek parça desteği ile cihazlarınızın ömrünü uzatıyoruz.
-                  </p>
+                  {districtVoice.intro.map((p, i) => (
+                    <p key={i}>{p}</p>
+                  ))}
                 </div>
               </div>
             </div>
@@ -192,7 +216,22 @@ export default async function DistrictRegionsPage({ params }: PageProps) {
         </div>
       </section>
 
-      <ContactCTA />
+      <NearbyAreasSection
+        title="Yakın ilçeler"
+        subtitle="Komşu ilçelerin mahalle listeleri ve servis bağlantılarına buradan geçebilirsiniz."
+        links={neighborBolgeLinks}
+      />
+
+      <ServiceProcessSection />
+
+      <ContextTestimonials items={districtTestimonials} />
+
+      <FAQSection faqs={districtFaqs} />
+
+      <ContactCTA
+        headline={`${ilce.name} için size en yakın teknik ekibi yönlendirelim.`}
+        description="Servis kaydı oluşturmak üzere arayın veya WhatsApp üzerinden adres ve arıza notunu paylaşın."
+      />
     </div>
   );
 }

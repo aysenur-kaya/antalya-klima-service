@@ -1,7 +1,14 @@
 import { Phone, MessageCircle, Zap } from "lucide-react";
 import { CONTACT_INFO } from "@/lib/constants";
 
-export default function ContactCTA() {
+export default function ContactCTA(props?: {
+  headline?: string;
+  description?: string;
+}) {
+  const {
+    headline = "Size en yakın teknik ekibi yönlendirelim.",
+    description = "Servis kaydı oluşturmak için arayın veya WhatsApp üzerinden kısa arıza notu ve adres paylaşın.",
+  } = props ?? {};
   return (
     <section
       id="iletisim"
@@ -44,12 +51,11 @@ export default function ContactCTA() {
               </div>
 
               <h2 className="text-xl sm:text-2xl md:text-[1.65rem] font-bold text-white leading-snug mb-3">
-                Antalya genelinde aynı gün servis desteği alın.
+                {headline}
               </h2>
 
               <p className="text-sm md:text-[15px] text-gray-400 leading-relaxed mb-5 max-w-xl">
-                Klima bakım, tamir, montaj ve arıza talepleriniz için uzman
-                ekibimiz hızlıca yanınızda.
+                {description}
               </p>
 
               <p className="text-xs sm:text-[13px] text-gray-500 font-medium leading-relaxed">
@@ -65,7 +71,7 @@ export default function ContactCTA() {
                 className="flex w-full items-center justify-center gap-2 rounded-2xl bg-brand-red px-5 py-3.5 text-sm font-bold text-white shadow-[0_8px_22px_rgba(200,30,30,0.32)] transition-all duration-200 hover:bg-red-700 hover:shadow-[0_10px_28px_rgba(200,30,30,0.38)] active:scale-[0.98] sm:py-3"
               >
                 <Phone className="h-4 w-4 shrink-0" aria-hidden />
-                Hemen Ara
+                Hemen servis kaydı oluşturun
               </a>
               <a
                 href={CONTACT_INFO.whatsapp}
@@ -74,7 +80,7 @@ export default function ContactCTA() {
                 className="flex w-full items-center justify-center gap-2 rounded-2xl bg-[#25D366] px-5 py-3.5 text-sm font-bold text-white shadow-[0_8px_22px_rgba(37,211,102,0.22)] transition-all duration-200 hover:bg-[#20b858] active:scale-[0.98] sm:py-3"
               >
                 <MessageCircle className="h-4 w-4 shrink-0" aria-hidden />
-                WhatsApp
+                WhatsApp ile devam edin
               </a>
             </div>
           </div>

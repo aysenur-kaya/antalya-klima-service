@@ -3,7 +3,11 @@ import Link from "next/link";
 import { ArrowRight, Layers, BadgeCheck, MapPin } from "lucide-react";
 import HeroSection from "@/components/sections/HeroSection";
 import ContactCTA from "@/components/sections/ContactCTA";
+import LocalTrustStrip from "@/components/sections/LocalTrustStrip";
+import ServiceProcessSection from "@/components/sections/ServiceProcessSection";
+import ContextTestimonials from "@/components/sections/ContextTestimonials";
 import { allServicePages, beyazEsyaServicePages, klimaServicePages } from "@/lib/services";
+import { getTestimonialsForContext } from "@/lib/testimonials";
 
 export const metadata: Metadata = {
   title: "Hizmetlerimiz | Antalya Klima ve Beyaz Eşya Servisi",
@@ -31,28 +35,40 @@ const featureCards = [
     label: "MARKA SERVİSLERİ",
     title: "Marka Bazlı Servis Sayfaları",
     description:
-      "Daikin, Mitsubishi, Arçelik, Bosch ve diğer markalar için özel servis landing sayfaları.",
+      "Daikin, Mitsubishi, Arçelik, Bosch ve diğer markalar için marka özel servis bilgilerine ulaşın.",
     href: "/servis",
     cta: "Tüm markaları gör",
   },
   {
     icon: MapPin,
     label: "BÖLGE AĞI",
-    title: "İlçe ve Mahalle Landing Yapısı",
+    title: "İlçe ve mahalle rehberi",
     description:
-      "Antalya'nın tüm ilçe ve mahalleleri için SEO odaklı lokal servis sayfaları.",
+      "Antalya'daki ilçe ve mahalle sayfalarından hizmet ve fiyat bilgilerine geçiş yapabilirsiniz.",
     href: "/bolgeler",
     cta: "Bölgeleri incele",
   },
 ];
 
 export default function HizmetlerPage() {
+  const hizmetlerStories = getTestimonialsForContext({
+    serviceName: "Beyaz Eşya Servisi",
+    serviceType: "beyaz-esya",
+    hasBrand: false,
+    seed: "hizmetler-index",
+    count: 2,
+  });
+
   return (
     <>
       <HeroSection
         title="Antalya Teknik Servis Hizmetleri"
-        subtitle="Bakım, tamir, montaj ve arıza tespiti için tüm hizmet kategorilerini SEO dostu ve kolay gezilebilir bir yapıda topladık."
+        subtitle="Bakım, tamir, montaj ve arıza tespiti için tüm hizmet kategorilerini tek yerde, kolay gezilebilir şekilde sunduk."
+        primaryCtaText="Servis kaydı için hemen arayın"
+        secondaryCtaText="WhatsApp üzerinden hızlı destek alın"
       />
+
+      <LocalTrustStrip />
 
       <section className="py-20 bg-white">
         <div className="container mx-auto px-4 md:px-6">
@@ -63,7 +79,7 @@ export default function HizmetlerPage() {
                 Servis türünü seçin, sonra bölge veya markaya ilerleyin.
               </h2>
               <p className="text-gray-600 leading-relaxed">
-                Bu sayfa ana kategori merkezidir. Her hizmet detayından Antalya geneli landing sayfalarına, marka sayfalarına ve ilçe sayfalarına geçiş yapılabilir.
+                Bu sayfa ana kategori merkezidir. Her hizmet detayından Antalya geneli şehir sayfalarına, marka sayfalarına ve ilçe sayfalarına geçiş yapılabilir.
               </p>
             </div>
 
@@ -137,6 +153,10 @@ export default function HizmetlerPage() {
           </div>
         </div>
       </section>
+
+      <ServiceProcessSection />
+
+      <ContextTestimonials items={hizmetlerStories} />
 
       <ContactCTA />
     </>

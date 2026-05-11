@@ -1,12 +1,16 @@
 import { Phone, CheckCircle2 } from "lucide-react";
 import { CONTACT_INFO } from "@/lib/constants";
 
-export default function HeroSection({ 
-  title, 
-  subtitle 
-}: { 
-  title: string; 
-  subtitle: string; 
+export default function HeroSection({
+  title,
+  subtitle,
+  primaryCtaText = "Servis kaydı için hemen arayın",
+  secondaryCtaText = "WhatsApp üzerinden hızlı destek alın",
+}: {
+  title: string;
+  subtitle: string;
+  primaryCtaText?: string;
+  secondaryCtaText?: string;
 }) {
   return (
     <section className="relative premium-gradient text-white pt-[128px] pb-20 lg:pt-[164px] lg:pb-32 overflow-hidden">
@@ -31,10 +35,10 @@ export default function HeroSection({
           <div className="flex flex-col sm:flex-row gap-6 justify-center items-center mb-12">
             <a href={`tel:${CONTACT_INFO.phone}`} className="w-full sm:w-auto bg-brand-red hover:bg-red-700 text-white px-8 py-4 rounded-xl font-bold flex items-center justify-center gap-3 transition-all hover:scale-105 shadow-[0_10px_20px_rgba(200,30,30,0.3)] text-lg">
               <Phone className="w-6 h-6" />
-              Hemen Servis Çağır
+              {primaryCtaText}
             </a>
             <a href={CONTACT_INFO.whatsapp} className="w-full sm:w-auto bg-[#25D366] hover:bg-[#20b858] text-white px-8 py-4 rounded-xl font-bold flex items-center justify-center gap-3 transition-all hover:scale-105 shadow-[0_10px_20px_rgba(37,211,102,0.3)] text-lg">
-              {"WhatsApp'tan Yaz"}
+              {secondaryCtaText}
             </a>
           </div>
           

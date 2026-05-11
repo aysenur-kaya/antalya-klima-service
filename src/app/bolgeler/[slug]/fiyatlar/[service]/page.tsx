@@ -87,9 +87,9 @@ export default async function IlceHizmetFiyatPage({ params }: PageProps) {
             </article>
 
             <aside className="rounded-3xl bg-brand-dark text-white p-6 md:p-8">
-              <h3 className="text-xl font-bold mb-4">Landing sayfasına geç</h3>
+              <h3 className="text-xl font-bold mb-4">Servis talebine devam</h3>
               <p className="text-gray-400 text-sm leading-relaxed mb-6">
-                Fiyat araştırmasından servis kaydı akışına geçmek için ilçe bazlı hizmet sayfasını kullanın.
+                Fiyat araştırmasından sonra ilçe bazlı hizmet sayfasına geçerek randevu veya kayıt adımına ilerleyebilirsiniz.
               </p>
               <Link
                 href={`/${ilce.slug}-${service.landingSlug}`}

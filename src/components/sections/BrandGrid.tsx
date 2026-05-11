@@ -9,11 +9,14 @@ import { ChevronDown, ChevronUp } from "lucide-react";
 export default function BrandGrid({
   brands,
   basePath,
+  linkMode = "geo",
   title = "Hizmet Verdiğimiz Markalar",
   subtitle = "Alanında uzman ekiplerimizle tüm dünya markalarına garantili servis hizmeti sunuyoruz."
 }: {
   brands: Brand[];
   basePath: string;
+  /** canonical: /servis/[marka-tipi]; geo: [basePath]/[marka-tipi] (lokasyonlu sayfalar) */
+  linkMode?: "canonical" | "geo";
   title?: string;
   subtitle?: string;
 }) {
@@ -43,7 +46,11 @@ export default function BrandGrid({
               )}
             >
               <Link
-                href={`${basePath}/${brand.slug}-${brand.type}-servisi`}
+                href={
+                  linkMode === "canonical"
+                    ? `/servis/${brand.slug}-${brand.type}-servisi`
+                    : `${basePath}/${brand.slug}-${brand.type}-servisi`
+                }
                 className="flex items-center justify-center text-center px-3 py-3 md:py-5 min-h-[56px] md:min-h-[72px] bg-white border border-gray-200 rounded-xl shadow-[0_2px_8px_rgba(0,0,0,0.04)] hover:border-brand-red/40 hover:shadow-[0_10px_25px_rgba(0,0,0,0.08)] hover:text-brand-red font-semibold text-gray-700 transition-all text-xs md:text-base group h-full w-full"
               >
                 <span className="transition-transform group-hover:scale-105">

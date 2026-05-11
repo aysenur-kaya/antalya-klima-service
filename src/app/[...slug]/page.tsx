@@ -20,18 +20,38 @@ import {
 } from "@/lib/data";
 import { getServicePageBySlug } from "@/lib/services";
 import { SITE_URL, CONTACT_INFO } from "@/lib/constants";
+import { buildMetadata } from "@/lib/metadata";
+import { isIndexableNeighborhood } from "@/lib/neighborhood-seo";
+import { buildFaqsForCatchAll } from "@/lib/faqs";
+import {
+  buildBreadcrumbSchema,
+  buildServiceSchema,
+} from "@/lib/schema";
 import JsonLd from "@/components/seo/JsonLd";
-import { CheckCircle2, ShieldCheck, Zap, Clock, MapPin } from "lucide-react";
+import { CheckCircle2, ShieldCheck, Zap, Clock, MapPin, MessageCircle } from "lucide-react";
+import {
+  CATCH_ALL_SERVICE_MAP,
+  getServiceSuffixFromSlugSegments,
+} from "@/lib/catch-all-service";
+import {
+  getCatchAllHeroSubtitle,
+  getCatchAllIntroParagraphs,
+  getFrequentDeviceLines,
+  getResponseTimeSnippet,
+  getNeighborIlceler,
+  getNearbyMahalleler,
+} from "@/lib/local-content";
+import { getTestimonialsForContext } from "@/lib/testimonials";
+import ServiceProcessSection from "@/components/sections/ServiceProcessSection";
+import NearbyAreasSection from "@/components/sections/NearbyAreasSection";
+import LocalTrustStrip from "@/components/sections/LocalTrustStrip";
+import ContextTestimonials from "@/components/sections/ContextTestimonials";
 
 interface PageProps {
   params: Promise<{ slug: string[] }>;
 }
 
-type ServiceEntry = {
-  suffix: string;
-  type: "klima" | "beyaz-esya";
-  name: string;
-};
+type ServiceEntry = (typeof CATCH_ALL_SERVICE_MAP)[number];
 
 type ParsedSlug =
   | { isValid: false }
@@ -44,23 +64,7 @@ type ParsedSlug =
       serviceName: string;
     };
 
-const SERVICE_MAP: ServiceEntry[] = [
-  { suffix: "klima-bakim-servisi", type: "klima", name: "Klima Bakım Servisi" },
-  { suffix: "klima-tamir-servisi", type: "klima", name: "Klima Tamir Servisi" },
-  { suffix: "klima-montaj-servisi", type: "klima", name: "Klima Montaj Servisi" },
-  { suffix: "klima-gaz-dolumu-servisi", type: "klima", name: "Klima Gaz Dolumu Servisi" },
-  { suffix: "klima-gaz-dolumu", type: "klima", name: "Klima Gaz Dolumu Servisi" },
-  { suffix: "klima-ariza-servisi", type: "klima", name: "Klima Arıza Servisi" },
-  { suffix: "camasir-makinesi-servisi", type: "beyaz-esya", name: "Çamaşır Makinesi Servisi" },
-  { suffix: "bulasik-makinesi-servisi", type: "beyaz-esya", name: "Bulaşık Makinesi Servisi" },
-  { suffix: "buzdolabi-servisi", type: "beyaz-esya", name: "Buzdolabı Servisi" },
-  { suffix: "firin-servisi", type: "beyaz-esya", name: "Fırın Servisi" },
-  { suffix: "derin-dondurucu-servisi", type: "beyaz-esya", name: "Derin Dondurucu Servisi" },
-  { suffix: "kurutma-makinesi-servisi", type: "beyaz-esya", name: "Kurutma Makinesi Servisi" },
-  // More generic suffixes must come last to avoid shadowing specific ones
-  { suffix: "klima-servisi", type: "klima", name: "Klima Servisi" },
-  { suffix: "beyaz-esya-servisi", type: "beyaz-esya", name: "Beyaz Eşya Servisi" },
-];
+const SERVICE_MAP = CATCH_ALL_SERVICE_MAP;
 
 function parseSlug(slugs: string[]): ParsedSlug {
   if (!slugs.length || slugs.length > 3) return { isValid: false };
@@ -220,18 +224,24 @@ export async function generateMetadata({ params }: PageProps): Promise<Metadata>
     canonicalUrl = `${SITE_URL}/${slugPath}`;
   }
 
-  return {
+  const pageUrl = `${SITE_URL}/${slugPath}`;
+  const canonicalMismatch = canonicalUrl !== pageUrl;
+  const lowPriorityNeighborhood = Boolean(
+    mahalle && ilce && !isIndexableNeighborhood(ilce, mahalle)
+  );
+  const noindex = canonicalMismatch || lowPriorityNeighborhood;
+
+  const canonicalRel = canonicalUrl.replace(SITE_URL, "") || "/";
+  const pagePathRel = `/${slugPath}`;
+
+  return buildMetadata({
     title,
     description,
-    alternates: { canonical: canonicalUrl },
-    openGraph: {
-      title,
-      description,
-      url: `${SITE_URL}/${slugPath}`,
-      type: "article",
-      images: ["/og-image.jpg"],
-    },
-  };
+    path: pagePathRel,
+    canonicalPath: canonicalRel !== pagePathRel ? canonicalRel : undefined,
+    type: "article",
+    noindex,
+  });
 }
 
 export default async function DynamicServicePage({ params }: PageProps) {
@@ -254,155 +264,158 @@ export default async function DynamicServicePage({ params }: PageProps) {
   const brandText = marka ? `${marka.name} ` : "";
   
   const heroTitle = `${locationText} ${brandText}${serviceName}`;
-  const heroSubtitle = `${locationText} bölgesinde garantili ve güvenilir ${brandText}${serviceName.toLowerCase()} için 7/24 bize ulaşın. Aynı gün servis imkanı!`;
-
-  // Schemas
-  const breadcrumbItems = [
-    {
-      "@type": "ListItem",
-      "position": 1,
-      "name": "Ana Sayfa",
-      "item": SITE_URL
-    }
-  ];
-
-  if (ilce) {
-    breadcrumbItems.push({
-      "@type": "ListItem",
-      "position": 2,
-      "name": ilce.name,
-      "item": `${SITE_URL}/${ilce.slug}-${serviceType}-servisi`
-    });
-  }
-
-  breadcrumbItems.push({
-    "@type": "ListItem",
-    "position": ilce ? 3 : 2,
-    "name": `${brandText}${serviceName}`,
-    "item": `${SITE_URL}/${resolvedParams.slug.join("/")}`
+  const heroSubtitle = getCatchAllHeroSubtitle({
+    ilce,
+    mahalle,
+    marka,
+    serviceName,
+    serviceType,
   });
 
-  const breadcrumbSchema = {
-    "@context": "https://schema.org",
-    "@type": "BreadcrumbList",
-    "itemListElement": breadcrumbItems
-  };
+  const introParagraphs = getCatchAllIntroParagraphs({
+    ilce,
+    mahalle,
+    marka,
+    serviceName,
+    serviceType,
+  });
 
-  const serviceSchema = {
-    "@context": "https://schema.org",
-    "@type": "Service",
-    "name": heroTitle,
-    "description": heroSubtitle,
-    "provider": {
-      "@type": "LocalBusiness",
-      "name": CONTACT_INFO.name,
-      "telephone": CONTACT_INFO.phone,
-      "address": {
-        "@type": "PostalAddress",
-        "addressLocality": "Antalya",
-        "addressRegion": "Antalya",
-        "addressCountry": "TR"
-      }
-    },
-    "areaServed": {
-      "@type": "City",
-      "name": locationText
-    }
-  };
+  const deviceLines = getFrequentDeviceLines({ serviceName, serviceType });
+  const serviceSuffix = getServiceSuffixFromSlugSegments(resolvedParams.slug);
+  const responseSnippet = getResponseTimeSnippet(
+    [locationText, mahalle?.slug ?? "", serviceSuffix, marka?.slug ?? ""].join("|")
+  );
 
-  const faqSchema = {
-    "@context": "https://schema.org",
-    "@type": "FAQPage",
-    "mainEntity": [
-      {
-        "@type": "Question",
-        "name": "Servis süresi ne kadardır?",
-        "acceptedAnswer": {
-          "@type": "Answer",
-          "text": "Çoğu arıza durumunda ekiplerimiz aynı gün içerisinde adresinize ulaşır ve sorunların %80'ini yerinde çözer."
-        }
-      },
-      {
-        "@type": "Question",
-        "name": "Değişen parçalar garantili mi?",
-        "acceptedAnswer": {
-          "@type": "Answer",
-          "text": "Evet, servisimiz tarafından değiştirilen tüm orijinal yedek parçalar 1 yıl işçilik ve parça garantisi altındadır."
-        }
-      },
-      {
-        "@type": "Question",
-        "name": "Servis ücreti alıyor musunuz?",
-        "acceptedAnswer": {
-          "@type": "Answer",
-          "text": "Arıza tespiti için cüzi bir servis ücreti alınmaktadır. Ancak onarımı onaylamanız durumunda bu ücret toplam fiyattan düşülür."
-        }
-      },
-      {
-        "@type": "Question",
-        "name": "Hangi bölgelere hizmet veriyorsunuz?",
-        "acceptedAnswer": {
-          "@type": "Answer",
-          "text": `Antalya'nın merkez ilçeleri başta olmak üzere ${locationText} ve çevresindeki tüm mahallelerine hizmet ağımız bulunmaktadır.`
-        }
-      }
-    ]
-  };
+  const pageFaqs = buildFaqsForCatchAll({
+    locationText,
+    serviceName,
+    serviceType,
+    brandName: marka?.name,
+    ilceSlug: ilce?.slug,
+    serviceSuffix,
+  });
+
+  const slugPath = resolvedParams.slug.join("/");
+  const testimonialItems = getTestimonialsForContext({
+    serviceName,
+    serviceType,
+    hasBrand: Boolean(marka),
+    seed: slugPath,
+    count: 2,
+  });
+
+  const spotlightSlugs = ["muratpasa", "konyaalti", "kepez", "alanya", "manavgat", "serik"];
+  let nearbyLinks: { href: string; label: string; hint?: string }[] = [];
+  if (mahalle && ilce) {
+    nearbyLinks = getNearbyMahalleler(ilce, mahalle.slug, 6).map((m) => ({
+      href: `/${ilce.slug}/${m.slug}-${serviceSuffix}`,
+      label: `${m.name}, ${ilce.name}`,
+      hint: "Aynı hizmet sayfası",
+    }));
+  } else if (ilce) {
+    nearbyLinks = getNeighborIlceler(ilce.slug, 6).map((n) => ({
+      href: `/${n.slug}-${serviceSuffix}`,
+      label: n.name,
+      hint: "İlçe geneli servis",
+    }));
+  } else {
+    nearbyLinks = spotlightSlugs
+      .map((s) => getIlceBySlug(s))
+      .filter((x): x is Ilce => Boolean(x))
+      .map((n) => ({
+        href: `/${n.slug}-${serviceSuffix}`,
+        label: n.name,
+        hint: "İlçe servis",
+      }));
+  }
+
+  const breadcrumbItems = [{ name: "Ana Sayfa", path: "/" }];
+  if (ilce) {
+    breadcrumbItems.push({
+      name: ilce.name,
+      path: `/${ilce.slug}-${serviceType}-servisi`,
+    });
+  }
+  breadcrumbItems.push({
+    name: `${brandText}${serviceName}`.trim(),
+    path: `/${slugPath}`,
+  });
+
+  const breadcrumbSchema = buildBreadcrumbSchema(breadcrumbItems);
+  const serviceSchema = buildServiceSchema({
+    name: heroTitle,
+    description: heroSubtitle,
+    areaName: locationText,
+  });
 
   const displayBrands = serviceType === "klima" ? klimaMarkalari : serviceType === "beyaz-esya" ? beyazEsyaMarkalari : [];
   
+  const brandGridLinkMode =
+    ilce || mahalle ? ("geo" as const) : ("canonical" as const);
+
   return (
     <>
-      <JsonLd data={breadcrumbSchema as Record<string, unknown>} />
-      <JsonLd data={serviceSchema as Record<string, unknown>} />
-      <JsonLd data={faqSchema as Record<string, unknown>} />
+      <JsonLd data={breadcrumbSchema} />
+      <JsonLd data={serviceSchema} />
 
-      <HeroSection 
-        title={heroTitle} 
+      <HeroSection
+        title={heroTitle}
         subtitle={heroSubtitle}
+        primaryCtaText="Servis kaydı için hemen arayın"
+        secondaryCtaText="WhatsApp üzerinden hızlı destek alın"
       />
-      
-      <ServiceCards 
-        type={serviceType || undefined} 
-        locationSlug={ilce ? ilce.slug : (resolvedParams.slug[0] === "antalya" ? "antalya" : undefined)} 
+
+      <ServiceCards
+        type={serviceType || undefined}
+        locationSlug={ilce ? ilce.slug : resolvedParams.slug[0] === "antalya" ? "antalya" : undefined}
       />
-      
-      {/* Unique SEO Content Section */}
+
+      <LocalTrustStrip />
+
       <section className="py-16 bg-white border-y border-gray-100">
         <div className="container mx-auto px-4 md:px-6">
           <div className="grid grid-cols-1 lg:grid-cols-2 gap-12 items-center">
             <div>
               <h2 className="text-3xl font-bold text-brand-dark mb-6">
-                {locationText} {brandText}{serviceName} Hizmeti
+                {locationText} {brandText}
+                {serviceName} hizmeti
               </h2>
               <div className="prose prose-blue text-gray-600 max-w-none">
-                <p className="mb-4">
-                  {locationText} bölgesinde yaşayan değerli müşterilerimiz için <strong>{brandText}{serviceName.toLowerCase()}</strong> ihtiyaçlarında en hızlı ve güvenilir çözümleri sunuyoruz. {ilce ? `${ilce.name} genelinde` : "Antalya genelinde"} profesyonel teknik ekibimizle, cihazlarınızın performansını artırmak ve ömrünü uzatmak için çalışıyoruz.
+                {introParagraphs.map((para, idx) => (
+                  <p key={idx} className="mb-4 last:mb-0 leading-relaxed">
+                    {para}
+                  </p>
+                ))}
+
+                <h3 className="text-lg font-bold text-brand-dark mt-8 mb-3 not-prose">
+                  Sık servis verilen cihaz türleri
+                </h3>
+                <ul className="list-disc pl-5 space-y-2 mb-6 not-prose">
+                  {deviceLines.map((line) => (
+                    <li key={line}>{line}</li>
+                  ))}
+                </ul>
+
+                <p className="text-sm md:text-[15px] bg-brand-light/80 border border-gray-100 rounded-2xl p-4 not-prose leading-relaxed">
+                  <strong className="text-brand-dark">Ortalama dönüş:</strong> {responseSnippet}
                 </p>
-                <p className="mb-6">
-                  {marka ? (
-                    `Özel servis olarak ${marka.name} marka cihazlarınızda marka bağımsız, garantili ve uzman teknik destek sağlıyoruz. ${locationText} ${marka.name} servisi arayışınızda orijinal yedek parça ve profesyonel işçilik ile yanınızdayız.`
-                  ) : (
-                    `${serviceName} konusunda uzman kadromuzla, ${locationText} sakinlerine özel çözümler üretiyoruz. Arıza, bakım ve montaj işlemlerinde şeffaf fiyatlandırma politikası uyguluyoruz.`
-                  )}
-                </p>
-                
-                <div className="grid grid-cols-1 sm:grid-cols-2 gap-4 mt-8">
+
+                <div className="grid grid-cols-1 sm:grid-cols-2 gap-4 mt-8 not-prose">
                   <div className="flex items-center gap-3">
-                    <CheckCircle2 className="w-5 h-5 text-brand-red" />
-                    <span className="font-medium">1 Yıl Teknik Garanti</span>
+                    <CheckCircle2 className="w-5 h-5 text-brand-red shrink-0" />
+                    <span className="font-medium">İşlem öncesi net bilgi</span>
                   </div>
                   <div className="flex items-center gap-3">
-                    <Zap className="w-5 h-5 text-brand-red" />
-                    <span className="font-medium">Hızlı Mobil Servis</span>
+                    <Zap className="w-5 h-5 text-brand-red shrink-0" />
+                    <span className="font-medium">Hızlı ekip yönlendirmesi</span>
                   </div>
                   <div className="flex items-center gap-3">
-                    <ShieldCheck className="w-5 h-5 text-brand-red" />
-                    <span className="font-medium">Orijinal Parça Desteği</span>
+                    <ShieldCheck className="w-5 h-5 text-brand-red shrink-0" />
+                    <span className="font-medium">Parça değişiminde ön bilgilendirme</span>
                   </div>
                   <div className="flex items-center gap-3">
-                    <Clock className="w-5 h-5 text-brand-red" />
-                    <span className="font-medium">7/24 Müşteri Hizmetleri</span>
+                    <Clock className="w-5 h-5 text-brand-red shrink-0" />
+                    <span className="font-medium">WhatsApp ile hızlı iletişim</span>
                   </div>
                 </div>
               </div>
@@ -410,68 +423,94 @@ export default async function DynamicServicePage({ params }: PageProps) {
             <div className="bg-brand-light p-5 md:p-8 rounded-3xl border border-gray-200">
               <h3 className="text-xl font-bold mb-4 flex items-center gap-2">
                 <MapPin className="w-5 h-5 text-brand-red shrink-0" />
-                {locationText} Teknik Destek Birimi
+                {locationText} servis hattı
               </h3>
-              <p className="text-gray-600 text-sm mb-6">
-                Şu anda <strong>{locationText}</strong> ve yakın çevresinde aktif mobil ekiplerimiz bulunmaktadır. {brandText ? `${brandText} marka ` : ""}cihazınızdaki sorunları gidermek için en yakın teknisyenimizi yönlendirebiliriz.
+              <p className="text-gray-600 text-sm mb-6 leading-relaxed">
+                <strong>{locationText}</strong> için teknik ekip yönlendirmesi yapıyoruz. {brandText ? `${brandText} marka ` : ""}
+                cihazınızda arıza notunu kısaca paylaşmanız, doğru teşhis için yeterli başlangıç olur.
               </p>
               <div className="space-y-4">
                 <div className="bg-white p-4 rounded-xl flex flex-wrap justify-between items-center gap-2 shadow-sm">
-                  <span className="text-sm font-medium text-gray-500 shrink-0">Hizmet Bölgesi:</span>
+                  <span className="text-sm font-medium text-gray-500 shrink-0">Hizmet bölgesi</span>
                   <span className="font-bold text-brand-dark text-right">{locationText}</span>
                 </div>
                 <div className="bg-white p-4 rounded-xl flex flex-wrap justify-between items-center gap-2 shadow-sm">
-                  <span className="text-sm font-medium text-gray-500 shrink-0">Servis Durumu:</span>
+                  <span className="text-sm font-medium text-gray-500 shrink-0">Ekip durumu</span>
                   <span className="text-green-600 font-bold flex items-center gap-1">
-                    <div className="w-2 h-2 bg-green-600 rounded-full animate-pulse" />
-                    Müsait / Adrese Yakın
+                    <span className="w-2 h-2 bg-green-600 rounded-full animate-pulse" aria-hidden />
+                    Müsait / yakın rota
                   </span>
                 </div>
-                <div className="bg-white p-4 rounded-xl flex flex-wrap justify-between items-center gap-2 shadow-sm">
-                  <span className="text-sm font-medium text-gray-500 shrink-0">Hizmet Süresi:</span>
-                  <span className="font-bold text-brand-dark">Aynı Gün Teslim</span>
+                <div className="bg-white p-4 rounded-xl shadow-sm text-sm text-gray-600 leading-relaxed">
+                  <span className="font-medium text-gray-500 block mb-1">Planlama notu</span>
+                  {responseSnippet}
                 </div>
               </div>
-              <a 
+              <a
                 href={`tel:${CONTACT_INFO.phone}`}
-                className="mt-8 w-full bg-brand-red text-white py-4 rounded-2xl font-bold flex items-center justify-center gap-2 hover:bg-red-700 transition-colors shadow-lg shadow-red-200"
+                className="mt-6 w-full bg-brand-red text-white py-4 rounded-2xl font-bold flex items-center justify-center gap-2 hover:bg-red-700 transition-colors shadow-lg shadow-red-200"
               >
-                Servis Randevusu Al
+                Hemen servis kaydı oluşturun
+              </a>
+              <a
+                href={CONTACT_INFO.whatsapp}
+                target="_blank"
+                rel="noreferrer"
+                className="mt-3 w-full border-2 border-brand-red/40 text-brand-dark bg-white py-3.5 rounded-2xl font-bold flex items-center justify-center gap-2 hover:bg-red-50 transition-colors"
+              >
+                <MessageCircle className="w-5 h-5 text-brand-red" />
+                WhatsApp üzerinden devam edin
               </a>
             </div>
           </div>
         </div>
       </section>
-      
+
+      <ServiceProcessSection />
+
       <WhyChooseUs />
 
       {!marka && displayBrands.length > 0 && (
-        <BrandGrid 
-          brands={displayBrands} 
-          basePath={ilce ? (mahalle ? `/${ilce.slug}/${mahalle.slug}` : `/${ilce.slug}`) : "/antalya"} 
-          title={`${locationText} Hizmet Verdiğimiz ${serviceType === "klima" ? "Klima" : "Beyaz Eşya"} Markaları`} 
+        <BrandGrid
+          brands={displayBrands}
+          basePath={ilce ? (mahalle ? `/${ilce.slug}/${mahalle.slug}` : `/${ilce.slug}`) : "/antalya"}
+          linkMode={brandGridLinkMode}
+          title={`${locationText} hizmet verdiğimiz ${serviceType === "klima" ? "klima" : "beyaz eşya"} markaları`}
         />
       )}
 
       {ilce && !mahalle ? (
-        <LocationGrid 
-          locations={ilce.mahalleler} 
-          basePath={`/${ilce.slug}`} 
+        <LocationGrid
+          locations={ilce.mahalleler}
+          basePath={`/${ilce.slug}`}
           serviceType={serviceType as "klima" | "beyaz-esya"}
-          title={`${ilce.name} Hizmet Bölgelerimiz (Mahalleler)`}
+          title={`${ilce.name} mahalleleri`}
+          subtitle="Mahallenizi seçerek aynı hizmet türünde detaylı sayfaya geçebilirsiniz."
         />
       ) : (
-        <LocationGrid 
-          locations={ilceler} 
-          basePath="" 
+        <LocationGrid
+          locations={ilceler}
+          basePath=""
           serviceType={serviceType as "klima" | "beyaz-esya"}
-          title="Antalya Geneli Hizmet Bölgelerimiz"
+          title="Antalya geneli hizmet bölgelerimiz"
+          subtitle="İlçe seçerek servis sayfalarına devam edebilirsiniz."
         />
       )}
 
-      <FAQSection />
-      
-      <ContactCTA />
+      <NearbyAreasSection
+        title="Yakın bölgeler"
+        subtitle="Komşu mahalle veya ilçelerde aynı hizmet türü için sayfalarımıza geçiş yapın."
+        links={nearbyLinks}
+      />
+
+      <ContextTestimonials items={testimonialItems} />
+
+      <FAQSection faqs={pageFaqs} />
+
+      <ContactCTA
+        headline={`${locationText} için size en yakın teknik ekibi yönlendirelim.`}
+        description="Servis kaydı oluşturmak üzere arayın veya WhatsApp üzerinden adres ve arıza notunu paylaşın."
+      />
     </>
   );
 }

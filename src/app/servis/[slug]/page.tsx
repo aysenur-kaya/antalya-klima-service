@@ -6,8 +6,12 @@ import BrandGrid from "@/components/sections/BrandGrid";
 import ContactCTA from "@/components/sections/ContactCTA";
 import HeroSection from "@/components/sections/HeroSection";
 import JsonLd from "@/components/seo/JsonLd";
+import LocalTrustStrip from "@/components/sections/LocalTrustStrip";
+import ServiceProcessSection from "@/components/sections/ServiceProcessSection";
+import ContextTestimonials from "@/components/sections/ContextTestimonials";
 import { allBrands, beyazEsyaMarkalari, getBrandBySlug, ilceler, klimaMarkalari } from "@/lib/data";
 import { SITE_URL } from "@/lib/constants";
+import { getTestimonialsForContext } from "@/lib/testimonials";
 
 interface PageProps {
   params: Promise<{ slug: string }>;
@@ -85,12 +89,22 @@ export default async function ServisMarkaDetayPage({ params }: PageProps) {
     },
   };
 
+  const stories = getTestimonialsForContext({
+    serviceName: serviceName,
+    serviceType: type,
+    hasBrand: true,
+    seed: `servis-brand-${brand.slug}-${type}`,
+    count: 2,
+  });
+
   return (
     <>
       <JsonLd data={serviceSchema} />
       <HeroSection
         title={`Antalya ${brand.name} ${serviceName}`}
         subtitle={`${brand.name} marka cihazınız için Antalya genelinde bakım, arıza tespiti ve garantili özel servis yönlendirmesi.`}
+        primaryCtaText="Servis kaydı için hemen arayın"
+        secondaryCtaText="WhatsApp üzerinden hızlı destek alın"
       />
 
       {/* Yasal uyarı — marka bağımsız özel servis bildirimi */}
@@ -101,6 +115,8 @@ export default async function ServisMarkaDetayPage({ params }: PageProps) {
           </p>
         </div>
       </div>
+
+      <LocalTrustStrip />
 
       <section className="py-20 bg-white">
         <div className="container mx-auto px-4 md:px-6">
@@ -131,7 +147,7 @@ export default async function ServisMarkaDetayPage({ params }: PageProps) {
                   {brand.name} servisini ilçenizde arıyorsanız
                 </h3>
                 <p className="text-gray-600 leading-relaxed mb-6">
-                  Marka sayfasından sonra kullanıcıyı bölgeye indirerek daha yüksek niyetli landing sayfalarına taşıyabilirsiniz. Aşağıdaki ilçeler öne çıkan bağlantılardır; tüm liste Antalya bölge dizininde yer alır.
+                  İlçenizi seçerek {brand.name} servisi için yönlendirme alabilir; marka ve cihaz türünü netleştirebilirsiniz. Aşağıdaki ilçeler sık erişilen bölgelerdir; tüm liste Antalya bölge rehberindedir.
                 </p>
                 <div className="grid grid-cols-2 md:grid-cols-3 gap-3">
                   {highlightedDistricts.map((ilce) => (
@@ -149,12 +165,12 @@ export default async function ServisMarkaDetayPage({ params }: PageProps) {
 
             <aside className="space-y-6">
               <div className="rounded-3xl bg-brand-dark text-white p-6 md:p-8">
-                <h3 className="text-xl font-bold mb-3">Antalya marka landing</h3>
+                <h3 className="text-xl font-bold mb-3">Antalya geneli marka sayfası</h3>
                 <p className="text-gray-400 text-sm leading-relaxed mb-6">
-                  Mevcut dinamik landing sayfasına geçerek servis kaydı CTA akışına devam edin.
+                  Şehir geneli sayfaya geçerek ilçe veya mahalle bazlı servis yönlendirmesine devam edebilirsiniz.
                 </p>
                 <Link href={landingHref} className="inline-flex items-center gap-2 rounded-xl bg-brand-red px-5 py-3 text-sm font-bold">
-                  Landing sayfasına git <ArrowRight className="w-4 h-4" />
+                  Antalya {brand.name} servisi <ArrowRight className="w-4 h-4" />
                 </Link>
               </div>
 
@@ -172,6 +188,8 @@ export default async function ServisMarkaDetayPage({ params }: PageProps) {
       </section>
 
       <BrandGrid brands={relatedBrands.filter((item) => item.slug !== brand.slug).slice(0, 18)} basePath="/servis" title="Diğer Marka Servis Sayfaları" />
+      <ServiceProcessSection />
+      <ContextTestimonials items={stories} />
       <ContactCTA />
     </>
   );

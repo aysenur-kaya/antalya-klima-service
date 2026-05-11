@@ -43,7 +43,7 @@ export default function KlimaMarkalariPage() {
             {klimaMarkalari.map((brand) => (
               <div key={brand.slug} className="p-1.5 md:p-2 lg:p-2.5 w-1/2 sm:w-1/3 md:w-1/4 lg:w-1/5 xl:w-1/6">
                 <Link
-                  href={`/antalya/${brand.slug}-klima-servisi`}
+                  href={`/servis/${brand.slug}-klima-servisi`}
                   className="flex items-center justify-center text-center px-3 py-3 md:py-5 min-h-[56px] md:min-h-[72px] bg-white border border-gray-200 rounded-xl shadow-[0_2px_8px_rgba(0,0,0,0.04)] hover:border-brand-red/40 hover:shadow-[0_10px_25px_rgba(0,0,0,0.08)] hover:text-brand-red font-semibold text-gray-700 transition-all text-xs md:text-base group h-full w-full"
                 >
                   <span className="transition-transform group-hover:scale-105">

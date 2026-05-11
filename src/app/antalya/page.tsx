@@ -3,9 +3,13 @@ import Link from "next/link";
 import { MapPin, Wrench, Home, ArrowRight } from "lucide-react";
 import HeroSection from "@/components/sections/HeroSection";
 import ContactCTA from "@/components/sections/ContactCTA";
+import LocalTrustStrip from "@/components/sections/LocalTrustStrip";
+import ServiceProcessSection from "@/components/sections/ServiceProcessSection";
+import ContextTestimonials from "@/components/sections/ContextTestimonials";
 import { ilceler } from "@/lib/data";
 import { klimaServicePages } from "@/lib/services";
 import { SITE_URL } from "@/lib/constants";
+import { getTestimonialsForContext } from "@/lib/testimonials";
 
 export const metadata: Metadata = {
   title: "Antalya Klima Servisi Bölgeleri | İlçe ve Mahalle Rehberi",
@@ -15,13 +19,24 @@ export const metadata: Metadata = {
 
 export default function AntalyaPage() {
   const mahalleCount = ilceler.reduce((total, ilce) => total + ilce.mahalleler.length, 0);
+  const antalyaStories = getTestimonialsForContext({
+    serviceName: "Klima Servisi",
+    serviceType: "klima",
+    hasBrand: false,
+    seed: "antalya-rehber",
+    count: 2,
+  });
 
   return (
     <>
       <HeroSection
-        title="Antalya Hizmet Bölgesi Rehberi"
-        subtitle="İlçe, mahalle, hizmet türü ve marka ilişkilerini tek merkezde toplayan şehir sayfası."
+        title="Antalya hizmet bölgesi rehberi"
+        subtitle="İlçenizi veya mahallenizi seçerek size en yakın teknik ekibi yönlendirelim."
+        primaryCtaText="Servis kaydı için hemen arayın"
+        secondaryCtaText="WhatsApp üzerinden hızlı destek alın"
       />
+
+      <LocalTrustStrip />
 
       <section className="py-20 bg-white">
         <div className="container mx-auto px-4 md:px-6">
@@ -46,9 +61,9 @@ export default function AntalyaPage() {
           <div className="grid grid-cols-1 lg:grid-cols-4 gap-6 lg:gap-10">
             <aside className="lg:col-span-1 order-2 lg:order-1">
               <div className="sticky top-28 rounded-2xl bg-brand-dark text-white p-5 md:p-7">
-                <h2 className="text-xl font-bold mb-3">Kullanıcı akışı</h2>
+                <h2 className="text-xl font-bold mb-3">Nasıl ilerlersiniz?</h2>
                 <p className="text-gray-400 text-sm leading-relaxed mb-5">
-                  Şehir sayfasından önce ilçe seçilir, sonra mahalle veya hizmet türüyle daha hedefli landing sayfasına geçilir.
+                  Önce ilçenizi seçin; ardından mahalle veya hizmet türüyle servis talebinizi netleştirin.
                 </p>
                 <div className="flex flex-col gap-3">
                   <Link href="/hizmetler" className="text-sm font-semibold text-white/90 hover:text-brand-red transition-colors">Hizmetleri gör</Link>
@@ -62,7 +77,7 @@ export default function AntalyaPage() {
               <div className="mb-8">
                 <h2 className="text-3xl font-bold text-brand-dark mb-4">Antalya ilçeleri</h2>
                 <p className="text-gray-600">
-                  İlçeye geçiş sayfaları; mahalle listesi, fiyat bağlantısı ve ana hizmet landing sayfalarını birbirine bağlar.
+                  İlçe sayfaları; mahalle listesi, fiyat bilgisi ve ana hizmet sayfalarına giden bağlantıları bir arada sunar.
                 </p>
               </div>
 
@@ -93,6 +108,10 @@ export default function AntalyaPage() {
           </div>
         </div>
       </section>
+
+      <ServiceProcessSection />
+
+      <ContextTestimonials items={antalyaStories} />
 
       <ContactCTA />
     </>

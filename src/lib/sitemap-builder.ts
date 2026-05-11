@@ -19,13 +19,15 @@
 
 import { SITE_URL } from "@/lib/constants";
 import { ilceler, klimaMarkalari, beyazEsyaMarkalari } from "@/lib/data";
+import { isIndexableNeighborhood } from "@/lib/neighborhood-seo";
 import { allServicePages, klimaServicePages } from "@/lib/services";
 
 // ---------------------------------------------------------------------------
 // Constants
 // ---------------------------------------------------------------------------
 
-export const SITEMAP_LAST_MODIFIED = "2024-05-09";
+/** Derleme tarihi — statik lastmod güncel kalsın */
+export const SITEMAP_LAST_MODIFIED = new Date().toISOString().slice(0, 10);
 
 export const SEGMENT_URLS = {
   static:        `${SITE_URL}/sitemap-static.xml`,
@@ -176,6 +178,7 @@ export function neighborhoodsSegmentUrls(): UrlEntry[] {
 
   for (const ilce of ilceler) {
     for (const mahalle of ilce.mahalleler) {
+      if (!isIndexableNeighborhood(ilce, mahalle)) continue;
       entries.push(u(`/${ilce.slug}/${mahalle.slug}-klima-servisi`, 0.6, "monthly"));
       entries.push(u(`/${ilce.slug}/${mahalle.slug}-beyaz-esya-servisi`, 0.55, "monthly"));
     }
