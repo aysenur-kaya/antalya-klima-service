@@ -6,6 +6,7 @@ import ContactCTA from "@/components/sections/ContactCTA";
 import { getIlceBySlug, ilceler } from "@/lib/data";
 import { getServicePageBySlug, klimaServicePages, servicePriceItems } from "@/lib/services";
 import { SITE_URL } from "@/lib/constants";
+import { buildDistrictServiceFiyatWhatsappMessage } from "@/lib/whatsapp";
 
 interface PageProps {
   params: Promise<{ slug: string; service: string }>;
@@ -51,11 +52,16 @@ export default async function IlceHizmetFiyatPage({ params }: PageProps) {
         ? servicePriceItems.filter((item) => item.name.toLowerCase().includes("montaj") || item.name.toLowerCase().includes("söküm"))
         : servicePriceItems;
 
+  const fiyatHizmetWaMsg = buildDistrictServiceFiyatWhatsappMessage(ilce.name, service.shortTitle);
+
   return (
     <>
       <HeroSection
         title={`${ilce.name} ${service.shortTitle} Fiyatı`}
         subtitle={`${service.summary} ${ilce.name} bölgesinde net fiyat, cihaz kontrolü ve kullanıcı onayı sonrası belirlenir.`}
+        primaryCtaText="Hemen Ara"
+        secondaryCtaText="WhatsApp'tan Yaz"
+        whatsappPrefill={fiyatHizmetWaMsg}
       />
 
       <section className="py-20 bg-white">
@@ -102,7 +108,12 @@ export default async function IlceHizmetFiyatPage({ params }: PageProps) {
         </div>
       </section>
 
-      <ContactCTA />
+      <ContactCTA
+        whatsappPrefill={fiyatHizmetWaMsg}
+        headline="Keşif ve servis için bize yazın veya arayın."
+        primaryButtonLabel="Hemen Ara"
+        secondaryButtonLabel="WhatsApp'tan Yaz"
+      />
     </>
   );
 }

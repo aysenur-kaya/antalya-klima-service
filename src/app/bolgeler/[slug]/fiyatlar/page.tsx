@@ -6,6 +6,7 @@ import ContactCTA from "@/components/sections/ContactCTA";
 import { getIlceBySlug, ilceler } from "@/lib/data";
 import { SITE_URL } from "@/lib/constants";
 import { klimaServicePages, servicePriceItems } from "@/lib/services";
+import { buildDistrictFiyatListingWhatsappMessage } from "@/lib/whatsapp";
 
 interface PageProps {
   params: Promise<{ slug: string }>;
@@ -38,11 +39,16 @@ export default async function IlceFiyatlarPage({ params }: PageProps) {
     notFound();
   }
 
+  const fiyatWaMsg = buildDistrictFiyatListingWhatsappMessage(ilce.name);
+
   return (
     <>
       <HeroSection
         title={`${ilce.name} Klima Servisi Fiyatları`}
         subtitle={`${ilce.name} için gaz dolumu, bakım, tamir ve montaj işlemlerinde taban fiyatları ve hizmet türlerini inceleyin.`}
+        primaryCtaText="Hemen Ara"
+        secondaryCtaText="WhatsApp'tan Yaz"
+        whatsappPrefill={fiyatWaMsg}
       />
 
       <section className="py-20 bg-white">
@@ -96,7 +102,12 @@ export default async function IlceFiyatlarPage({ params }: PageProps) {
         </div>
       </section>
 
-      <ContactCTA />
+      <ContactCTA
+        whatsappPrefill={fiyatWaMsg}
+        headline="Fiyat sonrası servis kaydı için ulaşın."
+        primaryButtonLabel="Hemen Ara"
+        secondaryButtonLabel="WhatsApp'tan Yaz"
+      />
     </>
   );
 }

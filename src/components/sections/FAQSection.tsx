@@ -3,7 +3,7 @@
 import { useState } from "react";
 import { ChevronDown } from "lucide-react";
 import { cn } from "@/lib/utils";
-import { CONTACT_INFO } from "@/lib/constants";
+import { buildWhatsAppUrl, WHATSAPP_PREFILL_GENERAL } from "@/lib/whatsapp";
 import JsonLd from "@/components/seo/JsonLd";
 import { getDefaultPageFaqs, type FaqItem } from "@/lib/faqs";
 import { buildFaqSchema } from "@/lib/schema";
@@ -67,8 +67,13 @@ export default function FAQSection({ faqs: faqsProp }: FAQSectionProps) {
 
           <div className="mt-10 text-center">
             <p className="text-gray-600 mb-4">Başka bir sorunuz mu var?</p>
-            <a href={CONTACT_INFO.whatsapp} className="inline-flex items-center gap-2 text-brand-red font-bold hover:underline">
-              {"WhatsApp'tan Bize Ulaşın →"}
+            <a
+              href={buildWhatsAppUrl(WHATSAPP_PREFILL_GENERAL)}
+              target="_blank"
+              rel="noreferrer"
+              className="inline-flex items-center gap-2 text-brand-red font-bold hover:underline"
+            >
+              {"WhatsApp'tan Yaz →"}
             </a>
           </div>
         </div>

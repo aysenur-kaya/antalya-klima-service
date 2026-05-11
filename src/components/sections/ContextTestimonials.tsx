@@ -19,7 +19,9 @@ export default function ContextTestimonials({
           <h2 className="text-3xl md:text-4xl font-bold text-brand-dark mb-3">{heading}</h2>
           <p className="text-gray-600 text-sm md:text-base leading-relaxed">{sub}</p>
         </div>
-        <div className="grid grid-cols-1 md:grid-cols-2 gap-5 max-w-4xl mx-auto">
+        <div
+          className={`grid gap-5 max-w-5xl mx-auto ${items.length >= 3 ? "grid-cols-1 md:grid-cols-3" : "grid-cols-1 md:grid-cols-2"}`}
+        >
           {items.map((t) => (
             <blockquote
               key={`${t.name}-${t.quote.slice(0, 24)}`}

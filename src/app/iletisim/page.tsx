@@ -14,6 +14,7 @@ import {
   AlertCircle,
 } from "lucide-react";
 import { CONTACT_INFO } from "@/lib/constants";
+import { buildWhatsAppUrl, WHATSAPP_PREFILL_GENERAL } from "@/lib/whatsapp";
 import ContactForm from "@/components/sections/ContactForm";
 import JsonLd from "@/components/seo/JsonLd";
 import { SITE_URL } from "@/lib/constants";
@@ -31,6 +32,8 @@ export const metadata: Metadata = {
     type: "website",
   },
 };
+
+const ILETISIM_WHATSAPP_HREF = buildWhatsAppUrl(WHATSAPP_PREFILL_GENERAL);
 
 const contactCards = [
   {
@@ -50,7 +53,7 @@ const contactCards = [
     label: "WhatsApp",
     value: "Mesaj Gönder",
     sub: "Anlık yanıt için WhatsApp",
-    href: CONTACT_INFO.whatsapp,
+    href: ILETISIM_WHATSAPP_HREF,
     cta: "WhatsApp'tan Yaz",
     color: "text-[#25D366]",
     bg: "bg-[#25D366]/10",
@@ -146,7 +149,7 @@ export default function IletisimPage() {
                 Hemen Ara
               </a>
               <a
-                href={CONTACT_INFO.whatsapp}
+                href={ILETISIM_WHATSAPP_HREF}
                 target="_blank"
                 rel="noreferrer"
                 className="w-full sm:w-auto bg-[#25D366] hover:bg-[#20b858] text-white px-8 py-4 rounded-xl font-bold flex items-center justify-center gap-3 transition-all hover:scale-105 shadow-[0_10px_20px_rgba(37,211,102,0.3)] text-lg"

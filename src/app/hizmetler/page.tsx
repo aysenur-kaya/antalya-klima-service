@@ -8,6 +8,7 @@ import ServiceProcessSection from "@/components/sections/ServiceProcessSection";
 import ContextTestimonials from "@/components/sections/ContextTestimonials";
 import { allServicePages, beyazEsyaServicePages, klimaServicePages } from "@/lib/services";
 import { getTestimonialsForContext } from "@/lib/testimonials";
+import { WHATSAPP_PREFILL_GENERAL } from "@/lib/whatsapp";
 
 export const metadata: Metadata = {
   title: "Hizmetlerimiz | Antalya Klima ve Beyaz Eşya Servisi",
@@ -64,8 +65,9 @@ export default function HizmetlerPage() {
       <HeroSection
         title="Antalya Teknik Servis Hizmetleri"
         subtitle="Bakım, tamir, montaj ve arıza tespiti için tüm hizmet kategorilerini tek yerde, kolay gezilebilir şekilde sunduk."
-        primaryCtaText="Servis kaydı için hemen arayın"
-        secondaryCtaText="WhatsApp üzerinden hızlı destek alın"
+        primaryCtaText="Hemen Ara"
+        secondaryCtaText="WhatsApp'tan Yaz"
+        whatsappPrefill={WHATSAPP_PREFILL_GENERAL}
       />
 
       <LocalTrustStrip />
@@ -158,7 +160,12 @@ export default function HizmetlerPage() {
 
       <ContextTestimonials items={hizmetlerStories} />
 
-      <ContactCTA />
+      <ContactCTA
+        whatsappPrefill={WHATSAPP_PREFILL_GENERAL}
+        headline="Hizmet türünü seçtikten sonra bize ulaşın."
+        primaryButtonLabel="Servis Talebi Oluştur"
+        secondaryButtonLabel="WhatsApp'tan Yaz"
+      />
     </>
   );
 }

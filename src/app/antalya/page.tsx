@@ -6,10 +6,12 @@ import ContactCTA from "@/components/sections/ContactCTA";
 import LocalTrustStrip from "@/components/sections/LocalTrustStrip";
 import ServiceProcessSection from "@/components/sections/ServiceProcessSection";
 import ContextTestimonials from "@/components/sections/ContextTestimonials";
+import WhyChooseUs from "@/components/sections/WhyChooseUs";
 import { ilceler } from "@/lib/data";
 import { klimaServicePages } from "@/lib/services";
 import { SITE_URL } from "@/lib/constants";
 import { getTestimonialsForContext } from "@/lib/testimonials";
+import { WHATSAPP_PREFILL_GENERAL } from "@/lib/whatsapp";
 
 export const metadata: Metadata = {
   title: "Antalya Klima Servisi Bölgeleri | İlçe ve Mahalle Rehberi",
@@ -32,11 +34,14 @@ export default function AntalyaPage() {
       <HeroSection
         title="Antalya hizmet bölgesi rehberi"
         subtitle="İlçenizi veya mahallenizi seçerek size en yakın teknik ekibi yönlendirelim."
-        primaryCtaText="Servis kaydı için hemen arayın"
-        secondaryCtaText="WhatsApp üzerinden hızlı destek alın"
+        primaryCtaText="Hemen Ara"
+        secondaryCtaText="WhatsApp'tan Yaz"
+        whatsappPrefill={WHATSAPP_PREFILL_GENERAL}
       />
 
       <LocalTrustStrip />
+
+      <WhyChooseUs />
 
       <section className="py-20 bg-white">
         <div className="container mx-auto px-4 md:px-6">
@@ -113,7 +118,12 @@ export default function AntalyaPage() {
 
       <ContextTestimonials items={antalyaStories} />
 
-      <ContactCTA />
+      <ContactCTA
+        whatsappPrefill={WHATSAPP_PREFILL_GENERAL}
+        headline="İlçenizi seçtikten sonra servis talebine geçin."
+        primaryButtonLabel="Hemen Ara"
+        secondaryButtonLabel="WhatsApp'tan Yaz"
+      />
     </>
   );
 }

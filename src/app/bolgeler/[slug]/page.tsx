@@ -6,6 +6,7 @@ import { getIlceBySlug, ilceler } from "@/lib/data";
 import { SITE_URL, CONTACT_INFO } from "@/lib/constants";
 import HeroSection from "@/components/sections/HeroSection";
 import ContactCTA from "@/components/sections/ContactCTA";
+import WhyChooseUs from "@/components/sections/WhyChooseUs";
 import JsonLd from "@/components/seo/JsonLd";
 import { klimaServicePages } from "@/lib/services";
 import { getDistrictHeroSubtitle, getDistrictVoice, getNeighborIlceler } from "@/lib/local-content";
@@ -16,6 +17,7 @@ import ContextTestimonials from "@/components/sections/ContextTestimonials";
 import FAQSection from "@/components/sections/FAQSection";
 import { buildFaqsForDistrict } from "@/lib/faqs";
 import { getTestimonialsForContext } from "@/lib/testimonials";
+import { buildDistrictPageWhatsappMessage, buildWhatsAppUrl } from "@/lib/whatsapp";
 
 interface PageProps {
   params: Promise<{ slug: string }>;
@@ -93,6 +95,8 @@ export default async function DistrictRegionsPage({ params }: PageProps) {
     count: 2,
   });
   const districtFaqs = buildFaqsForDistrict(ilce.name, ilce.slug);
+  const districtWaMsg = buildDistrictPageWhatsappMessage(ilce.name);
+  const districtWaHref = buildWhatsAppUrl(districtWaMsg);
 
   return (
     <div className="bg-white min-h-screen">
@@ -101,11 +105,15 @@ export default async function DistrictRegionsPage({ params }: PageProps) {
       <HeroSection
         title={`${ilce.name} hizmet bölgelerimiz`}
         subtitle={getDistrictHeroSubtitle(ilce.name, ilce.slug)}
-        primaryCtaText="Servis kaydı için hemen arayın"
-        secondaryCtaText="WhatsApp üzerinden hızlı destek alın"
+        primaryCtaText="Hemen Ara"
+        secondaryCtaText="WhatsApp'tan Yaz"
+        whatsappPrefill={districtWaMsg}
+        responseHint="Telefon ve WhatsApp üzerinden genellikle kısa sürede dönüş sağlanır; yoğunluğa göre süre değişebilir."
       />
 
       <LocalTrustStrip />
+
+      <WhyChooseUs />
 
       <section className="py-20">
         <div className="container mx-auto px-4 md:px-6">
@@ -148,9 +156,9 @@ export default async function DistrictRegionsPage({ params }: PageProps) {
                     <Phone className="w-4 h-4" />
                     {CONTACT_INFO.phoneFormatted}
                   </a>
-                  <a href={CONTACT_INFO.whatsapp} className="flex items-center gap-3 bg-white/10 py-3 px-4 rounded-xl font-bold text-sm">
+                  <a href={districtWaHref} target="_blank" rel="noreferrer" className="flex items-center gap-3 bg-white/10 py-3 px-4 rounded-xl font-bold text-sm">
                     <MessageCircle className="w-4 h-4" />
-                    WhatsApp ile devam
+                    WhatsApp&apos;tan Yaz
                   </a>
                 </div>
               </div>
@@ -231,6 +239,9 @@ export default async function DistrictRegionsPage({ params }: PageProps) {
       <ContactCTA
         headline={`${ilce.name} için size en yakın teknik ekibi yönlendirelim.`}
         description="Servis kaydı oluşturmak üzere arayın veya WhatsApp üzerinden adres ve arıza notunu paylaşın."
+        whatsappPrefill={districtWaMsg}
+        primaryButtonLabel="Hemen Ara"
+        secondaryButtonLabel="WhatsApp'tan Yaz"
       />
     </div>
   );

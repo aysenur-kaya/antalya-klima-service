@@ -1,11 +1,11 @@
-import { Clock, Users, MessageCircle, Wrench, Info } from "lucide-react";
+import { Clock, Users, MessageCircle, Wrench, MapPin } from "lucide-react";
 
 const items = [
-  { icon: Clock, text: "Aynı gün servis planlama imkânı" },
-  { icon: Users, text: "Deneyimli saha ekibi" },
-  { icon: MessageCircle, text: "WhatsApp ile hızlı iletişim" },
-  { icon: Wrench, text: "Parça değişiminde önceden bilgilendirme" },
-  { icon: Info, text: "Arıza tespiti ve onay netliği" },
+  { icon: Clock, text: "Aynı gün servis imkânı" },
+  { icon: MessageCircle, text: "Hızlı telefon ve WhatsApp dönüşü" },
+  { icon: Users, text: "Deneyimli teknik ekip" },
+  { icon: Wrench, text: "Şeffaf arıza bilgilendirmesi" },
+  { icon: MapPin, text: "Antalya geneli servis ağı" },
 ];
 
 export default function LocalTrustStrip() {
@@ -16,7 +16,7 @@ export default function LocalTrustStrip() {
           {items.map((item) => {
             const Icon = item.icon;
             return (
-              <div key={item.text} className="flex items-center gap-2 text-sm md:text-[15px] text-gray-700 font-medium max-w-[260px]">
+              <div key={item.text} className="flex items-center gap-2 text-sm md:text-[15px] text-gray-700 font-medium max-w-[280px]">
                 <Icon className="w-4 h-4 text-brand-red shrink-0" aria-hidden />
                 <span>{item.text}</span>
               </div>

@@ -4,7 +4,7 @@ import { useState } from "react";
 import Link from "next/link";
 import { MessageCircle, CheckCircle2 } from "lucide-react";
 import { cn } from "@/lib/utils";
-import { CONTACT_INFO } from "@/lib/constants";
+import { buildWhatsAppUrl } from "@/lib/whatsapp";
 
 const konular = [
   "Klima Bakım",
@@ -47,7 +47,7 @@ export default function ContactForm() {
       form.mesaj ? `Mesaj: ${form.mesaj}` : null,
     ].filter(Boolean) as string[];
 
-    const waUrl = `${CONTACT_INFO.whatsapp}?text=${encodeURIComponent(lines.join("\n"))}`;
+    const waUrl = buildWhatsAppUrl(lines.join("\n"));
 
     // Kısa gecikme ile UX akışını koruyalım, sonra WhatsApp aç
     setTimeout(() => {

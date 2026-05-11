@@ -20,6 +20,7 @@ import {
 } from "@/lib/data";
 import { getServicePageBySlug } from "@/lib/services";
 import { SITE_URL, CONTACT_INFO } from "@/lib/constants";
+import { buildLandingWhatsappMessage, buildWhatsAppUrl } from "@/lib/whatsapp";
 import { buildMetadata } from "@/lib/metadata";
 import { isIndexableNeighborhood } from "@/lib/neighborhood-seo";
 import { buildFaqsForCatchAll } from "@/lib/faqs";
@@ -348,8 +349,16 @@ export default async function DynamicServicePage({ params }: PageProps) {
     areaName: locationText,
   });
 
-  const displayBrands = serviceType === "klima" ? klimaMarkalari : serviceType === "beyaz-esya" ? beyazEsyaMarkalari : [];
-  
+  const landingWaMessage = buildLandingWhatsappMessage({
+    locationText,
+    serviceName,
+    brandName: marka?.name,
+  });
+  const landingWaHref = buildWhatsAppUrl(landingWaMessage);
+
+  const displayBrands =
+    serviceType === "klima" ? klimaMarkalari : serviceType === "beyaz-esya" ? beyazEsyaMarkalari : [];
+
   const brandGridLinkMode =
     ilce || mahalle ? ("geo" as const) : ("canonical" as const);
 
@@ -361,8 +370,10 @@ export default async function DynamicServicePage({ params }: PageProps) {
       <HeroSection
         title={heroTitle}
         subtitle={heroSubtitle}
-        primaryCtaText="Servis kaydı için hemen arayın"
-        secondaryCtaText="WhatsApp üzerinden hızlı destek alın"
+        primaryCtaText="Hemen Ara"
+        secondaryCtaText="WhatsApp'tan Yaz"
+        whatsappPrefill={landingWaMessage}
+        responseHint="Telefon ve WhatsApp üzerinden genellikle kısa sürede geri dönüş hedeflenir; yoğunluğa ve uygunluk durumuna göre değişir."
       />
 
       <ServiceCards
@@ -450,16 +461,16 @@ export default async function DynamicServicePage({ params }: PageProps) {
                 href={`tel:${CONTACT_INFO.phone}`}
                 className="mt-6 w-full bg-brand-red text-white py-4 rounded-2xl font-bold flex items-center justify-center gap-2 hover:bg-red-700 transition-colors shadow-lg shadow-red-200"
               >
-                Hemen servis kaydı oluşturun
+                Hemen Ara
               </a>
               <a
-                href={CONTACT_INFO.whatsapp}
+                href={landingWaHref}
                 target="_blank"
                 rel="noreferrer"
                 className="mt-3 w-full border-2 border-brand-red/40 text-brand-dark bg-white py-3.5 rounded-2xl font-bold flex items-center justify-center gap-2 hover:bg-red-50 transition-colors"
               >
                 <MessageCircle className="w-5 h-5 text-brand-red" />
-                WhatsApp üzerinden devam edin
+                WhatsApp ile devam
               </a>
             </div>
           </div>
@@ -508,8 +519,11 @@ export default async function DynamicServicePage({ params }: PageProps) {
       <FAQSection faqs={pageFaqs} />
 
       <ContactCTA
-        headline={`${locationText} için size en yakın teknik ekibi yönlendirelim.`}
+        headline={`${locationText} için size en yakın ekibi yönlendirelim.`}
         description="Servis kaydı oluşturmak üzere arayın veya WhatsApp üzerinden adres ve arıza notunu paylaşın."
+        whatsappPrefill={landingWaMessage}
+        primaryButtonLabel="Arıza İçin Destek Al"
+        secondaryButtonLabel="WhatsApp'tan Yaz"
       />
     </>
   );

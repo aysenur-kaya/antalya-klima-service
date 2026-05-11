@@ -10,6 +10,7 @@ import ServiceProcessSection from "@/components/sections/ServiceProcessSection";
 import ContextTestimonials from "@/components/sections/ContextTestimonials";
 import { ilceler, klimaMarkalari, beyazEsyaMarkalari } from "@/lib/data";
 import { getTestimonialsForContext } from "@/lib/testimonials";
+import { WHATSAPP_PREFILL_GENERAL } from "@/lib/whatsapp";
 
 export default function Home() {
   const allAntalyaDistricts = ilceler;
@@ -18,7 +19,8 @@ export default function Home() {
     serviceType: "klima",
     hasBrand: false,
     seed: "home",
-    count: 2,
+    count: 3,
+    preset: "homepage",
   });
 
   return (
@@ -26,8 +28,10 @@ export default function Home() {
       <HeroSection
         title="Antalya Klima ve Beyaz Eşya Servisi"
         subtitle="Antalya genelinde hızlı, garantili ve profesyonel beyaz eşya ve klima bakım, tamir, montaj hizmetleri."
-        primaryCtaText="Servis kaydı için hemen arayın"
-        secondaryCtaText="WhatsApp üzerinden hızlı destek alın"
+        primaryCtaText="Hemen Ara"
+        secondaryCtaText="WhatsApp'tan Yaz"
+        whatsappPrefill={WHATSAPP_PREFILL_GENERAL}
+        responseHint="Servis talebiniz için genellikle kısa sürede geri dönüş sağlanır; yoğunluğa ve uygunluk durumuna göre süre değişebilir."
       />
       <ServiceCards />
       <LocalTrustStrip />
@@ -55,7 +59,13 @@ export default function Home() {
       <ServiceProcessSection />
       <ContextTestimonials items={homeStories} />
       <FAQSection />
-      <ContactCTA />
+      <ContactCTA
+        whatsappPrefill={WHATSAPP_PREFILL_GENERAL}
+        primaryButtonLabel="Servis Talebi Oluştur"
+        secondaryButtonLabel="WhatsApp'tan Yaz"
+        headline="Size en yakın ekibi yönlendirelim."
+        description="Arıza notu ve adresinizi paylaşın; yoğunluğa göre genellikle kısa sürede dönüş sağlanır."
+      />
     </>
   );
 }

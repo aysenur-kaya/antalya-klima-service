@@ -4,6 +4,7 @@ import { BookOpen, ChevronRight, Snowflake, WashingMachine } from "lucide-react"
 import { buildMetadata } from "@/lib/metadata";
 import { getAllGuides, getGuidesByCategory } from "@/lib/guides";
 import ContactCTA from "@/components/sections/ContactCTA";
+import { WHATSAPP_PREFILL_GENERAL } from "@/lib/whatsapp";
 
 export const metadata: Metadata = buildMetadata({
   title: "Teknik Bilgi Merkezi | Antalya Klima ve Beyaz Eşya Rehberi",
@@ -112,6 +113,9 @@ export default function RehberIndexPage() {
       <ContactCTA
         headline="Sorun devam ediyorsa teknik destek alın."
         description="Rehber adımları risk oluşturmadan uygulanamıyorsa veya belirti kötüleşiyorsa telefon veya WhatsApp ile servis kaydı oluşturun."
+        whatsappPrefill={WHATSAPP_PREFILL_GENERAL}
+        primaryButtonLabel="Hemen Ara"
+        secondaryButtonLabel="WhatsApp'tan Yaz"
       />
     </div>
   );

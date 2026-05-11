@@ -8,9 +8,11 @@ import JsonLd from "@/components/seo/JsonLd";
 import ServiceProcessSection from "@/components/sections/ServiceProcessSection";
 import LocalTrustStrip from "@/components/sections/LocalTrustStrip";
 import ContextTestimonials from "@/components/sections/ContextTestimonials";
+import WhyChooseUs from "@/components/sections/WhyChooseUs";
 import { SITE_URL } from "@/lib/constants";
 import { allServicePages, getServicePageBySlug } from "@/lib/services";
 import { getTestimonialsForContext } from "@/lib/testimonials";
+import { buildLandingWhatsappMessage } from "@/lib/whatsapp";
 
 interface PageProps {
   params: Promise<{ slug: string }>;
@@ -73,17 +75,26 @@ export default async function HizmetDetayPage({ params }: PageProps) {
     count: 2,
   });
 
+  const hizmetWaMsg = buildLandingWhatsappMessage({
+    locationText: "Antalya",
+    serviceName: service.title,
+  });
+
   return (
     <>
       <JsonLd data={serviceSchema} />
       <HeroSection
         title={`Antalya ${service.title}`}
         subtitle={service.summary}
-        primaryCtaText="Servis kaydı için hemen arayın"
-        secondaryCtaText="WhatsApp üzerinden hızlı destek alın"
+        primaryCtaText="Hemen Ara"
+        secondaryCtaText="WhatsApp'tan Yaz"
+        whatsappPrefill={hizmetWaMsg}
+        responseHint="Servis talebiniz için uygunluk durumuna göre genellikle kısa sürede geri dönüş sağlanır."
       />
 
       <LocalTrustStrip />
+
+      <WhyChooseUs />
 
       <section className="py-20 bg-white">
         <div className="container mx-auto px-4 md:px-6">
@@ -163,7 +174,13 @@ export default async function HizmetDetayPage({ params }: PageProps) {
 
       <ContextTestimonials items={stories} />
 
-      <ContactCTA />
+      <ContactCTA
+        whatsappPrefill={hizmetWaMsg}
+        headline="Bu hizmet için teknik destek alın."
+        description="Adres ve cihaz bilgisini paylaşın; size en uygun ekip yönlendirmesi için geri dönüş yapalım."
+        primaryButtonLabel="Arıza İçin Destek Al"
+        secondaryButtonLabel="WhatsApp'tan Yaz"
+      />
     </>
   );
 }

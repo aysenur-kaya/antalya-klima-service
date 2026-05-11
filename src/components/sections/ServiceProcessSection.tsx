@@ -1,25 +1,30 @@
-import { ClipboardList, Navigation, Stethoscope, BadgeCheck } from "lucide-react";
+import { ClipboardList, Info, Navigation, Stethoscope, BadgeCheck } from "lucide-react";
 
 const steps = [
   {
     icon: ClipboardList,
-    title: "Servis kaydı",
-    description: "Telefon veya WhatsApp üzerinden arıza notu, adres ve mümkünse cihaz modelini paylaşın.",
+    title: "Talep oluşturma",
+    description: "Telefon veya WhatsApp ile arıza notu, adres ve mümkünse cihaz modelini paylaşın.",
+  },
+  {
+    icon: Info,
+    title: "Ön bilgilendirme",
+    description: "Yoğunluk ve rota uygunluğuna göre yaklaşım penceresi ve sizden istenebilecek ek bilgiler netleştirilir.",
   },
   {
     icon: Navigation,
-    title: "Teknik ekip yönlendirmesi",
-    description: "Bölgenize uygun müsait teknisyen atanır; yaklaşım süresi çağrı sırasında netleştirilir.",
+    title: "Teknik ekip yönlendirme",
+    description: "Bölgenize uygun müsait teknisyen atanır; çağrı sırasında süre ve erişim notları konuşulur.",
   },
   {
     icon: Stethoscope,
     title: "Arıza tespiti",
-    description: "Yerinde test ve görsel kontrollerle sorun kaynağı belirlenir; rapor size açık şekilde aktarılır.",
+    description: "Yerinde test ve kontrollerle sorun kaynağı belirlenir; bulgular sade şekilde paylaşılır.",
   },
   {
     icon: BadgeCheck,
     title: "Onay sonrası işlem",
-    description: "Onayladığınız kalemler uygulanır; parça değişiminde önceden bilgilendirme ve test yapılır.",
+    description: "Onayladığınız kalemler uygulanır; parça değişiminde önceden bilgilendirme ve temel test yapılır.",
   },
 ];
 
@@ -33,7 +38,7 @@ export default function ServiceProcessSection({ className = "" }: { className?: 
             Tüm taleplerde aynı adımları izleriz; sürpriz işlem yapılmaz, onayınız olmadan ilerlenmez.
           </p>
         </div>
-        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6">
+        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-5 gap-6">
           {steps.map((step, idx) => {
             const Icon = step.icon;
             return (

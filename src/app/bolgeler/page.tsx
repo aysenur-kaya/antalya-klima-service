@@ -5,6 +5,7 @@ import { ilceler } from "@/lib/data";
 import { SITE_URL } from "@/lib/constants";
 import HeroSection from "@/components/sections/HeroSection";
 import ContactCTA from "@/components/sections/ContactCTA";
+import { WHATSAPP_PREFILL_GENERAL } from "@/lib/whatsapp";
 
 export const metadata: Metadata = {
   title: "Antalya Hizmet Bölgelerimiz | Tüm İlçeler ve Mahalleler",
@@ -18,6 +19,9 @@ export default function BolgelerPage() {
       <HeroSection 
         title="Antalya Hizmet Bölgelerimiz" 
         subtitle="Antalya'nın 19 ilçesinde ve tüm mahallelerinde profesyonel teknik servis ekiplerimizle hizmetinizdeyiz."
+        primaryCtaText="Hemen Ara"
+        secondaryCtaText="WhatsApp'tan Yaz"
+        whatsappPrefill={WHATSAPP_PREFILL_GENERAL}
       />
 
       <section className="py-20">
@@ -67,7 +71,12 @@ export default function BolgelerPage() {
         </div>
       </section>
 
-      <ContactCTA />
+      <ContactCTA
+        whatsappPrefill={WHATSAPP_PREFILL_GENERAL}
+        headline="Bölgenizi seçin, ardından servis talebi oluşturun."
+        primaryButtonLabel="Hemen Ara"
+        secondaryButtonLabel="WhatsApp'tan Yaz"
+      />
     </div>
   );
 }

@@ -12,6 +12,8 @@ import ContextTestimonials from "@/components/sections/ContextTestimonials";
 import { allBrands, beyazEsyaMarkalari, getBrandBySlug, ilceler, klimaMarkalari } from "@/lib/data";
 import { SITE_URL } from "@/lib/constants";
 import { getTestimonialsForContext } from "@/lib/testimonials";
+import { buildLandingWhatsappMessage } from "@/lib/whatsapp";
+import WhyChooseUs from "@/components/sections/WhyChooseUs";
 
 interface PageProps {
   params: Promise<{ slug: string }>;
@@ -97,14 +99,22 @@ export default async function ServisMarkaDetayPage({ params }: PageProps) {
     count: 2,
   });
 
+  const brandWaMsg = buildLandingWhatsappMessage({
+    locationText: "Antalya",
+    serviceName,
+    brandName: brand.name,
+  });
+
   return (
     <>
       <JsonLd data={serviceSchema} />
       <HeroSection
         title={`Antalya ${brand.name} ${serviceName}`}
         subtitle={`${brand.name} marka cihazınız için Antalya genelinde bakım, arıza tespiti ve garantili özel servis yönlendirmesi.`}
-        primaryCtaText="Servis kaydı için hemen arayın"
-        secondaryCtaText="WhatsApp üzerinden hızlı destek alın"
+        primaryCtaText="Hemen Ara"
+        secondaryCtaText="WhatsApp'tan Yaz"
+        whatsappPrefill={brandWaMsg}
+        responseHint="Çağrı ve mesajlara genellikle kısa sürede dönüş hedeflenir; yoğunluğa göre süre değişebilir."
       />
 
       {/* Yasal uyarı — marka bağımsız özel servis bildirimi */}
@@ -117,6 +127,8 @@ export default async function ServisMarkaDetayPage({ params }: PageProps) {
       </div>
 
       <LocalTrustStrip />
+
+      <WhyChooseUs />
 
       <section className="py-20 bg-white">
         <div className="container mx-auto px-4 md:px-6">
@@ -190,7 +202,13 @@ export default async function ServisMarkaDetayPage({ params }: PageProps) {
       <BrandGrid brands={relatedBrands.filter((item) => item.slug !== brand.slug).slice(0, 18)} basePath="/servis" title="Diğer Marka Servis Sayfaları" />
       <ServiceProcessSection />
       <ContextTestimonials items={stories} />
-      <ContactCTA />
+      <ContactCTA
+        whatsappPrefill={brandWaMsg}
+        headline="Markaya özel yönlendirme ile devam edin."
+        description="Model ve arıza notunu paylaşın; uygun rota için kısa sürede geri dönüş hedeflenir."
+        primaryButtonLabel="Servis Talebi Oluştur"
+        secondaryButtonLabel="WhatsApp'tan Yaz"
+      />
     </>
   );
 }

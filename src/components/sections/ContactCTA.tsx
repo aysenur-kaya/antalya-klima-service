@@ -1,14 +1,26 @@
 import { Phone, MessageCircle, Zap } from "lucide-react";
 import { CONTACT_INFO } from "@/lib/constants";
+import { buildWhatsAppUrl } from "@/lib/whatsapp";
 
-export default function ContactCTA(props?: {
-  headline?: string;
-  description?: string;
-}) {
+export default function ContactCTA(
+  props?: {
+    headline?: string;
+    description?: string;
+    whatsappPrefill?: string;
+    primaryButtonLabel?: string;
+    secondaryButtonLabel?: string;
+  }
+) {
   const {
     headline = "Size en yakın teknik ekibi yönlendirelim.",
-    description = "Servis kaydı oluşturmak için arayın veya WhatsApp üzerinden kısa arıza notu ve adres paylaşın.",
+    description = "Servis talebi oluşturmak için arayın veya WhatsApp üzerinden kısa arıza notu ve adres paylaşın.",
+    whatsappPrefill,
+    primaryButtonLabel = "Hemen Ara",
+    secondaryButtonLabel = "WhatsApp'tan Yaz",
   } = props ?? {};
+
+  const waHref = buildWhatsAppUrl(whatsappPrefill);
+
   return (
     <section
       id="iletisim"
@@ -54,13 +66,17 @@ export default function ContactCTA(props?: {
                 {headline}
               </h2>
 
-              <p className="text-sm md:text-[15px] text-gray-400 leading-relaxed mb-5 max-w-xl">
+              <p className="text-sm md:text-[15px] text-gray-400 leading-relaxed mb-4 max-w-xl">
                 {description}
               </p>
 
+              <p className="text-xs sm:text-[13px] text-gray-500 font-medium leading-relaxed mb-4 max-w-xl">
+                Telefon ve WhatsApp üzerinden genellikle kısa sürede geri dönüş sağlanır; yoğunluğa ve uygunluk durumuna göre süre değişebilir.
+              </p>
+
               <p className="text-xs sm:text-[13px] text-gray-500 font-medium leading-relaxed">
-                Aynı Gün Servis&nbsp;&nbsp;•&nbsp;&nbsp;Garantili İşçilik
-                &nbsp;&nbsp;•&nbsp;&nbsp;Hızlı Müdahale
+                Aynı gün servis imkânı&nbsp;&nbsp;•&nbsp;&nbsp;Şeffaf bilgilendirme
+                &nbsp;&nbsp;•&nbsp;&nbsp;Antalya geneli yönlendirme
               </p>
             </div>
 
@@ -71,16 +87,16 @@ export default function ContactCTA(props?: {
                 className="flex w-full items-center justify-center gap-2 rounded-2xl bg-brand-red px-5 py-3.5 text-sm font-bold text-white shadow-[0_8px_22px_rgba(200,30,30,0.32)] transition-all duration-200 hover:bg-red-700 hover:shadow-[0_10px_28px_rgba(200,30,30,0.38)] active:scale-[0.98] sm:py-3"
               >
                 <Phone className="h-4 w-4 shrink-0" aria-hidden />
-                Hemen servis kaydı oluşturun
+                {primaryButtonLabel}
               </a>
               <a
-                href={CONTACT_INFO.whatsapp}
+                href={waHref}
                 target="_blank"
                 rel="noreferrer"
                 className="flex w-full items-center justify-center gap-2 rounded-2xl bg-[#25D366] px-5 py-3.5 text-sm font-bold text-white shadow-[0_8px_22px_rgba(37,211,102,0.22)] transition-all duration-200 hover:bg-[#20b858] active:scale-[0.98] sm:py-3"
               >
                 <MessageCircle className="h-4 w-4 shrink-0" aria-hidden />
-                WhatsApp ile devam edin
+                {secondaryButtonLabel}
               </a>
             </div>
           </div>

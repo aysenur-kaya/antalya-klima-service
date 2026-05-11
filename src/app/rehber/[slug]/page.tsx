@@ -7,6 +7,7 @@ import FAQSection from "@/components/sections/FAQSection";
 import ContactCTA from "@/components/sections/ContactCTA";
 import { buildMetadata } from "@/lib/metadata";
 import { CONTACT_INFO } from "@/lib/constants";
+import { buildGuideWhatsappMessage, buildWhatsAppUrl } from "@/lib/whatsapp";
 import { buildArticleSchema, buildBreadcrumbSchema } from "@/lib/schema";
 import { getGuideBySlug, getRelatedGuides, getAllGuideSlugs, type GuideLink } from "@/lib/guides";
 
@@ -68,6 +69,7 @@ export default async function RehberDetailPage({ params }: PageProps) {
 
   const related = getRelatedGuides(guide);
   const h1Text = guide.title.split("|")[0].trim();
+  const guideWaHref = buildWhatsAppUrl(buildGuideWhatsappMessage(h1Text));
 
   const breadcrumbItems = [
     { name: "Ana Sayfa", path: "/" },
@@ -145,6 +147,38 @@ export default async function RehberDetailPage({ params }: PageProps) {
             </div>
           </section>
 
+          <section
+            aria-labelledby="natural-cta-heading"
+            className="rounded-2xl border border-gray-200 bg-brand-light/60 p-5 md:p-6"
+          >
+            <h2 id="natural-cta-heading" className="text-lg font-bold text-brand-dark mb-3">
+              Sorun sürüyor mu?
+            </h2>
+            <p className="text-sm md:text-[15px] text-gray-700 leading-relaxed mb-4">
+              Sorun devam ediyorsa cihazı zorlamadan teknik destek almanız daha güvenli olur. İlgili hizmet
+              sayfasından süreci netleştirebilir veya kısa bir arıza notuyla WhatsApp üzerinden yönlendirme
+              alabilirsiniz.
+            </p>
+            <div className="flex flex-col sm:flex-row flex-wrap gap-3">
+              {guide.relatedServiceLinks[0] ? (
+                <Link
+                  href={guide.relatedServiceLinks[0].href}
+                  className="inline-flex items-center justify-center rounded-xl bg-white border border-gray-200 px-4 py-3 text-sm font-bold text-brand-dark hover:border-brand-red/40 hover:text-brand-red transition-colors"
+                >
+                  {guide.relatedServiceLinks[0].label}
+                </Link>
+              ) : null}
+              <a
+                href={guideWaHref}
+                target="_blank"
+                rel="noreferrer"
+                className="inline-flex items-center justify-center rounded-xl bg-[#25D366] px-4 py-3 text-sm font-bold text-white hover:bg-[#20b858] transition-colors"
+              >
+                WhatsApp&apos;tan Yaz
+              </a>
+            </div>
+          </section>
+
           <section aria-labelledby="checks-heading" className="rounded-3xl border border-gray-200 bg-white p-6 md:p-8 shadow-sm">
             <h2 id="checks-heading" className="text-xl font-bold text-brand-dark mb-4">
               Güvenli kullanıcı kontrolleri
@@ -176,7 +210,7 @@ export default async function RehberDetailPage({ params }: PageProps) {
             </ul>
             <p className="text-sm text-gray-400 mb-6">
               Sorun devam ediyorsa veya güvenli şekilde ilerleyemiyorsanız{" "}
-              <a href={CONTACT_INFO.whatsapp} className="text-white font-semibold underline underline-offset-2 hover:text-brand-red transition-colors">
+              <a href={guideWaHref} target="_blank" rel="noreferrer" className="text-white font-semibold underline underline-offset-2 hover:text-brand-red transition-colors">
                 WhatsApp
               </a>{" "}
               üzerinden kısa arıza notu ve adres paylaşabilirsiniz.
@@ -187,16 +221,16 @@ export default async function RehberDetailPage({ params }: PageProps) {
                 className="inline-flex items-center justify-center gap-2 rounded-xl bg-brand-red px-5 py-3.5 text-sm font-bold hover:bg-red-700 transition-colors"
               >
                 <Phone className="w-4 h-4" />
-                Servis kaydı için ara
+                Hemen Ara
               </a>
               <a
-                href={CONTACT_INFO.whatsapp}
+                href={guideWaHref}
                 target="_blank"
                 rel="noreferrer"
                 className="inline-flex items-center justify-center gap-2 rounded-xl bg-white/10 px-5 py-3.5 text-sm font-bold hover:bg-white/15 transition-colors border border-white/20"
               >
                 <MessageCircle className="w-4 h-4" />
-                WhatsApp ile yaz
+                WhatsApp&apos;tan Yaz
               </a>
             </div>
           </section>
@@ -243,6 +277,9 @@ export default async function RehberDetailPage({ params }: PageProps) {
         <ContactCTA
           headline="Teknik destek ve servis planlaması"
           description="Antalya genelinde klima ve beyaz eşya için ekip yönlendirmesi almak üzere bize ulaşın."
+          whatsappPrefill={buildGuideWhatsappMessage(h1Text)}
+          primaryButtonLabel="Servis Talebi Oluştur"
+          secondaryButtonLabel="WhatsApp'tan Yaz"
         />
       </article>
     </>

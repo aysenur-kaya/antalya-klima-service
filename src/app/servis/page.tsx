@@ -8,6 +8,7 @@ import ServiceProcessSection from "@/components/sections/ServiceProcessSection";
 import ContextTestimonials from "@/components/sections/ContextTestimonials";
 import { beyazEsyaMarkalari, klimaMarkalari } from "@/lib/data";
 import { getTestimonialsForContext } from "@/lib/testimonials";
+import { WHATSAPP_PREFILL_GENERAL } from "@/lib/whatsapp";
 
 export const metadata: Metadata = {
   title: "Servis Markaları | Antalya Klima ve Beyaz Eşya Servisi",
@@ -46,8 +47,9 @@ export default function ServisMarkalariPage() {
       <HeroSection
         title="Antalya servis markaları"
         subtitle="Marka ve cihaz türünü seçerek servis bilgilerine hızlıca ulaşabilirsiniz."
-        primaryCtaText="Servis kaydı için hemen arayın"
-        secondaryCtaText="WhatsApp üzerinden hızlı destek alın"
+        primaryCtaText="Hemen Ara"
+        secondaryCtaText="WhatsApp'tan Yaz"
+        whatsappPrefill={WHATSAPP_PREFILL_GENERAL}
       />
 
       <LocalTrustStrip />
@@ -94,7 +96,12 @@ export default function ServisMarkalariPage() {
 
       <ContextTestimonials items={servisStories} />
 
-      <ContactCTA />
+      <ContactCTA
+        whatsappPrefill={WHATSAPP_PREFILL_GENERAL}
+        headline="Markanızı bulduktan sonra servis talebini iletin."
+        primaryButtonLabel="Hemen Ara"
+        secondaryButtonLabel="WhatsApp'tan Yaz"
+      />
     </>
   );
 }

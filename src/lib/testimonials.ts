@@ -7,6 +7,26 @@ export type Testimonial = {
 };
 
 const POOLS: Record<string, Testimonial[]> = {
+  homepage: [
+    {
+      quote:
+        "Önce telefonda neye bakılacağını anlattılar; teknik detayları aşırıya kaçmadan özetlediler. Randevu saatine uydular.",
+      name: "B. T.",
+      context: "Muratpaşa",
+    },
+    {
+      quote:
+        "WhatsApp'tan model fotoğrafı attım; uygunluk ve yaklaşım süresi konusunda net cevap aldım.",
+      name: "K. A.",
+      context: "Kepez",
+    },
+    {
+      quote:
+        "İşe başlamadan ücret kalemlerini konuştuk; onaydan sonra ilerlediler. Süreç sürpriz çıkmadan tamamlandı.",
+      name: "Ö. R.",
+      context: "Konyaaltı",
+    },
+  ],
   klima: [
     { quote: "Klimanın su akıtması için sabah aradım, öğleden sonra evdeydiler. Süreç boyunca ne yapılacağını adım adım anlattılar.", name: "E. Y.", context: "Muratpaşa, split klima" },
     { quote: "Bakımdan sonra hem ses hem de soğutma düzeldi. Fiyatı işe başlamadan öğrendim, sürpriz olmadı.", name: "M. K.", context: "Konyaaltı" },
@@ -61,7 +81,22 @@ export function getTestimonialsForContext(args: {
   hasBrand: boolean;
   seed: string;
   count?: number;
+  /** Ana sayfa için ayrı havuz (aynı yorumların tekrarını azaltır) */
+  preset?: "homepage";
 }): Testimonial[] {
+  if (args.preset === "homepage") {
+    const primary = [...POOLS.homepage];
+    const h = hashSeed([args.seed, "homepage"]);
+    const rotated = [...primary.slice(h % primary.length), ...primary.slice(0, h % primary.length)];
+    const seen = new Set<string>();
+    const unique = rotated.filter((t) => {
+      if (seen.has(t.quote)) return false;
+      seen.add(t.quote);
+      return true;
+    });
+    return unique.slice(0, args.count ?? 3);
+  }
+
   const key = pickPoolKey(args);
   let primary = [...(POOLS[key] ?? POOLS.beyaz_esya)];
   if (primary.length < 3) {

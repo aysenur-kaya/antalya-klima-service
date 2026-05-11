@@ -7,12 +7,15 @@ import { Menu, X, Phone, MessageCircle, ChevronDown } from "lucide-react";
 import { cn } from "@/lib/utils";
 import { ilceler, klimaMarkalari, beyazEsyaMarkalari } from "@/lib/data";
 import { CONTACT_INFO } from "@/lib/constants";
+import { buildWhatsAppUrl, WHATSAPP_PREFILL_GENERAL } from "@/lib/whatsapp";
 import { allServicePages } from "@/lib/services";
 
 const hizmetMenuItems = allServicePages.map((service) => ({
   name: service.title,
   href: `/hizmetler/${service.slug}`,
 }));
+
+const HEADER_WHATSAPP_HREF = buildWhatsAppUrl(WHATSAPP_PREFILL_GENERAL);
 
 export default function Header() {
   const pathname = usePathname();
@@ -274,7 +277,7 @@ export default function Header() {
                 <span>{CONTACT_INFO.phoneFormatted}</span>
               </a>
               <a
-                href={CONTACT_INFO.whatsapp}
+                href={HEADER_WHATSAPP_HREF}
                 target="_blank"
                 rel="noreferrer"
                 onClick={closeAllMenus}
@@ -478,7 +481,13 @@ export default function Header() {
               <Phone className="w-5 h-5 text-brand-red" />
               {CONTACT_INFO.phoneFormatted}
             </a>
-            <a href={CONTACT_INFO.whatsapp} onClick={closeAllMenus} className="flex items-center justify-center gap-3 bg-[#25D366] text-white p-4 rounded-xl font-bold transition-all active:scale-95 shadow-lg shadow-green-500/10">
+            <a
+              href={HEADER_WHATSAPP_HREF}
+              target="_blank"
+              rel="noreferrer"
+              onClick={closeAllMenus}
+              className="flex items-center justify-center gap-3 bg-[#25D366] text-white p-4 rounded-xl font-bold transition-all active:scale-95 shadow-lg shadow-green-500/10"
+            >
               <MessageCircle className="w-5 h-5" />
               {"WhatsApp'tan Yaz"}
             </a>
