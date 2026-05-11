@@ -1,19 +1,12 @@
 import Link from "next/link";
 import { Phone, MapPin, Clock } from "lucide-react";
-import { ilceler, klimaMarkalari, beyazEsyaMarkalari } from "@/lib/data";
+import { ilceler } from "@/lib/data";
 import { cn } from "@/lib/utils";
 import { CONTACT_INFO } from "@/lib/constants";
 import { allServicePages } from "@/lib/services";
 
 export default function Footer() {
   const popularIlceler = ilceler.slice(0, 9);
-  const popularKlimaMarkalari = klimaMarkalari.filter((b) =>
-    ["mitsubishi", "daikin", "arcelik", "beko", "bosch", "samsung"].includes(b.slug)
-  );
-  const popularBeyazEsyaMarkalari = beyazEsyaMarkalari.filter((b) =>
-    ["bosch", "siemens", "profilo", "arcelik", "beko", "vestel"].includes(b.slug)
-  );
-
   return (
     <footer className="relative bg-neutral-50 pt-20 pb-10 overflow-hidden text-neutral-700 border-t border-gray-200">
       <div className="absolute top-0 left-1/2 -translate-x-1/2 w-[600px] h-[240px] bg-brand-red/[0.018] blur-[90px] pointer-events-none rounded-full" />
@@ -96,48 +89,14 @@ export default function Footer() {
           <div>
             <h4 className="text-neutral-900 font-bold text-lg mb-6 flex items-center gap-2">
               <span className="w-1 h-6 bg-brand-red rounded-full" />
-              Öne Çıkan Markalar
+              Markalar
             </h4>
-            <div className="flex flex-col gap-6">
-              <div>
-                <p className="text-[10px] text-neutral-500 uppercase font-bold mb-3 tracking-widest">Klima</p>
-                <div className="grid grid-cols-2 lg:grid-cols-2 gap-2 md:flex md:flex-col md:gap-2">
-                  {popularKlimaMarkalari.map((b, index) => (
-                    <Link
-                      key={`footer-klima-${b.slug}`}
-                      href={`/servis/${b.slug}-klima-servisi`}
-                      className={`text-sm text-neutral-700 hover:text-brand-red transition-colors ${
-                        index >= 3 ? "hidden md:block" : "block"
-                      }`}
-                    >
-                      {b.name}
-                    </Link>
-                  ))}
-                  <Link href="/servis" className="text-xs font-bold text-brand-red hover:text-[#9f1414] mt-1">
-                    {"Tümünü Gör →"}
-                  </Link>
-                </div>
-              </div>
-              <div>
-                <p className="text-[10px] text-neutral-500 uppercase font-bold mb-3 tracking-widest">Beyaz Eşya</p>
-                <div className="grid grid-cols-2 lg:grid-cols-2 gap-2 md:flex md:flex-col md:gap-2">
-                  {popularBeyazEsyaMarkalari.map((b, index) => (
-                    <Link
-                      key={`footer-beyaz-${b.slug}`}
-                      href={`/servis/${b.slug}-beyaz-esya-servisi`}
-                      className={`text-sm text-neutral-700 hover:text-brand-red transition-colors ${
-                        index >= 3 ? "hidden md:block" : "block"
-                      }`}
-                    >
-                      {b.name}
-                    </Link>
-                  ))}
-                  <Link href="/servis" className="text-xs font-bold text-brand-red hover:text-[#9f1414] mt-1">
-                    {"Tümünü Gör →"}
-                  </Link>
-                </div>
-              </div>
-            </div>
+            <Link
+              href="/servis"
+              className="text-brand-red hover:text-[#9f1414] transition-colors inline-block font-bold"
+            >
+              {"Tüm Markalar →"}
+            </Link>
           </div>
 
           <div>
