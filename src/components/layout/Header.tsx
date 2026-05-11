@@ -2,6 +2,7 @@
 
 import { useState, useEffect } from "react";
 import Link from "next/link";
+import { usePathname } from "next/navigation";
 import { Menu, X, Phone, MessageCircle, ChevronDown } from "lucide-react";
 import { cn } from "@/lib/utils";
 import { ilceler, klimaMarkalari, beyazEsyaMarkalari } from "@/lib/data";
@@ -14,6 +15,7 @@ const hizmetMenuItems = allServicePages.map((service) => ({
 }));
 
 export default function Header() {
+  const pathname = usePathname();
   const [isScrolled, setIsScrolled] = useState(false);
   const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
   const [openAccordion, setOpenAccordion] = useState<string | null>(null);
@@ -53,7 +55,8 @@ export default function Header() {
     setOpenAccordion(openAccordion === name ? null : name);
   };
 
-
+  const isRehberActive = pathname === "/rehber" || pathname.startsWith("/rehber/");
+  const isIletisimActive = pathname === "/iletisim";
 
 
   return (
@@ -241,11 +244,25 @@ export default function Header() {
                 )}
               </div>
 
-              <Link href="/rehber" onClick={closeAllMenus} className="text-gray-300 hover:text-white transition-colors font-medium">
+              <Link
+                href="/rehber"
+                onClick={closeAllMenus}
+                className={cn(
+                  "transition-colors font-medium",
+                  isRehberActive ? "text-brand-red" : "text-gray-300 hover:text-white"
+                )}
+              >
                 Rehber
               </Link>
 
-              <Link href="/iletisim" onClick={closeAllMenus} className="text-gray-300 hover:text-white transition-colors font-medium">
+              <Link
+                href="/iletisim"
+                onClick={closeAllMenus}
+                className={cn(
+                  "transition-colors font-medium",
+                  isIletisimActive ? "text-brand-red" : "text-gray-300 hover:text-white"
+                )}
+              >
                 İletişim
               </Link>
             </nav>
@@ -430,7 +447,10 @@ export default function Header() {
             <Link
               href="/rehber"
               onClick={closeAllMenus}
-              className="flex items-center min-h-[52px] py-3.5 text-white font-semibold text-base active:text-brand-red transition-colors"
+              className={cn(
+                "flex items-center min-h-[52px] py-3.5 font-semibold text-base transition-colors",
+                isRehberActive ? "text-brand-red" : "text-white active:text-brand-red"
+              )}
             >
               Rehber
             </Link>
@@ -441,7 +461,10 @@ export default function Header() {
             <Link
               href="/iletisim"
               onClick={closeAllMenus}
-              className="flex items-center min-h-[52px] py-3.5 text-white font-semibold text-base active:text-brand-red transition-colors"
+              className={cn(
+                "flex items-center min-h-[52px] py-3.5 font-semibold text-base transition-colors",
+                isIletisimActive ? "text-brand-red" : "text-white active:text-brand-red"
+              )}
             >
               İletişim
             </Link>
