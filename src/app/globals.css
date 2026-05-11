@@ -1,33 +1,26 @@
 @import "tailwindcss";
 
 @theme {
+  /* Primary kırmızı + koyu kırmızı vurgu; metin koyu gri; zemin açık */
   --color-brand-red: #c81e1e;
-  --color-brand-dark: #111111;
-  --color-brand-gray: #1f1f1f;
-  --color-brand-light: #f9f9f9;
-  
+  --color-brand-red-dark: #9f1414;
+  --color-brand-dark: #1e293b;
+  --color-brand-gray: #f1f5f9;
+  --color-brand-light: #f8fafc;
+  --color-brand-border: #e2e8f0;
+
   --font-sans: "Inter", "system-ui", "sans-serif";
 }
 
 @layer base {
   :root {
     --background: #ffffff;
-    --foreground: #111111;
+    --foreground: #1e293b;
     --primary: #c81e1e;
     --primary-foreground: #ffffff;
     --card: #ffffff;
-    --card-foreground: #111111;
-    --border: #e5e5e5;
-  }
-
-  .dark {
-    --background: #111111;
-    --foreground: #f9f9f9;
-    --primary: #c81e1e;
-    --primary-foreground: #ffffff;
-    --card: #1f1f1f;
-    --card-foreground: #f9f9f9;
-    --border: #333333;
+    --card-foreground: #1e293b;
+    --border: #e2e8f0;
   }
 
   body {
@@ -43,23 +36,23 @@
   .text-balance {
     text-wrap: balance;
   }
-  
+
   .glass-card {
-    background: rgba(255, 255, 255, 0.05);
+    background: rgba(255, 255, 255, 0.85);
     backdrop-filter: blur(10px);
     -webkit-backdrop-filter: blur(10px);
-    border: 1px solid rgba(255, 255, 255, 0.1);
+    border: 1px solid rgba(226, 232, 240, 0.9);
   }
 
-  /* Hero: koyu zemin + hafif kırmızı vurgu (site geneli kırmızı–beyaz uyumu) */
+  /* Açık hero: beyaz + çok hafif kırmızı yıkama — koyu gradient yok */
   .premium-gradient {
     background:
-      radial-gradient(ellipse 85% 55% at 50% -15%, rgba(200, 30, 30, 0.18), transparent 52%),
-      linear-gradient(165deg, #0d0d0d 0%, #111111 38%, #1a0c0c 72%, #111111 100%);
+      radial-gradient(ellipse 90% 60% at 50% -20%, rgba(200, 30, 30, 0.07), transparent 55%),
+      linear-gradient(180deg, #ffffff 0%, #fef7f7 42%, #fffbfb 100%);
   }
 
   .text-gradient {
-    background: linear-gradient(to right, #ffffff, #a3a3a3);
+    background: linear-gradient(to right, #1e293b, #475569);
     -webkit-background-clip: text;
     -webkit-text-fill-color: transparent;
     background-clip: text;

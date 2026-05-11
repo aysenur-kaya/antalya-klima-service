@@ -41,9 +41,9 @@ export default function MobileStickyCTA() {
   return (
     <div
       className={cn(
-        "lg:hidden fixed bottom-0 left-0 right-0 z-[55] p-2.5 bg-[#111111]/92 backdrop-blur-lg border-t border-white/5 transition-all duration-300 pb-[calc(10px+env(safe-area-inset-bottom))]",
+        "lg:hidden fixed bottom-0 left-0 right-0 z-[55] p-2.5 bg-white/95 backdrop-blur-md border-t border-gray-200 transition-all duration-300 pb-[calc(10px+env(safe-area-inset-bottom))]",
         isVisible && !isMenuOpen
-          ? "translate-y-0 opacity-100 shadow-[0_-10px_30px_rgba(0,0,0,0.5)]"
+          ? "translate-y-0 opacity-100 shadow-[0_-8px_28px_rgba(15,23,42,0.08)]"
           : "translate-y-full opacity-0 pointer-events-none"
       )}
     >
@@ -60,7 +60,7 @@ export default function MobileStickyCTA() {
           href={waHref}
           target="_blank"
           rel="noreferrer"
-          className="flex-1 bg-[#25D366] hover:bg-[#20b858] text-white py-3 rounded-xl font-bold flex items-center justify-center gap-2 transition-all active:scale-95 shadow-lg shadow-green-500/10"
+          className="flex-1 border-2 border-brand-red text-brand-red hover:bg-brand-red hover:text-white py-3 rounded-xl font-bold flex items-center justify-center gap-2 transition-all active:scale-95 bg-white shadow-sm"
         >
           <MessageCircle className="w-4 h-4 shrink-0" aria-hidden />
           <span className="text-sm">WhatsApp&apos;tan Yaz</span>

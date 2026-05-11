@@ -84,7 +84,7 @@ export default function RootLayout({
       </head>
       <body 
         suppressHydrationWarning 
-        className="min-h-screen bg-brand-light text-brand-dark flex flex-col"
+        className="min-h-screen bg-white text-brand-dark flex flex-col"
         style={{ fontFamily: systemFontStack }}
       >
         <Header />

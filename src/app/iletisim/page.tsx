@@ -55,10 +55,10 @@ const contactCards = [
     sub: "Anlık yanıt için WhatsApp",
     href: ILETISIM_WHATSAPP_HREF,
     cta: "WhatsApp'tan Yaz",
-    color: "text-[#25D366]",
-    bg: "bg-[#25D366]/10",
+    color: "text-brand-red",
+    bg: "bg-brand-red/10",
     ctaClass:
-      "bg-[#25D366] hover:bg-[#20b858] text-white shadow-lg shadow-green-200",
+      "bg-white border-2 border-brand-red text-brand-red hover:bg-red-50 shadow-sm",
   },
   {
     icon: MapPin,
@@ -120,22 +120,22 @@ export default function IletisimPage() {
       <JsonLd data={localBusinessSchema} />
 
       {/* ── Hero ────────────────────────────────────────────────── */}
-      <section className="relative premium-gradient text-white pt-[128px] pb-20 lg:pt-[164px] lg:pb-28 overflow-hidden">
-        <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[700px] h-[700px] bg-brand-red/20 blur-[150px] rounded-full pointer-events-none" />
+      <section className="relative premium-gradient text-neutral-900 pt-[128px] pb-20 lg:pt-[164px] lg:pb-28 overflow-hidden border-b border-gray-200">
+        <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[700px] h-[700px] bg-brand-red/[0.08] blur-[150px] rounded-full pointer-events-none" />
 
         <div className="container mx-auto px-4 md:px-6 relative z-10">
           <div className="max-w-3xl mx-auto text-center">
-            <div className="inline-flex items-center gap-2 px-4 py-2 rounded-full glass-card text-brand-red font-medium text-sm mb-6 border border-brand-red/20">
+            <div className="inline-flex items-center gap-2 px-4 py-2 rounded-full bg-red-50 border border-red-100 text-brand-red font-medium text-sm mb-6">
               <span className="w-2 h-2 rounded-full bg-brand-red animate-pulse" />
               7/24 Teknik Destek
             </div>
 
-            <h1 className="text-4xl md:text-5xl lg:text-6xl font-bold tracking-tight mb-6 leading-tight">
+            <h1 className="text-4xl md:text-5xl lg:text-6xl font-bold tracking-tight mb-6 leading-tight text-neutral-900">
               Antalya Klima Servisi
               <span className="block text-brand-red">İletişim</span>
             </h1>
 
-            <p className="text-lg md:text-xl text-gray-300 mb-10 max-w-2xl mx-auto leading-relaxed opacity-90">
+            <p className="text-lg md:text-xl text-neutral-600 mb-10 max-w-2xl mx-auto leading-relaxed">
               Klima bakım, tamir, montaj ve arıza talepleriniz için hızlıca bize
               ulaşın. Antalya genelinde aynı gün servis.
             </p>
@@ -143,18 +143,18 @@ export default function IletisimPage() {
             <div className="flex flex-col sm:flex-row gap-4 justify-center">
               <a
                 href={`tel:${CONTACT_INFO.phone}`}
-                className="w-full sm:w-auto bg-brand-red hover:bg-red-700 text-white px-8 py-4 rounded-xl font-bold flex items-center justify-center gap-3 transition-all hover:scale-105 shadow-[0_10px_20px_rgba(200,30,30,0.3)] text-lg"
+                className="w-full sm:w-auto bg-brand-red hover:bg-[#9f1414] text-white px-8 py-4 rounded-xl font-bold flex items-center justify-center gap-3 transition-all hover:scale-[1.02] shadow-lg shadow-brand-red/20 text-lg"
               >
-                <Phone className="w-6 h-6" />
+                <Phone className="w-6 h-6" aria-hidden />
                 Hemen Ara
               </a>
               <a
                 href={ILETISIM_WHATSAPP_HREF}
                 target="_blank"
                 rel="noreferrer"
-                className="w-full sm:w-auto bg-[#25D366] hover:bg-[#20b858] text-white px-8 py-4 rounded-xl font-bold flex items-center justify-center gap-3 transition-all hover:scale-105 shadow-[0_10px_20px_rgba(37,211,102,0.3)] text-lg"
+                className="w-full sm:w-auto bg-white border-2 border-brand-red text-brand-red hover:bg-red-50 px-8 py-4 rounded-xl font-bold flex items-center justify-center gap-3 transition-all hover:scale-[1.02] shadow-sm text-lg"
               >
-                <MessageCircle className="w-6 h-6" />
+                <MessageCircle className="w-6 h-6" aria-hidden />
                 {"WhatsApp'tan Yaz"}
               </a>
             </div>
@@ -234,25 +234,25 @@ export default function IletisimPage() {
               </div>
 
               {/* Emergency CTA card */}
-              <div className="rounded-3xl bg-brand-dark text-white p-5 md:p-8 relative overflow-hidden">
-                <div className="absolute top-0 right-0 w-32 h-32 bg-brand-red/20 blur-[60px] rounded-full pointer-events-none" />
+              <div className="rounded-3xl border border-gray-200 bg-red-50/50 p-5 md:p-8 relative overflow-hidden">
+                <div className="absolute top-0 right-0 w-32 h-32 bg-brand-red/10 blur-[60px] rounded-full pointer-events-none" />
                 <div className="relative z-10">
-                  <div className="w-12 h-12 rounded-2xl bg-brand-red/20 flex items-center justify-center mb-5">
-                    <AlertCircle className="w-6 h-6 text-brand-red" />
+                  <div className="w-12 h-12 rounded-2xl bg-white border border-red-100 flex items-center justify-center mb-5 shadow-sm">
+                    <AlertCircle className="w-6 h-6 text-brand-red" aria-hidden />
                   </div>
                   <p className="text-xs font-bold uppercase tracking-widest text-brand-red mb-2">
                     7/24 Acil Hat
                   </p>
-                  <h3 className="text-xl font-bold mb-3">Acil Arıza Hattı</h3>
-                  <p className="text-gray-400 text-sm leading-relaxed mb-6">
+                  <h3 className="text-xl font-bold mb-3 text-neutral-900">Acil Arıza Hattı</h3>
+                  <p className="text-neutral-600 text-sm leading-relaxed mb-6">
                     Klima arızaları için hızlı destek alın. Ekibimiz en kısa
                     sürede adresinizde.
                   </p>
                   <a
                     href={`tel:${CONTACT_INFO.phone}`}
-                    className="w-full flex items-center justify-center gap-3 rounded-xl bg-brand-red hover:bg-red-700 px-5 py-3.5 text-sm font-bold transition-all active:scale-95 shadow-lg shadow-red-900/30"
+                    className="w-full flex items-center justify-center gap-3 rounded-xl bg-brand-red hover:bg-[#9f1414] px-5 py-3.5 text-sm font-bold text-white transition-all active:scale-95 shadow-md shadow-brand-red/20"
                   >
-                    <Phone className="w-4 h-4" />
+                    <Phone className="w-4 h-4" aria-hidden />
                     Acil Ara
                   </a>
                 </div>

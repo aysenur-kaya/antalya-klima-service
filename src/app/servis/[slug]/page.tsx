@@ -144,10 +144,10 @@ export default async function ServisMarkaDetayPage({ params }: PageProps) {
       <div
         role="note"
         aria-label="Özel servis açıklaması"
-        className="bg-amber-50 border-y border-amber-200 py-3.5 px-4"
+        className="bg-red-50 border-y border-red-100 py-3.5 px-4"
       >
         <div className="container mx-auto px-4 md:px-6">
-          <p className="text-sm text-amber-950 text-center leading-snug max-w-3xl mx-auto">
+          <p className="text-sm text-neutral-800 text-center leading-snug max-w-3xl mx-auto">
             <strong className="font-semibold">Özel servis:</strong> Bu sayfa marka bağımsız özel teknik servis hizmeti içindir.{" "}
             <span className="font-medium">Yetkili servis değildir.</span> Garanti kapsamındaki cihazlar için markanın resmi yetkili servisini tercih edin.
           </p>
@@ -207,13 +207,16 @@ export default async function ServisMarkaDetayPage({ params }: PageProps) {
             </article>
 
             <aside className="space-y-6">
-              <div className="rounded-3xl bg-brand-dark text-white p-6 md:p-8">
-                <h3 className="text-xl font-bold mb-3">Antalya geneli marka sayfası</h3>
-                <p className="text-gray-400 text-sm leading-relaxed mb-6">
+              <div className="rounded-3xl border border-gray-200 bg-white p-6 md:p-8 shadow-sm">
+                <h3 className="text-xl font-bold mb-3 text-neutral-900">Antalya geneli marka sayfası</h3>
+                <p className="text-neutral-600 text-sm leading-relaxed mb-6">
                   Şehir geneli sayfaya geçerek ilçe veya mahalle bazlı servis yönlendirmesine devam edebilirsiniz.
                 </p>
-                <Link href={landingHref} className="inline-flex items-center gap-2 rounded-xl bg-brand-red px-5 py-3 text-sm font-bold">
-                  Antalya {brand.name} servisi <ArrowRight className="w-4 h-4" />
+                <Link
+                  href={landingHref}
+                  className="inline-flex items-center gap-2 rounded-xl bg-brand-red px-5 py-3 text-sm font-bold text-white hover:bg-[#9f1414] transition-colors"
+                >
+                  Antalya {brand.name} servisi <ArrowRight className="w-4 h-4" aria-hidden />
                 </Link>
               </div>
 

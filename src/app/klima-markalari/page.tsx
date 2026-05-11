@@ -15,18 +15,18 @@ export default function KlimaMarkalariPage() {
   return (
     <>
       {/* Hero */}
-      <section className="relative premium-gradient text-white pt-[128px] pb-16 lg:pt-[164px] lg:pb-20 overflow-hidden">
-        <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[700px] h-[700px] bg-brand-red/20 blur-[140px] rounded-full pointer-events-none" />
+      <section className="relative premium-gradient text-neutral-900 pt-[128px] pb-16 lg:pt-[164px] lg:pb-20 overflow-hidden border-b border-gray-200">
+        <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[700px] h-[700px] bg-brand-red/[0.08] blur-[140px] rounded-full pointer-events-none" />
         <div className="container mx-auto px-4 md:px-6 relative z-10 text-center">
-          <div className="inline-flex items-center gap-2 px-4 py-2 rounded-full glass-card text-brand-red font-medium text-sm mb-6 border border-brand-red/20">
+          <div className="inline-flex items-center gap-2 px-4 py-2 rounded-full bg-red-50 border border-red-100 text-brand-red font-medium text-sm mb-6">
             <Thermometer className="w-4 h-4" />
             Klima Markaları
           </div>
-          <h1 className="text-4xl md:text-5xl font-bold tracking-tight mb-5 leading-tight">
+          <h1 className="text-4xl md:text-5xl font-bold tracking-tight mb-5 leading-tight text-neutral-900">
             Hizmet Verdiğimiz<br />
             <span className="text-brand-red">Klima Markaları</span>
           </h1>
-          <p className="text-lg text-gray-300 max-w-2xl mx-auto">
+          <p className="text-lg text-neutral-600 max-w-2xl mx-auto">
             Antalya genelinde aşağıdaki tüm klima markalarına aynı gün, garantili ve profesyonel
             teknik servis sunuyoruz.
           </p>

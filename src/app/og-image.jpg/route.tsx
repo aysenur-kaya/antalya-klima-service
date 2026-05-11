@@ -9,7 +9,7 @@ export async function GET() {
         style={{
           width: "1200px",
           height: "630px",
-          background: "#111111",
+          background: "#f8fafc",
           display: "flex",
           flexDirection: "column",
           alignItems: "flex-start",
@@ -52,7 +52,7 @@ export async function GET() {
         {/* Title */}
         <div
           style={{
-            color: "white",
+            color: "#1e293b",
             fontSize: "64px",
             fontWeight: "bold",
             lineHeight: 1.1,
@@ -65,7 +65,7 @@ export async function GET() {
         {/* Subtitle */}
         <div
           style={{
-            color: "#9CA3AF",
+            color: "#64748b",
             fontSize: "28px",
             marginBottom: "40px",
           }}

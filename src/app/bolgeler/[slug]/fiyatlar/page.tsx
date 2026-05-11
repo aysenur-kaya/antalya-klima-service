@@ -66,7 +66,7 @@ export default async function IlceFiyatlarPage({ params }: PageProps) {
             <div className="lg:col-span-2 overflow-hidden rounded-3xl border border-gray-200">
               <div className="overflow-x-auto">
                 <table className="w-full min-w-[320px] text-left">
-                  <thead className="bg-brand-dark text-white">
+                  <thead className="bg-neutral-100 text-neutral-900 border-b border-gray-200">
                     <tr>
                       <th className="px-5 py-4 text-sm font-bold">İşlem</th>
                       <th className="px-5 py-4 text-sm font-bold">Fiyat</th>

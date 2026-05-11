@@ -91,29 +91,31 @@ export default async function RehberDetailPage({ params }: PageProps) {
       <JsonLd data={buildBreadcrumbSchema(breadcrumbItems)} />
 
       <article className="bg-white min-h-screen">
-        <header className="relative premium-gradient text-white pt-[128px] pb-14 lg:pt-[164px] lg:pb-20 overflow-hidden">
-          <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[640px] h-[640px] bg-brand-red/12 blur-[130px] rounded-full pointer-events-none" />
+        <header className="relative premium-gradient text-neutral-900 pt-[128px] pb-14 lg:pt-[164px] lg:pb-20 overflow-hidden border-b border-gray-200">
+          <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[640px] h-[640px] bg-brand-red/[0.07] blur-[130px] rounded-full pointer-events-none" />
           <div className="container mx-auto px-4 md:px-6 relative z-10 max-w-4xl">
-            <nav aria-label="Breadcrumb" className="text-xs md:text-sm text-gray-400 mb-6">
+            <nav aria-label="Breadcrumb" className="text-xs md:text-sm text-neutral-500 mb-6">
               <ol className="flex flex-wrap gap-x-2 gap-y-1">
                 <li>
-                  <Link href="/" className="hover:text-white transition-colors">
+                  <Link href="/" className="hover:text-brand-red transition-colors">
                     Ana Sayfa
                   </Link>
                 </li>
                 <li aria-hidden>/</li>
                 <li>
-                  <Link href="/rehber" className="hover:text-white transition-colors">
+                  <Link href="/rehber" className="hover:text-brand-red transition-colors">
                     Teknik rehber
                   </Link>
                 </li>
                 <li aria-hidden>/</li>
-                <li className="text-gray-300 line-clamp-1">{h1Text}</li>
+                <li className="text-neutral-700 line-clamp-1">{h1Text}</li>
               </ol>
             </nav>
-            <p className="text-sm font-semibold text-brand-red/90 mb-3 uppercase tracking-wide">{guide.deviceType}</p>
-            <h1 className="text-3xl md:text-4xl lg:text-[2.75rem] font-bold tracking-tight leading-tight mb-6">{h1Text}</h1>
-            <p className="text-lg text-gray-300 leading-relaxed">{guide.intro}</p>
+            <p className="text-sm font-semibold text-brand-red mb-3 uppercase tracking-wide">{guide.deviceType}</p>
+            <h1 className="text-3xl md:text-4xl lg:text-[2.75rem] font-bold tracking-tight leading-tight mb-6 text-neutral-900">
+              {h1Text}
+            </h1>
+            <p className="text-lg text-neutral-600 leading-relaxed">{guide.intro}</p>
           </div>
         </header>
 
@@ -172,7 +174,7 @@ export default async function RehberDetailPage({ params }: PageProps) {
                 href={guideWaHref}
                 target="_blank"
                 rel="noreferrer"
-                className="inline-flex items-center justify-center rounded-xl bg-[#25D366] px-4 py-3 text-sm font-bold text-white hover:bg-[#20b858] transition-colors"
+                className="inline-flex items-center justify-center rounded-xl border-2 border-brand-red bg-white px-4 py-3 text-sm font-bold text-brand-red hover:bg-red-50 transition-colors"
               >
                 WhatsApp&apos;tan Yaz
               </a>
@@ -196,11 +198,11 @@ export default async function RehberDetailPage({ params }: PageProps) {
             </ul>
           </section>
 
-          <section aria-labelledby="service-heading" className="rounded-3xl bg-brand-dark text-white p-6 md:p-8">
-            <h2 id="service-heading" className="text-xl font-bold mb-4">
+          <section aria-labelledby="service-heading" className="rounded-3xl border border-gray-200 bg-red-50/40 p-6 md:p-8">
+            <h2 id="service-heading" className="text-xl font-bold mb-4 text-neutral-900">
               Ne zaman teknik servis gerekir?
             </h2>
-            <ul className="space-y-3 mb-8 text-gray-300 text-sm md:text-[15px] leading-relaxed">
+            <ul className="space-y-3 mb-8 text-neutral-700 text-sm md:text-[15px] leading-relaxed">
               {guide.whenToCallService.map((item) => (
                 <li key={item} className="flex gap-2">
                   <span className="text-brand-red font-bold shrink-0">—</span>
@@ -208,9 +210,14 @@ export default async function RehberDetailPage({ params }: PageProps) {
                 </li>
               ))}
             </ul>
-            <p className="text-sm text-gray-400 mb-6">
+            <p className="text-sm text-neutral-600 mb-6">
               Sorun devam ediyorsa veya güvenli şekilde ilerleyemiyorsanız{" "}
-              <a href={guideWaHref} target="_blank" rel="noreferrer" className="text-white font-semibold underline underline-offset-2 hover:text-brand-red transition-colors">
+              <a
+                href={guideWaHref}
+                target="_blank"
+                rel="noreferrer"
+                className="text-brand-red font-semibold underline underline-offset-2 hover:text-[#9f1414] transition-colors"
+              >
                 WhatsApp
               </a>{" "}
               üzerinden kısa arıza notu ve adres paylaşabilirsiniz.
@@ -218,18 +225,18 @@ export default async function RehberDetailPage({ params }: PageProps) {
             <div className="flex flex-col sm:flex-row gap-3">
               <a
                 href={`tel:${CONTACT_INFO.phone}`}
-                className="inline-flex items-center justify-center gap-2 rounded-xl bg-brand-red px-5 py-3.5 text-sm font-bold hover:bg-red-700 transition-colors"
+                className="inline-flex items-center justify-center gap-2 rounded-xl bg-brand-red px-5 py-3.5 text-sm font-bold text-white hover:bg-[#9f1414] transition-colors"
               >
-                <Phone className="w-4 h-4" />
+                <Phone className="w-4 h-4" aria-hidden />
                 Hemen Ara
               </a>
               <a
                 href={guideWaHref}
                 target="_blank"
                 rel="noreferrer"
-                className="inline-flex items-center justify-center gap-2 rounded-xl bg-white/10 px-5 py-3.5 text-sm font-bold hover:bg-white/15 transition-colors border border-white/20"
+                className="inline-flex items-center justify-center gap-2 rounded-xl border-2 border-brand-red bg-white px-5 py-3.5 text-sm font-bold text-brand-red hover:bg-red-50 transition-colors"
               >
-                <MessageCircle className="w-4 h-4" />
+                <MessageCircle className="w-4 h-4" aria-hidden />
                 WhatsApp&apos;tan Yaz
               </a>
             </div>

@@ -9,7 +9,7 @@ export async function GET() {
         style={{
           width: "400px",
           height: "100px",
-          background: "#111111",
+          background: "#ffffff",
           display: "flex",
           alignItems: "center",
           gap: "16px",
@@ -34,10 +34,10 @@ export async function GET() {
           A
         </div>
         <div style={{ display: "flex", flexDirection: "column" }}>
-          <span style={{ color: "white", fontSize: "22px", fontWeight: "bold", lineHeight: 1.2 }}>
+          <span style={{ color: "#1e293b", fontSize: "22px", fontWeight: "bold", lineHeight: 1.2 }}>
             Antalya <span style={{ color: "#C81E1E" }}>Servisi</span>
           </span>
-          <span style={{ color: "#9CA3AF", fontSize: "12px" }}>
+          <span style={{ color: "#64748b", fontSize: "12px" }}>
             Klima &amp; Beyaz Eşya Teknik Servis
           </span>
         </div>

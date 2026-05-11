@@ -151,16 +151,24 @@ export default async function DistrictRegionsPage({ params }: PageProps) {
                 </div>
               </div>
 
-              <div className="bg-brand-dark text-white p-6 rounded-3xl">
-                <h4 className="font-bold mb-2">Acil Destek Hattı</h4>
-                <p className="text-gray-400 text-sm mb-6">Müsait ekiplerimiz için hemen arayın.</p>
+              <div className="bg-white border border-gray-200 text-neutral-900 p-6 rounded-3xl shadow-sm">
+                <h4 className="font-bold mb-2 text-neutral-900">Acil Destek Hattı</h4>
+                <p className="text-neutral-600 text-sm mb-6">Müsait ekiplerimiz için hemen arayın.</p>
                 <div className="space-y-3">
-                  <a href={`tel:${CONTACT_INFO.phone}`} className="flex items-center gap-3 bg-brand-red py-3 px-4 rounded-xl font-bold text-sm">
-                    <Phone className="w-4 h-4" />
+                  <a
+                    href={`tel:${CONTACT_INFO.phone}`}
+                    className="flex items-center gap-3 bg-brand-red py-3 px-4 rounded-xl font-bold text-sm text-white hover:bg-[#9f1414] transition-colors"
+                  >
+                    <Phone className="w-4 h-4" aria-hidden />
                     {CONTACT_INFO.phoneFormatted}
                   </a>
-                  <a href={districtWaHref} target="_blank" rel="noreferrer" className="flex items-center gap-3 bg-white/10 py-3 px-4 rounded-xl font-bold text-sm">
-                    <MessageCircle className="w-4 h-4" />
+                  <a
+                    href={districtWaHref}
+                    target="_blank"
+                    rel="noreferrer"
+                    className="flex items-center gap-3 border-2 border-brand-red text-brand-red bg-white py-3 px-4 rounded-xl font-bold text-sm hover:bg-red-50 transition-colors"
+                  >
+                    <MessageCircle className="w-4 h-4" aria-hidden />
                     WhatsApp&apos;tan Yaz
                   </a>
                 </div>

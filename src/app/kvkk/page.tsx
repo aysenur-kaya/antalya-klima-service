@@ -11,10 +11,10 @@ export const metadata = {
 export default function KVKKPage() {
   return (
     <div className="bg-white min-h-screen">
-      <section className="py-20 bg-brand-dark text-white text-center">
+      <section className="py-20 bg-brand-light border-b border-gray-200 text-center">
         <div className="container mx-auto px-4">
-          <h1 className="text-4xl font-bold mb-4">KVKK Aydınlatma Metni</h1>
-          <p className="text-gray-400">Verilerinizin güvenliği bizim için önemlidir.</p>
+          <h1 className="text-4xl font-bold mb-4 text-neutral-900">KVKK Aydınlatma Metni</h1>
+          <p className="text-neutral-600">Verilerinizin güvenliği bizim için önemlidir.</p>
         </div>
       </section>
       

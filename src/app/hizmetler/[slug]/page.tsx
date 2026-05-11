@@ -156,16 +156,16 @@ export default async function HizmetDetayPage({ params }: PageProps) {
             </article>
 
             <aside className="space-y-6">
-              <div className="rounded-3xl bg-brand-dark text-white p-6 md:p-8">
-                <h3 className="text-xl font-bold mb-3">Antalya geneli hizmet</h3>
-                <p className="text-gray-400 text-sm leading-relaxed mb-6">
+              <div className="rounded-3xl border border-gray-200 bg-white p-6 md:p-8 shadow-sm">
+                <h3 className="text-xl font-bold mb-3 text-neutral-900">Antalya geneli hizmet</h3>
+                <p className="text-neutral-600 text-sm leading-relaxed mb-6">
                   Bu hizmet için şehir geneli sayfaya geçerek servis talebi oluşturabilir veya bölge seçebilirsiniz.
                 </p>
                 <Link
                   href={`/antalya-${service.landingSlug}`}
-                  className="inline-flex items-center gap-2 rounded-xl bg-brand-red px-5 py-3 text-sm font-bold"
+                  className="inline-flex items-center gap-2 rounded-xl bg-brand-red px-5 py-3 text-sm font-bold text-white hover:bg-[#9f1414] transition-colors"
                 >
-                  Antalya {service.shortTitle} <ArrowRight className="w-4 h-4" />
+                  Antalya {service.shortTitle} <ArrowRight className="w-4 h-4" aria-hidden />
                 </Link>
               </div>
 

@@ -92,14 +92,14 @@ export default async function IlceHizmetFiyatPage({ params }: PageProps) {
               </div>
             </article>
 
-            <aside className="rounded-3xl bg-brand-dark text-white p-6 md:p-8">
-              <h3 className="text-xl font-bold mb-4">Servis talebine devam</h3>
-              <p className="text-gray-400 text-sm leading-relaxed mb-6">
+            <aside className="rounded-3xl border border-gray-200 bg-white p-6 md:p-8 shadow-sm">
+              <h3 className="text-xl font-bold mb-4 text-neutral-900">Servis talebine devam</h3>
+              <p className="text-neutral-600 text-sm leading-relaxed mb-6">
                 Fiyat araştırmasından sonra ilçe bazlı hizmet sayfasına geçerek randevu veya kayıt adımına ilerleyebilirsiniz.
               </p>
               <Link
                 href={`/${ilce.slug}-${service.landingSlug}`}
-                className="inline-flex rounded-xl bg-brand-red px-5 py-3 text-sm font-bold"
+                className="inline-flex rounded-xl bg-brand-red px-5 py-3 text-sm font-bold text-white hover:bg-[#9f1414] transition-colors"
               >
                 {ilce.name} {service.shortTitle}
               </Link>

@@ -65,15 +65,21 @@ export default function AntalyaPage() {
 
           <div className="grid grid-cols-1 lg:grid-cols-4 gap-6 lg:gap-10">
             <aside className="lg:col-span-1 order-2 lg:order-1">
-              <div className="sticky top-28 rounded-2xl bg-brand-dark text-white p-5 md:p-7">
-                <h2 className="text-xl font-bold mb-3">Nasıl ilerlersiniz?</h2>
-                <p className="text-gray-400 text-sm leading-relaxed mb-5">
+              <div className="sticky top-28 rounded-2xl border border-gray-200 bg-white p-5 md:p-7 shadow-sm">
+                <h2 className="text-xl font-bold mb-3 text-neutral-900">Nasıl ilerlersiniz?</h2>
+                <p className="text-neutral-600 text-sm leading-relaxed mb-5">
                   Önce ilçenizi seçin; ardından mahalle veya hizmet türüyle servis talebinizi netleştirin.
                 </p>
                 <div className="flex flex-col gap-3">
-                  <Link href="/hizmetler" className="text-sm font-semibold text-white/90 hover:text-brand-red transition-colors">Hizmetleri gör</Link>
-                  <Link href="/servis" className="text-sm font-semibold text-white/90 hover:text-brand-red transition-colors">Markaları gör</Link>
-                  <Link href="/bolgeler" className="text-sm font-semibold text-white/90 hover:text-brand-red transition-colors">Bölge dizini</Link>
+                  <Link href="/hizmetler" className="text-sm font-semibold text-neutral-700 hover:text-brand-red transition-colors">
+                    Hizmetleri gör
+                  </Link>
+                  <Link href="/servis" className="text-sm font-semibold text-neutral-700 hover:text-brand-red transition-colors">
+                    Markaları gör
+                  </Link>
+                  <Link href="/bolgeler" className="text-sm font-semibold text-neutral-700 hover:text-brand-red transition-colors">
+                    Bölge dizini
+                  </Link>
                 </div>
               </div>
             </aside>

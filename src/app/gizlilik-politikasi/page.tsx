@@ -11,10 +11,10 @@ export const metadata = {
 export default function GizlilikPage() {
   return (
     <div className="bg-white min-h-screen">
-      <section className="py-20 bg-brand-dark text-white text-center">
+      <section className="py-20 bg-brand-light border-b border-gray-200 text-center">
         <div className="container mx-auto px-4">
-          <h1 className="text-4xl font-bold mb-4">Gizlilik Politikası</h1>
-          <p className="text-gray-400">Gizliliğinizi korumak önceliğimizdir.</p>
+          <h1 className="text-4xl font-bold mb-4 text-neutral-900">Gizlilik Politikası</h1>
+          <p className="text-neutral-600">Gizliliğinizi korumak önceliğimizdir.</p>
         </div>
       </section>
       

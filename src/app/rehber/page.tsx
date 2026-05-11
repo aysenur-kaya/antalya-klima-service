@@ -21,26 +21,26 @@ export default function RehberIndexPage() {
 
   return (
     <div className="bg-white min-h-screen">
-      <section className="relative premium-gradient text-white pt-[128px] pb-16 lg:pt-[164px] lg:pb-24 overflow-hidden">
-        <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[600px] h-[600px] bg-brand-red/15 blur-[120px] rounded-full pointer-events-none" />
+      <section className="relative premium-gradient text-neutral-900 pt-[128px] pb-16 lg:pt-[164px] lg:pb-24 overflow-hidden border-b border-gray-200">
+        <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[600px] h-[600px] bg-brand-red/[0.08] blur-[120px] rounded-full pointer-events-none" />
         <div className="container mx-auto px-4 md:px-6 relative z-10">
           <div className="max-w-3xl">
-            <div className="inline-flex items-center gap-2 px-4 py-2 rounded-full glass-card text-brand-red font-medium text-sm mb-6 border border-brand-red/20">
+            <div className="inline-flex items-center gap-2 px-4 py-2 rounded-full bg-red-50 border border-red-100 text-brand-red font-medium text-sm mb-6">
               <BookOpen className="w-4 h-4" />
               Teknik rehber
             </div>
-            <h1 className="text-4xl md:text-5xl font-bold tracking-tight mb-6 leading-tight">
+            <h1 className="text-4xl md:text-5xl font-bold tracking-tight mb-6 leading-tight text-neutral-900">
               Bilgi merkezi: klima ve beyaz eşya
             </h1>
-            <p className="text-lg text-gray-300 leading-relaxed max-w-2xl">
-              Burada klasik blog yazıları yerine, saha deneyiminden derlenen kısa teknik notlar bulacaksınız.               Amacımız arızayı anlamanıza yardımcı olmak; gerektiğinde{" "}
-              <Link href="/iletisim" className="text-white underline underline-offset-2 hover:text-brand-red transition-colors">
+            <p className="text-lg text-neutral-600 leading-relaxed max-w-2xl">
+              Burada klasik blog yazıları yerine, saha deneyiminden derlenen kısa teknik notlar bulacaksınız. Amacımız arızayı anlamanıza yardımcı olmak; gerektiğinde{" "}
+              <Link href="/iletisim" className="text-brand-red underline underline-offset-2 hover:text-[#9f1414] transition-colors">
                 servis kaydı
               </Link>{" "}
               oluşturmanızı kolaylaştırmak.
             </p>
-            <p className="mt-4 text-sm text-gray-400">
-              Toplam <strong className="text-gray-300">{total}</strong> rehber · Antalya servisi altyapısı ile uyumlu iç linkler
+            <p className="mt-4 text-sm text-neutral-500">
+              Toplam <strong className="text-neutral-800">{total}</strong> rehber · Antalya servisi altyapısı ile uyumlu iç linkler
             </p>
           </div>
         </div>
