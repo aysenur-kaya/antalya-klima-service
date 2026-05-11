@@ -51,6 +51,11 @@ export default function Footer() {
                   </Link>
                 </li>
               ))}
+              <li>
+                <Link href="/rehber" className="hover:text-brand-red transition-all inline-block font-medium">
+                  Teknik rehber
+                </Link>
+              </li>
               <li className="mt-2">
                 <Link href="/hizmetler" className="text-brand-red hover:text-red-400 transition-all inline-block font-bold">
                   {"Tüm Hizmetler →"}

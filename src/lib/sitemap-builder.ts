@@ -21,6 +21,7 @@ import { SITE_URL } from "@/lib/constants";
 import { ilceler, klimaMarkalari, beyazEsyaMarkalari } from "@/lib/data";
 import { isIndexableNeighborhood } from "@/lib/neighborhood-seo";
 import { allServicePages, klimaServicePages } from "@/lib/services";
+import { getAllGuideSlugs } from "@/lib/guides";
 
 // ---------------------------------------------------------------------------
 // Constants
@@ -121,11 +122,13 @@ export function xmlResponse(xml: string): Response {
 // ---------------------------------------------------------------------------
 
 export function staticSegmentUrls(): UrlEntry[] {
+  const guideUrls = getAllGuideSlugs().map((slug) => u(`/rehber/${slug}`, 0.65, "monthly"));
   return [
     u("/", 1.0),
     u("/antalya", 0.9),
     u("/hizmetler", 0.9),
     u("/servis", 0.9),
+    u("/rehber", 0.75, "weekly"),
     u("/bolgeler", 0.8),
     u("/klima-markalari", 0.7, "monthly"),
     u("/beyaz-esya-markalari", 0.7, "monthly"),
@@ -133,6 +136,7 @@ export function staticSegmentUrls(): UrlEntry[] {
     u("/kvkk", 0.4, "monthly"),
     u("/gizlilik-politikasi", 0.4, "monthly"),
     u("/kullanim-sartlari", 0.4, "monthly"),
+    ...guideUrls,
   ];
 }
 

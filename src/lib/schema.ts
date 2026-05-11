@@ -148,3 +148,39 @@ export function buildFaqSchema(faqs: FaqItem[]): Record<string, unknown> {
     })),
   };
 }
+
+export function buildArticleSchema(args: {
+  headline: string;
+  description: string;
+  path: string;
+  datePublished: string;
+  dateModified: string;
+}): Record<string, unknown> {
+  const url = `${SITE_URL}${args.path.startsWith("/") ? args.path : `/${args.path}`}`;
+  return {
+    "@context": "https://schema.org",
+    "@type": "Article",
+    headline: args.headline,
+    description: args.description,
+    inLanguage: "tr-TR",
+    mainEntityOfPage: {
+      "@type": "WebPage",
+      "@id": url,
+    },
+    author: {
+      "@type": "Organization",
+      "@id": `${SITE_URL}/#organization`,
+    },
+    publisher: {
+      "@type": "Organization",
+      "@id": `${SITE_URL}/#organization`,
+      logo: {
+        "@type": "ImageObject",
+        url: `${SITE_URL}/logo.png`,
+      },
+    },
+    datePublished: args.datePublished,
+    dateModified: args.dateModified,
+    image: `${SITE_URL}/og-image.jpg`,
+  };
+}

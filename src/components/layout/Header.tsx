@@ -241,6 +241,10 @@ export default function Header() {
                 )}
               </div>
 
+              <Link href="/rehber" onClick={closeAllMenus} className="text-gray-300 hover:text-white transition-colors font-medium">
+                Rehber
+              </Link>
+
               <Link href="/iletisim" onClick={closeAllMenus} className="text-gray-300 hover:text-white transition-colors font-medium">
                 İletişim
               </Link>
@@ -419,6 +423,17 @@ export default function Header() {
                 </Link>
               </div>
             </div>
+          </div>
+
+          {/* Rehber */}
+          <div className="border-b border-white/10">
+            <Link
+              href="/rehber"
+              onClick={closeAllMenus}
+              className="flex items-center min-h-[52px] py-3.5 text-white font-semibold text-base active:text-brand-red transition-colors"
+            >
+              Rehber
+            </Link>
           </div>
 
           {/* İletişim */}

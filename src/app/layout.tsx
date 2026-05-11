@@ -76,7 +76,7 @@ export default function RootLayout({
   children: React.ReactNode;
 }>) {
   return (
-    <html lang="tr" className="scroll-smooth" suppressHydrationWarning>
+    <html lang="tr" data-scroll-behavior="smooth" className="scroll-smooth" suppressHydrationWarning>
       <head>
         <JsonLd data={buildOrganizationSchema()} />
         <JsonLd data={buildLocalBusinessSchema()} />
