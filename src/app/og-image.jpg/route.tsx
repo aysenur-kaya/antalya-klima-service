@@ -59,7 +59,7 @@ export async function GET() {
             marginBottom: "20px",
           }}
         >
-          Antalya <span style={{ color: "#C81E1E" }}>Servisi</span>
+          İzmir <span style={{ color: "#C81E1E" }}>Servisi</span>
         </div>
 
         {/* Subtitle */}
@@ -84,7 +84,7 @@ export async function GET() {
             borderRadius: "999px",
           }}
         >
-          Antalya Geneli Aynı Gün Servis
+          İzmir Geneli Aynı Gün Servis
         </div>
 
         {/* URL */}
@@ -97,7 +97,7 @@ export async function GET() {
             fontSize: "18px",
           }}
         >
-          antalya-klima-servis.com
+          izmir-klima-servis.com
         </div>
       </div>
     ),

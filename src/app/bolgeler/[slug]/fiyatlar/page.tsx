@@ -25,7 +25,7 @@ export async function generateMetadata({ params }: PageProps): Promise<Metadata>
   }
 
   return buildMetadata({
-    title: `${ilce.name} Klima Servisi Fiyatları | Antalya Servisi`,
+    title: `${ilce.name} Klima Servisi Fiyatları | İzmir Servisi`,
     description: `${ilce.name} klima gaz dolumu, bakım, tamir ve montaj fiyatları. Net fiyat keşif ve onay sonrası belirlenir.`,
     path: `/bolgeler/${ilce.slug}/fiyatlar`,
   });

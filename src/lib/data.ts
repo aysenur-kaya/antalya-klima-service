@@ -1,4 +1,4 @@
-import antalyaData from "@/data/antalya.json";
+import izmirData from "@/data/izmir.json";
 import klimaData from "@/data/gemini-code-1778147632176.json";
 import beyazEsyaData from "@/data/gemini-code-1778147674157.json";
 import { slugify } from "./utils";
@@ -21,7 +21,7 @@ export interface Brand {
 }
 
 // Transform Data
-export const ilceler: Ilce[] = antalyaData.ilceler.map((ilce) => ({
+export const ilceler: Ilce[] = izmirData.ilceler.map((ilce) => ({
   name: ilce.ilce,
   slug: slugify(ilce.ilce),
   mahalleler: ilce.mahalleler.map((mahalle) => ({

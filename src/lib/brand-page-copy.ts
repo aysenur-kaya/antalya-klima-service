@@ -19,16 +19,16 @@ export function brandServisMetaTitle(
   const v = brandPageVariantIndex(brandSlug);
   if (type === "klima") {
     const opts = [
-      `${brandName} klima servisi Antalya | Özel teknik destek`,
-      `Antalya ${brandName} klima bakım ve arıza | Özel servis`,
-      `${brandName} Antalya klima onarımı | Servis yönlendirme`,
+      `${brandName} klima servisi İzmir | Özel teknik destek`,
+      `İzmir ${brandName} klima bakım ve arıza | Özel servis`,
+      `${brandName} İzmir klima onarımı | Servis yönlendirme`,
     ];
     return opts[v];
   }
   const opts = [
-    `${brandName} beyaz eşya servisi Antalya | Özel teknik destek`,
-    `Antalya ${brandName} beyaz eşya tamiri | Özel servis`,
-    `${brandName} Antalya buzdolabı & çamaşır servisi | Yönlendirme`,
+    `${brandName} beyaz eşya servisi İzmir | Özel teknik destek`,
+    `İzmir ${brandName} beyaz eşya tamiri | Özel servis`,
+    `${brandName} İzmir buzdolabı & çamaşır servisi | Yönlendirme`,
   ];
   return opts[v];
 }
@@ -42,14 +42,14 @@ export function brandServisMetaDescription(
   const v = brandPageVariantIndex(brandSlug);
   if (type === "klima") {
     const opts = [
-      `${brandName} klima cihazları için Antalya genelinde arıza tespiti, bakım ve onarım yönlendirmesi. İlçe ve hizmet sayfalarına hızlı geçiş.`,
+      `${brandName} klima cihazları için İzmir genelinde arıza tespiti, bakım ve onarım yönlendirmesi. İlçe ve hizmet sayfalarına hızlı geçiş.`,
       `${brandName} duvar tipi ve multi split sistemlerde teknik destek akışı: ölçüm, şeffaf işlem kalemleri ve onay sonrası ilerleme.`,
       `${brandName} klima şikâyetlerinde performans, kaçak ve elektronik kontroller; randevu ve rota için ilçe bazlı sayfalarla devam.`,
     ];
     return opts[v];
   }
   const opts = [
-    `${brandName} buzdolabı, çamaşır ve bulaşık gibi ürünlerde Antalya genelinde özel servis yönlendirmesi ve arıza netleştirme.`,
+    `${brandName} buzdolabı, çamaşır ve bulaşık gibi ürünlerde İzmir genelinde özel servis yönlendirmesi ve arıza netleştirme.`,
     `${brandName} beyaz eşyada su almama, ısıtmama ve program hatalarında güvenli teşhis sırası; onaysız parça işlemi yapılmaz.`,
     `${brandName} cihazlarda model ve belirtiye göre saha kontrolleri; merkez–ilçe iç bağlantılarıyla süreci sürdürün.`,
   ];
@@ -64,14 +64,14 @@ export function brandServisHeroSubtitle(
   const v = brandPageVariantIndex(brandSlug);
   if (type === "klima") {
     const opts = [
-      `${brandName} klima için Antalya geneli bakım, arıza tespiti ve özel servis yönlendirmesi.`,
+      `${brandName} klima için İzmir geneli bakım, arıza tespiti ve özel servis yönlendirmesi.`,
       `${brandName} split sistemlerde verim, ses ve sızdırma şikâyetlerinde önce güvenli kontroller, sonra onaylı işlem.`,
       `${brandName} klimanız için şehir geneli ekip rotası; ilçe veya marka detayına iç linklerle ilerleyin.`,
     ];
     return opts[v];
   }
   const opts = [
-    `${brandName} beyaz eşya için Antalya'da özel servis: teşhis, kullanıcı onayı ve net işlem adımları.`,
+    `${brandName} beyaz eşya için İzmir'da özel servis: teşhis, kullanıcı onayı ve net işlem adımları.`,
     `${brandName} çamaşır, bulaşık ve soğutma ürünlerinde tipik arızalar için düzenli, anlaşılır süreç.`,
     `${brandName} cihazınızda ev içi kullanım notlarına göre planlama; gereksiz müdahaleden kaçınma.`,
   ];

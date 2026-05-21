@@ -29,10 +29,10 @@ export function buildOrganizationSchema(): Record<string, unknown> {
 function areaServedList(): Array<Record<string, unknown>> {
   const city: Record<string, unknown> = {
     "@type": "City",
-    name: "Antalya",
+    name: "İzmir",
     containedInPlace: {
       "@type": "AdministrativeArea",
-      name: "Antalya",
+      name: "İzmir",
       containedInPlace: {
         "@type": "Country",
         name: "Turkey",
@@ -41,7 +41,7 @@ function areaServedList(): Array<Record<string, unknown>> {
   };
   const districts = ilceler.map((ilce) => ({
     "@type": "AdministrativeArea",
-    name: `${ilce.name}, Antalya`,
+    name: `${ilce.name}, İzmir`,
   }));
   return [city, ...districts];
 }
@@ -58,13 +58,13 @@ export function buildLocalBusinessSchema(): Record<string, unknown> {
     address: {
       "@type": "PostalAddress",
       addressLocality: CONTACT_INFO.city,
-      addressRegion: "Antalya",
+      addressRegion: "İzmir",
       addressCountry: "TR",
     },
     geo: {
       "@type": "GeoCoordinates",
-      latitude: 36.8841,
-      longitude: 30.7056,
+      latitude: 38.4192,
+      longitude: 27.1287,
     },
     areaServed: areaServedList(),
     openingHoursSpecification: {

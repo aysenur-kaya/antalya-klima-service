@@ -4,7 +4,7 @@ import { SITE_URL } from "@/lib/constants";
 
 export const metadata = {
   title: "KVKK Aydınlatma Metni",
-  description: "Antalya Servisi Kişisel Verilerin Korunması Kanunu (KVKK) aydınlatma metni.",
+  description: "İzmir Servisi Kişisel Verilerin Korunması Kanunu (KVKK) aydınlatma metni.",
   alternates: { canonical: `${SITE_URL}/kvkk` },
 };
 
@@ -22,7 +22,7 @@ export default function KVKKPage() {
         <div className="container mx-auto px-4 max-w-4xl">
           <div className="prose prose-blue max-w-none text-gray-700">
             <p className="mb-6">
-              6698 sayılı Kişisel Verilerin Korunması Kanunu (“KVKK”) uyarınca, Antalya Servisi olarak, veri sorumlusu sıfatıyla, kişisel verilerinizin aşağıda açıklanan çerçevede işlenebileceğini bildiririz.
+              6698 sayılı Kişisel Verilerin Korunması Kanunu (“KVKK”) uyarınca, İzmir Servisi olarak, veri sorumlusu sıfatıyla, kişisel verilerinizin aşağıda açıklanan çerçevede işlenebileceğini bildiririz.
             </p>
             <h2 className="text-2xl font-bold mb-4">1. Kişisel Verilerin İşlenme Amacı</h2>
             <p className="mb-6">

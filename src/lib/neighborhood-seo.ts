@@ -2,12 +2,12 @@ import type { Ilce, Mahalle } from "@/lib/data";
 
 /** Yüksek talep ilçeler: mahalle indeks limiti + sitemap fiyat detay filtresi ile uyumlu */
 export const HIGH_PRIORITY_DISTRICT_SLUGS = new Set([
-  "muratpasa",
-  "konyaalti",
-  "kepez",
-  "alanya",
-  "manavgat",
-  "serik",
+  "konak",
+  "bornova",
+  "karsiyaka",
+  "buca",
+  "cigli",
+  "bayrakli",
 ]);
 
 export function isHighPriorityDistrict(ilceSlug: string): boolean {
@@ -15,8 +15,8 @@ export function isHighPriorityDistrict(ilceSlug: string): boolean {
 }
 
 /**
- * Mahalle sayfası sitemap’e ve varsayılan index stratejisine dahil edilsin mi?
- * Diğer mahalleler açık kalır; metadata’da noindex uygulanır (catch-all içinde).
+ * Mahalle sayfası sitemap'e ve varsayılan index stratejisine dahil edilsin mi?
+ * Diğer mahalleler açık kalır; metadata'da noindex uygulanır (catch-all içinde).
  */
 export function isIndexableNeighborhood(ilce: Ilce, mahalle: Mahalle): boolean {
   const limit = HIGH_PRIORITY_DISTRICT_SLUGS.has(ilce.slug) ? 3 : 1;

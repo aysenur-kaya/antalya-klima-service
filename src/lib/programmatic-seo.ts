@@ -39,11 +39,11 @@ export function computeCatchAllIndexing(
   if (!ilce && !mahalle && marka) {
     canonicalUrl = `${SITE_URL}/servis/${marka.slug}-${serviceType}-servisi`;
   } else if (!ilce && !mahalle && !marka) {
-    const isAntalyaLevel =
-      (slugSegments.length === 1 && slugSegments[0].startsWith("antalya-")) ||
-      (slugSegments.length === 2 && slugSegments[0] === "antalya");
+    const isIzmirLevel =
+      (slugSegments.length === 1 && slugSegments[0].startsWith("izmir-")) ||
+      (slugSegments.length === 2 && slugSegments[0] === "izmir");
 
-    if (!isAntalyaLevel) {
+    if (!isIzmirLevel) {
       const hizmetlerPage = getServicePageBySlug(slugPath);
       canonicalUrl = hizmetlerPage
         ? `${SITE_URL}/hizmetler/${hizmetlerPage.slug}`

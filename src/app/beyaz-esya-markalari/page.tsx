@@ -5,9 +5,9 @@ import ContactCTA from "@/components/sections/ContactCTA";
 import { WashingMachine } from "lucide-react";
 
 export const metadata: Metadata = {
-  title: "Antalya Beyaz Eşya Servisi Markaları | Tüm Beyaz Eşya Markaları",
+  title: "İzmir Beyaz Eşya Servisi Markaları | Tüm Beyaz Eşya Markaları",
   description:
-    "Antalya genelinde hizmet verdiğimiz tüm beyaz eşya markaları. Arçelik, Beko, Bosch, Siemens, Samsung ve daha fazlası için garantili beyaz eşya servisi.",
+    "İzmir genelinde hizmet verdiğimiz tüm beyaz eşya markaları. Arçelik, Beko, Bosch, Siemens, Samsung ve daha fazlası için garantili beyaz eşya servisi.",
   alternates: { canonical: "/beyaz-esya-markalari" },
 };
 
@@ -27,7 +27,7 @@ export default function BeyazEsyaMarkalariPage() {
             <span className="text-brand-red">Beyaz Eşya Markaları</span>
           </h1>
           <p className="text-lg text-neutral-600 max-w-2xl mx-auto">
-            Antalya genelinde aşağıdaki tüm beyaz eşya markalarına aynı gün, garantili ve
+            İzmir genelinde aşağıdaki tüm beyaz eşya markalarına aynı gün, garantili ve
             profesyonel teknik servis sunuyoruz.
           </p>
         </div>

@@ -20,14 +20,14 @@ import JsonLd from "@/components/seo/JsonLd";
 import { SITE_URL } from "@/lib/constants";
 
 export const metadata: Metadata = {
-  title: "Antalya Klima Servisi İletişim | Antalya Servisi",
+  title: "İzmir Klima Servisi İletişim | İzmir Servisi",
   description:
-    "Antalya klima servisi için telefon, WhatsApp ve iletişim formu üzerinden hızlıca bize ulaşın. 7/24 teknik destek.",
+    "İzmir klima servisi için telefon, WhatsApp ve iletişim formu üzerinden hızlıca bize ulaşın. 7/24 teknik destek.",
   alternates: { canonical: "/iletisim" },
   openGraph: {
-    title: "Antalya Klima Servisi İletişim | Antalya Servisi",
+    title: "İzmir Klima Servisi İletişim | İzmir Servisi",
     description:
-      "Antalya klima servisi için telefon, WhatsApp ve iletişim formu üzerinden hızlıca bize ulaşın.",
+      "İzmir klima servisi için telefon, WhatsApp ve iletişim formu üzerinden hızlıca bize ulaşın.",
     url: `${SITE_URL}/iletisim`,
     type: "website",
   },
@@ -63,7 +63,7 @@ const contactCards = [
   {
     icon: MapPin,
     label: "Hizmet Bölgesi",
-    value: "Antalya Geneli",
+    value: "İzmir Geneli",
     sub: "Tüm ilçe ve mahalleler",
     href: "/bolgeler",
     cta: "Bölgeleri Gör",
@@ -91,7 +91,7 @@ const benefits = [
   { icon: ShieldCheck, text: "Garantili işçilik" },
   { icon: Wrench, text: "Uzman teknik ekip" },
   { icon: Users, text: "Tüm klima markaları" },
-  { icon: MapPin, text: "Antalya geneli hizmet" },
+  { icon: MapPin, text: "İzmir geneli hizmet" },
 ];
 
 export default function IletisimPage() {
@@ -103,8 +103,8 @@ export default function IletisimPage() {
     url: SITE_URL,
     address: {
       "@type": "PostalAddress",
-      addressLocality: "Antalya",
-      addressRegion: "Antalya",
+      addressLocality: "İzmir",
+      addressRegion: "İzmir",
       addressCountry: "TR",
     },
     openingHoursSpecification: {
@@ -131,13 +131,13 @@ export default function IletisimPage() {
             </div>
 
             <h1 className="text-4xl md:text-5xl lg:text-6xl font-bold tracking-tight mb-6 leading-tight text-neutral-900">
-              Antalya Klima Servisi
+              İzmir Klima Servisi
               <span className="block text-brand-red">İletişim</span>
             </h1>
 
             <p className="text-lg md:text-xl text-neutral-600 mb-10 max-w-2xl mx-auto leading-relaxed">
               Klima bakım, tamir, montaj ve arıza talepleriniz için hızlıca bize
-              ulaşın. Antalya genelinde aynı gün servis.
+              ulaşın. İzmir genelinde aynı gün servis.
             </p>
 
             <div className="flex flex-col sm:flex-row gap-4 justify-center">
@@ -217,7 +217,7 @@ export default function IletisimPage() {
               {/* Benefit card */}
               <div className="rounded-3xl border border-gray-200 bg-brand-light p-5 md:p-8">
                 <h2 className="text-xl font-bold text-brand-dark mb-6">
-                  Neden Antalya Servisi?
+                  Neden İzmir Servisi?
                 </h2>
                 <ul className="flex flex-col gap-4">
                   {benefits.map(({ icon: BIcon, text }) => (
@@ -294,10 +294,10 @@ export default function IletisimPage() {
             Hizmet bölgesi
           </p>
           <h2 className="text-3xl font-bold text-brand-dark mb-4">
-            {"Antalya'nın her noktasındayız"}
+            {"İzmir'in her noktasındayız"}
           </h2>
           <p className="text-gray-600 max-w-2xl mx-auto mb-8 leading-relaxed">
-            Muratpaşa, Konyaaltı, Kepez başta olmak üzere Antalya&apos;nın tüm ilçe
+            Konak, Bornova, Karşıyaka başta olmak üzere İzmir&apos;in tüm ilçe
             ve mahallelerine aynı gün servis ulaştırıyoruz. Mobil ekiplerimiz
             sahada, en yakın teknisyen adresinize yönlendirilir.
           </p>

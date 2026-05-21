@@ -36,7 +36,7 @@ export async function generateMetadata(
   }
 
   return buildMetadata({
-    title: `${ilce.name} Servis Bölgeleri ve Mahalleler | Antalya Servisi`,
+    title: `${ilce.name} Servis Bölgeleri ve Mahalleler | İzmir Servisi`,
     description: `${ilce.name} ilçesindeki tüm mahallelerde klima ve beyaz eşya teknik servis hizmeti. ${ilce.mahalleler
       .slice(0, 3)
       .map((m) => m.name)

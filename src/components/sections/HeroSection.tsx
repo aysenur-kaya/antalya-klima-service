@@ -27,7 +27,7 @@ export default function HeroSection({
         <div className="max-w-3xl mx-auto text-center">
           <div className="inline-flex items-center gap-2 px-4 py-2 rounded-full bg-red-50 border border-red-100 text-brand-red font-medium text-sm mb-6 shadow-sm">
             <span className="w-2 h-2 rounded-full bg-brand-red animate-pulse" />
-            {"Antalya'nın Güvenilir Servisi"}
+            {"İzmir'in Güvenilir Servisi"}
           </div>
 
           <h1 className="text-4xl md:text-5xl lg:text-6xl font-bold tracking-tight mb-6 leading-tight text-neutral-900">

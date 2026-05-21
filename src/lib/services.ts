@@ -29,7 +29,7 @@ export const klimaServicePages: ServicePage[] = [
     ],
     whenToCall: "Soğutma veya ısıtma performansı düştüğünde, cihaz sesli çalıştığında, su akıttığında ya da sezon öncesi genel kontrol gerektiğinde servis talep edilmelidir.",
     process: "Randevu sonrası teknisyen cihazı test eder, ölçüm ve görsel kontrolleri tamamlar, gerekli işlem kalemlerini onayınıza sunar.",
-    keywords: ["antalya klima servisi", "klima teknik servis", "acil klima servisi"],
+    keywords: ["izmir klima servisi", "klima teknik servis", "acil klima servisi"],
   },
   {
     title: "Klima Bakımı",
@@ -46,7 +46,7 @@ export const klimaServicePages: ServicePage[] = [
     ],
     whenToCall: "Yoğun kullanım öncesinde yılda en az bir kez bakım yaptırmak, hem konfor hem de cihaz ömrü için en doğru adımdır.",
     process: "Bakım sırasında cihaz kapatılır, güvenlik kontrolleri yapılır, temizlik ve performans testleri tamamlandıktan sonra kısa bir işlem özeti paylaşılır.",
-    keywords: ["antalya klima bakımı", "klima bakım servisi", "periyodik klima bakımı"],
+    keywords: ["izmir klima bakımı", "klima bakım servisi", "periyodik klima bakımı"],
   },
   {
     title: "Klima Tamiri",
@@ -63,7 +63,7 @@ export const klimaServicePages: ServicePage[] = [
     ],
     whenToCall: "Cihaz sık dur-kalk yapıyorsa, sigorta attırıyorsa, hata veriyorsa veya performans kaybı belirginleştiyse teknik kontrol gerekir.",
     process: "Önce belirti dinlenir, ardından ölçüm tabanlı teşhis yapılır. Onarım maliyeti ve süre bilgisi netleşmeden işlem başlatılmaz.",
-    keywords: ["antalya klima tamiri", "klima arıza servisi", "klima kart tamiri"],
+    keywords: ["izmir klima tamiri", "klima arıza servisi", "klima kart tamiri"],
   },
   {
     title: "Klima Montajı",
@@ -80,7 +80,7 @@ export const klimaServicePages: ServicePage[] = [
     ],
     whenToCall: "Yeni cihaz kurulumunda, taşınma sonrası sök-tak işleminde veya hat konumu değiştiğinde profesyonel montaj alınmalıdır.",
     process: "Keşif sonrası montaj noktası belirlenir, güvenli hat kurulumu yapılır ve cihaz test çalıştırmasıyla teslim edilir.",
-    keywords: ["antalya klima montajı", "klima sök tak", "klima kurulum servisi"],
+    keywords: ["izmir klima montajı", "klima sök tak", "klima kurulum servisi"],
   },
   {
     title: "Klima Gaz Dolumu",
@@ -97,7 +97,7 @@ export const klimaServicePages: ServicePage[] = [
     ],
     whenToCall: "Cihaz uzun süre çalışmasına rağmen soğutmuyorsa, dış ünite devreye girip verim alamıyorsa veya geçmişte kaçak onarımı yapıldıysa kontrol gerekir.",
     process: "Önce kaçak ve basınç ölçümü yapılır. Sistem uygunsa, cihaz etiketindeki gaz türüne göre dolum tamamlanır.",
-    keywords: ["antalya klima gaz dolumu", "klima gaz şarjı", "klima kaçak kontrolü"],
+    keywords: ["izmir klima gaz dolumu", "klima gaz şarjı", "klima kaçak kontrolü"],
   },
 ];
 
@@ -117,7 +117,7 @@ export const beyazEsyaServicePages: ServicePage[] = [
     ],
     whenToCall: "Cihaz çalışmıyor, su almıyor, ısıtmıyor, ses yapıyor veya performansı düştüyse teknik servis kaydı oluşturulmalıdır.",
     process: "Servis talebi alınır, cihaz belirtisi değerlendirilir ve en yakın mobil ekip adresinize yönlendirilir.",
-    keywords: ["antalya beyaz eşya servisi", "beyaz eşya tamiri", "özel beyaz eşya servisi"],
+    keywords: ["izmir beyaz eşya servisi", "beyaz eşya tamiri", "özel beyaz eşya servisi"],
   },
   {
     title: "Buzdolabı Servisi",
@@ -129,7 +129,7 @@ export const beyazEsyaServicePages: ServicePage[] = [
     scope: ["Soğutma performansı kontrolü", "Fan, sensör ve termostat incelemesi", "Gaz ve kaçak değerlendirmesi", "Kapı fitili ve drenaj kontrolleri"],
     whenToCall: "Gıdalar hızlı bozuluyorsa, cihaz sürekli çalışıyorsa veya iç bölümde olağan dışı buzlanma varsa destek alınmalıdır.",
     process: "Öncelik gıda güvenliği ve hızlı teşhistir; gerekli parça veya işlem onayla ilerler.",
-    keywords: ["antalya buzdolabı servisi", "buzdolabı tamiri", "buzdolabı soğutmuyor"],
+    keywords: ["izmir buzdolabı servisi", "buzdolabı tamiri", "buzdolabı soğutmuyor"],
   },
   {
     title: "Çamaşır Makinesi Servisi",
@@ -141,7 +141,7 @@ export const beyazEsyaServicePages: ServicePage[] = [
     scope: ["Pompa ve filtre kontrolü", "Motor, kayış ve amortisör değerlendirmesi", "Su giriş ve tahliye hattı kontrolü", "Elektronik kart ve program testi"],
     whenToCall: "Makine programı tamamlamıyor, su boşaltmıyor veya sıkma sırasında aşırı ses yapıyorsa servis çağrılmalıdır.",
     process: "Belirtiye göre mekanik ve elektronik kontroller yapılır; onay sonrası onarım uygulanır.",
-    keywords: ["antalya çamaşır makinesi servisi", "çamaşır makinesi tamiri", "çamaşır makinesi sıkmıyor"],
+    keywords: ["izmir çamaşır makinesi servisi", "çamaşır makinesi tamiri", "çamaşır makinesi sıkmıyor"],
   },
 ];
 

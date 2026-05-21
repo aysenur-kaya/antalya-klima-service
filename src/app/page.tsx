@@ -13,7 +13,7 @@ import { getTestimonialsForContext } from "@/lib/testimonials";
 import { WHATSAPP_PREFILL_GENERAL } from "@/lib/whatsapp";
 
 export default function Home() {
-  const allAntalyaDistricts = ilceler;
+  const allIzmirDistricts = ilceler;
   const homeStories = getTestimonialsForContext({
     serviceName: "Klima Servisi",
     serviceType: "klima",
@@ -26,8 +26,8 @@ export default function Home() {
   return (
     <>
       <HeroSection
-        title="Antalya Klima ve Beyaz Eşya Servisi"
-        subtitle="Antalya genelinde hızlı, garantili ve profesyonel beyaz eşya ve klima bakım, tamir, montaj hizmetleri."
+        title="İzmir Klima ve Beyaz Eşya Servisi"
+        subtitle="İzmir genelinde hızlı, garantili ve profesyonel beyaz eşya ve klima bakım, tamir, montaj hizmetleri."
         primaryCtaText="Hemen Ara"
         secondaryCtaText="WhatsApp'tan Yaz"
         whatsappPrefill={WHATSAPP_PREFILL_GENERAL}
@@ -40,7 +40,7 @@ export default function Home() {
       {/* All klima brands */}
       <BrandGrid
         brands={klimaMarkalari}
-        basePath="/antalya"
+        basePath="/izmir"
         linkMode="canonical"
         title="Hizmet Verdiğimiz Klima Markaları"
         subtitle="Tüm klima markalarına aynı gün, garantili teknik servis hizmeti sunuyoruz."
@@ -49,13 +49,13 @@ export default function Home() {
       {/* All beyaz eşya brands */}
       <BrandGrid
         brands={beyazEsyaMarkalari}
-        basePath="/antalya"
+        basePath="/izmir"
         linkMode="canonical"
         title="Hizmet Verdiğimiz Beyaz Eşya Markaları"
         subtitle="Buzdolabı, çamaşır makinesi, bulaşık makinesi ve daha fazlası için tüm markalarda uzman servis."
       />
 
-      <LocationGrid locations={allAntalyaDistricts} basePath="" title="Antalya Geneli Hizmet Bölgelerimiz" />
+      <LocationGrid locations={allIzmirDistricts} basePath="" title="İzmir Geneli Hizmet Bölgelerimiz" />
       <ServiceProcessSection />
       <ContextTestimonials items={homeStories} />
       <FAQSection includeFaqJsonLd />

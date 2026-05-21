@@ -3,25 +3,26 @@ import { ilceler, getIlceBySlug } from "@/lib/data";
 
 /** İlçe komşulukları (slug): iç link için; kabaca coğrafi / mobilite mantığı */
 const NEIGHBOR_ILCE_SLUGS: Record<string, string[]> = {
-  muratpasa: ["konyaalti", "kepez", "aksu"],
-  konyaalti: ["muratpasa", "kepez", "dosemealti"],
-  kepez: ["muratpasa", "konyaalti", "aksu", "dosemealti"],
-  aksu: ["kepez", "muratpasa", "serik"],
-  serik: ["aksu", "manavgat"],
-  manavgat: ["serik", "alanya"],
-  alanya: ["manavgat", "gazipasa"],
-  gazipasa: ["alanya", "manavgat"],
-  kemer: ["konyaalti", "kumluca"],
-  kumluca: ["kemer", "finike"],
-  finike: ["kumluca", "demre"],
-  demre: ["finike", "kas"],
-  kas: ["demre"],
-  dosemealti: ["konyaalti", "kepez", "muratpasa"],
-  korkuteli: ["kepez", "elmali"],
-  elmali: ["korkuteli", "finike", "dosemealti"],
-  akseki: ["manavgat", "ibradi"],
-  ibradi: ["akseki", "gundogmus"],
-  gundogmus: ["manavgat", "ibradi"],
+  konak: ["karsiyaka", "bornova", "buca", "balcova"],
+  bornova: ["konak", "buca", "bayrakli", "cigli"],
+  karsiyaka: ["konak", "cigli", "bayrakli", "bornova"],
+  buca: ["konak", "bornova", "gaziemir", "karabaglar"],
+  cigli: ["karsiyaka", "bayrakli", "menemen", "aliaga"],
+  bayrakli: ["bornova", "karsiyaka", "cigli", "konak"],
+  gaziemir: ["buca", "konak", "karabaglar", "menderes"],
+  karabaglar: ["buca", "konak", "gaziemir", "bornova"],
+  balcova: ["konak", "narlidere", "guzelbahce", "karsiyaka"],
+  cesme: ["urla", "guzelbahce", "seferihisar", "menderes"],
+  aliaga: ["menemen", "cigli", "foca", "bergama"],
+  menemen: ["cigli", "aliaga", "foca", "karsiyaka"],
+  menderes: ["gaziemir", "seferihisar", "cesme", "torbali"],
+  odemis: ["tire", "bayindir", "torbali", "beydag"],
+  torbali: ["odemis", "menderes", "gaziemir", "selcuk"],
+  bergama: ["aliaga", "kinik", "dikili", "foca"],
+  kemalpasa: ["bornova", "buca", "odemis", "torbali"],
+  seferihisar: ["menderes", "cesme", "urla", "guzelbahce"],
+  urla: ["cesme", "seferihisar", "guzelbahce", "menderes"],
+  selcuk: ["torbali", "menderes", "gaziemir", "odemis"],
 };
 
 export function hashSeed(parts: string[]): number {
@@ -34,133 +35,74 @@ export function hashSeed(parts: string[]): number {
 type DistrictVoice = { heroExtra: string; intro: string[] };
 
 const DISTRICT_VOICE: Record<string, DistrictVoice> = {
-  muratpasa: {
+  konak: {
     heroExtra: "Merkezde yoğun adres dağılımına alışkın ekiplerimizle çoğu çağrıyı aynı gün içinde planlamayı hedefleriz.",
     intro: [
-      "Muratpaşa, iş merkezleri ve sık site yoğunluğuyla kısa mesafeli servis rotalarının önemli olduğu bir ilçedir. Adres detayını net vermeniz, ekibin güzergâh planını hızlandırır.",
+      "Konak, iş merkezleri ve sık site yoğunluğuyla kısa mesafeli servis rotalarının önemli olduğu bir ilçedir. Adres detayını net vermeniz, ekibin güzergâh planını hızlandırır.",
       "Klima bakım ve ani arıza talepleri özellikle yaz sezonunda artar; çağrı sırasında cihaz tipi ve arıza belirtisini paylaşmanız teknik hazırlığı kolaylaştırır.",
     ],
   },
-  konyaalti: {
+  karsiyaka: {
     heroExtra: "Sahilden iç bölgelere uzanan hatta ekipler hızlı rota ile hareket eder; site ve müstakil adreslerde yoğun talep alırız.",
     intro: [
-      "Konyaaltı’nda deniz bandına yakın konutlar ile iç mahalleler arasında adres yapısı farklılık gösterir; konumunuzu tarif ederken site/kapı bilgisini eklemeniz randevu netliğini artırır.",
+      "Karşıyaka'da sahil bandına yakın konutlar ile iç mahalleler arasında adres yapısı farklılık gösterir; konumunuzu tarif ederken site/kapı bilgisini eklemeniz randevu netliğini artırır.",
       "Klima bakım talepleri sezon dönüşlerinde yüzdelik olarak yüksektir; beyaz eşya tarafında buzdolabı ve çamaşır makinesi arızaları sık gelen başlıklardandır.",
     ],
   },
-  kepez: {
+  bornova: {
     heroExtra: "Geniş yerleşim alanında gün içinde çok noktaya yönlendirme yapılır; müsait teknisyen size en yakın zaman diliminde atanır.",
     intro: [
-      "Kepez’in geniş mahalle ağı, planlı mobil servis yönlendirmesi gerektirir. Randevu oluştururken orta ölçekli caddeler ve yeni yapı bölgelerinde trafik yoğunluğu dikkate alınarak aralık verilir.",
+      "Bornova'nın geniş mahalle ağı, planlı mobil servis yönlendirmesi gerektirir. Randevu oluştururken orta ölçekli caddeler ve yeni yapı bölgelerinde trafik yoğunluğu dikkate alınarak aralık verilir.",
       "Klima montaj sonrası ilk bakım ve beyaz eşya su kaçağı şikâyetleri ilçede sık karşılaşılan konulardır; telefonda kısa görüntü veya arıza açıklaması teşhisi hızlandırır.",
     ],
   },
-  alanya: {
+  buca: {
     heroExtra: "Merkezden çevre mahallelere mesafe değiştiği için yaklaşım süresi konuma göre netleştirilir; planlı randevu önerilir.",
     intro: [
-      "Alanya’da sahil şeridi ile iç ovaya uzanan mesafeler servis planını etkiler. Adres tarifinde mahalle ve cadde eşleşmesi, ekibin doğru rotaya çıkmasını sağlar.",
+      "Buca'da merkez ile çevre mahalleler arasında mesafe farkı servis planını etkiler. Adres tarifinde mahalle ve cadde eşleşmesi, ekibin doğru rotaya çıkmasını sağlar.",
       "Yaz aylarında klima bakım ve gaz dolumu talepleri belirgin şekilde artar; rezidans tipi binalarda dış ünite erişimi için site yönetimi izin sürecini sorabiliriz.",
     ],
   },
-  aksu: {
+  cigli: {
     heroExtra: "Havalimanı ve yoğun yerleşim bölgelerine yakın hatlarda adres yoğunluğu artabilir; gün içi dilimlerde rutin planlama yapılır.",
     intro: [
-      "Aksu’da yeni konut alanları ve turizm yoğunluğu bir arada bulunur. Bakım ve tamir çağrılarında site güvenliği kapısı ve iç ünite konumu hakkında kısa bilgi eklemek süreci hızlandırır.",
+      "Çiğli'de yeni konut alanları ve sanayi yoğunluğu bir arada bulunur. Bakım ve tamir çağrılarında site güvenliği kapısı ve iç ünite konumu hakkında kısa bilgi eklemek süreci hızlandırır.",
       "Klima dış ünite temizliği ve filtre tıkanıklığı gibi periyodik işler, ani soğutma kaybını önlemek için düzenli aralıklarla talep edilir.",
     ],
   },
-  serik: {
+  bayrakli: {
     heroExtra: "Merkez ve çevre yerleşimler arasında mesafe farkı olduğundan yaklaşım süresi adres üzerinden netleştirilir.",
     intro: [
-      "Serik’te bağ ve turizm bölgelerine yakın adreslerde servis rotaları gün içinde gruplanır. Rezervasyon sırasında konut tipi (müstakil, site dairesi) bilgisi yönlendirmeyi kolaylaştırır.",
+      "Bayraklı'da yeni konut alanlarıyla merkez arasında mesafe farkı vardır. Rezervasyon sırasında konut tipi (müstakil, site dairesi) bilgisi yönlendirmeyi kolaylaştırır.",
       "Klima bakımı ile çamaşır makinesi su almama şikâyetleri bölgede sık gelen talepler arasındadır.",
     ],
   },
-  manavgat: {
-    heroExtra: "İlçe genişliği nedeniyle gün içi planlama adres sırasına göre yapılır; çağrıda konum netliği önemlidir.",
-    intro: [
-      "Manavgat ve çevresinde merkez ile kırsal hattın uzunluğu servis sürelerini etkileyebilir. Yaklaşım aralığı randevu anında paylaşılır.",
-      "Beyaz eşya ve klima tarafında yaz aylarında yüksek sıcaklığa bağlı arızalar ve filtresiz çalışma kaynaklı performans düşüşleri sık görülür.",
-    ],
-  },
-  kemer: {
+  cesme: {
     heroExtra: "Bölge turizm ve konut hattında dağınık adreslerde planlı yönlendirme yapılır.",
     intro: [
-      "Kemer çevresinde site ve müstakil yapıların dağılımı rotayı uzatabilir; çağrı sırasında cadde ve işaret noktası eklemeniz faydalıdır.",
+      "Çeşme çevresinde site ve müstakil yapıların dağılımı rotayı uzatabilir; çağrı sırasında cadde ve işaret noktası eklemeniz faydalıdır.",
       "Klima gaz ve dış ünite havalandırması gibi konular yaz sezonunda ön plandadır.",
     ],
   },
-  dosemealti: {
-    heroExtra: "Gelişen konut bölgelerinde adres numarası ve site adı doğru eşleştiğinde aynı gün içinde plan yapılabilir.",
+  aliaga: {
+    heroExtra: "Sanayi ve konut bölgeleri arasında mesafe farkı olduğundan yaklaşım süresi adres üzerinden netleştirilir.",
     intro: [
-      "Döşemealtı’nda yeni yerleşim alanlarında sokak isimleri bazen navigasyonu zorlaştırır; mümkünse konum paylaşımı yönlendirmeyi hızlandırır.",
-      "Klima bakım ve montaj sonrası ilk kontrol talepleri yeni yerleşimde sık görülür.",
-    ],
-  },
-  kumluca: {
-    heroExtra: "Kıyı ve iç kesim arasındaki mesafeye göre zaman aralığı belirlenir.",
-    intro: [
-      "Kumluca’da seralara yakın bölgeler ile sahil hattı arasında uzun mesafeler çıkabilir; servis sırası ve müsaitlik durumu çağrıda netleştirilir.",
-      "Beyaz eşya nem ve sıcaklık değişimlerinden etkilenebilir; buzdolabı performans şikâyetleri kontrol edilmeye değerdir.",
-    ],
-  },
-  finike: {
-    heroExtra: "Sahil bandı ile iç mahalle arasında rota uzunluğu değişir; randevu saatinde konum teyidi istenebilir.",
-    intro: [
-      "Finike’de turizm döneminde talep dalgalı seyredebilir; acil çağrılarda müsait en yakın ekip yönlendirilir.",
-      "Klima bakımında drenaj ve iç ünite temizliği rutin işlerdendir.",
-    ],
-  },
-  demre: {
-    heroExtra: "Merkez ve çevre köy hatlarında yaklaşım süresi farklılık gösterebilir.",
-    intro: [
-      "Demre’de adres tarifinde köy/mahalle ayrımı servis planını netleştirir.",
-      "Yaşlı cihazlarda arıza tespiti sonrası parça bulunabilirliği modele göre değişir; işlem öncesi bilgi verilir.",
-    ],
-  },
-  kas: {
-    heroExtra: "Dar sokak ve eğimli bölgelerde ekip erişimi adres detayına bağlıdır.",
-    intro: [
-      "Kaş’ta site ve apart yapılarında dış üniteye erişim bazen site düzeni ile ilişkilidir.",
-      "Klima verim düşüklüğü ve gaz şikâyetleri sezon geçişlerinde artar.",
-    ],
-  },
-  gazipasa: {
-    heroExtra: "Uçuş ve yerleşim bölgesi çevresinde talep dalgalanır; gün içi plan adres sırasına göre yapılır.",
-    intro: [
-      "Gazipaşa’da yeni konut alanlarıyla merkez arasında mesafe farkı vardır.",
+      "Aliağa'da merkez ile çevre mahalleler arasında mesafe farkı vardır.",
       "Klima filtre ve dış ünite kirliliği sık kontrol gerektiren noktalardır.",
     ],
   },
-  akseki: {
-    heroExtra: "Dağlık kesimlerde mesafe ve yol durumu yaklaşım süresini etkileyebilir.",
+  menemen: {
+    heroExtra: "Geniş yerleşim alanında gün içi planlama adres sırasına göre yapılır; çağrıda konum netliği önemlidir.",
     intro: [
-      "Akseki ve çevresinde çağrı alındığında müsait ekip ve rota birlikte değerlendirilir.",
-      "Mevsimsel sıcaklık değişimi klima kullanımını artırır; bakım talepleri planlanmalıdır.",
+      "Menemen'de merkez ile kırsal hattın uzunluğu servis sürelerini etkileyebilir. Yaklaşım aralığı randevu anında paylaşılır.",
+      "Beyaz eşya ve klima tarafında yaz aylarında yüksek sıcaklığa bağlı arızalar sık görülür.",
     ],
   },
-  korkuteli: {
-    heroExtra: "Plato yerleşiminde adresler arası mesafe uzun olabilir; randevu aralığı buna göre ayarlanır.",
+  menderes: {
+    heroExtra: "Kıyı ve iç kesim arasındaki mesafeye göre zaman aralığı belirlenir.",
     intro: [
-      "Korkuteli’nde talepler genelde bakım ve ani arıza üzerinedir; konumu net tarif etmek süreci hızlandırır.",
-    ],
-  },
-  elmali: {
-    heroExtra: "Merkez ve çevre mahalle hattında servis rotaları gün içinde planlanır.",
-    intro: [
-      "Elmalı’da yaşlı beyaz eşya parkları için yedek parça durumu model bazında değişebilir.",
-    ],
-  },
-  ibradi: {
-    heroExtra: "Kırsal hatlarda zaman planı rota ve müsaitlik ile birlikte netleştirilir.",
-    intro: [
-      "İbradı çevresinde çağrılar daha seyrek ama planlı şekilde karşılanır.",
-    ],
-  },
-  gundogmus: {
-    heroExtra: "Dağ köyleri ile merkez arasında süre farkı olabilir.",
-    intro: [
-      "Gündoğmuş’ta teknik ekip yönlendirmesi konuma göre yapılır; çağrıda köy/mahalle adı önemlidir.",
+      "Menderes'te sahil hattı ile iç mahalleler arasında uzun mesafeler çıkabilir; servis sırası ve müsaitlik durumu çağrıda netleştirilir.",
+      "Beyaz eşya nem ve sıcaklık değişimlerinden etkilenebilir; buzdolabı performans şikâyetleri kontrol edilmeye değerdir.",
     ],
   },
 };
@@ -297,7 +239,7 @@ export function getCatchAllHeroSubtitle(args: {
     ? `${args.ilce.name} ${args.mahalle.name}`
     : args.ilce
       ? args.ilce.name
-      : "Antalya";
+      : "İzmir";
 
   if (args.ilce && !args.mahalle) {
     const v = getDistrictVoice(args.ilce.slug, args.ilce.name);
@@ -324,7 +266,7 @@ export function getCatchAllIntroParagraphs(args: {
     ? `${args.ilce.name} ${args.mahalle.name}`
     : args.ilce
       ? args.ilce.name
-      : "Antalya";
+      : "İzmir";
 
   if (args.mahalle && args.ilce) {
     const v = getDistrictVoice(args.ilce.slug, args.ilce.name);
@@ -344,9 +286,9 @@ export function getCatchAllIntroParagraphs(args: {
     return [p1, p2];
   }
 
-  const p1 = `Antalya genelinde ${sn} için çağrılarınızı tek merkezden karşılıyoruz; ilçe veya mahalle seçerek size daha yakın ekip atanır.${brand ? ` ${brand.name} cihazlarınızda aynı süreç geçerlidir.` : ""}`;
+  const p1 = `İzmir genelinde ${sn} için çağrılarınızı tek merkezden karşılıyoruz; ilçe veya mahalle seçerek size daha yakın ekip atanır.${brand ? ` ${brand.name} cihazlarınızda aynı süreç geçerlidir.` : ""}`;
   const p2 =
-    "Servis kaydı sonrası teknik ekip yönlendirmesi, arıza tespiti ve onay sonrası işlem adımları tüm Antalya’daki sayfalarımızda aynı düzenle ilerler.";
+    "Servis kaydı sonrası teknik ekip yönlendirmesi, arıza tespiti ve onay sonrası işlem adımları tüm İzmir'deki sayfalarımızda aynı düzenle ilerler.";
 
   return [p1, p2];
 }

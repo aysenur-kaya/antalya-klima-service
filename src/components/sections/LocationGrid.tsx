@@ -6,7 +6,7 @@ export default function LocationGrid({
   basePath,
   serviceType = "klima",
   title = "Hizmet Bölgelerimiz",
-  subtitle = "Antalya'nın tüm noktalarına hızlı ve kesintisiz servis hizmeti ulaştırıyoruz."
+  subtitle = "İzmir'in tüm noktalarına hızlı ve kesintisiz servis hizmeti ulaştırıyoruz."
 }: {
   locations: { name: string, slug: string }[];
   basePath: string;

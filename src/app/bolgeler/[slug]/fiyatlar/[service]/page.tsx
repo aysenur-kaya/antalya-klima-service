@@ -30,7 +30,7 @@ export async function generateMetadata({ params }: PageProps): Promise<Metadata>
   }
 
   return buildMetadata({
-    title: `${ilce.name} ${service.shortTitle} Fiyatı | Antalya Servisi`,
+    title: `${ilce.name} ${service.shortTitle} Fiyatı | İzmir Servisi`,
     description: `${ilce.name} ${service.shortTitle.toLowerCase()} için fiyat bilgisi, kapsam ve servis süreci. Net fiyat keşif sonrası belirlenir.`,
     path: `/bolgeler/${ilce.slug}/fiyatlar/${service.slug}`,
   });

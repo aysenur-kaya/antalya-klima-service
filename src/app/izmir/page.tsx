@@ -13,26 +13,26 @@ import { getTestimonialsForContext } from "@/lib/testimonials";
 import { WHATSAPP_PREFILL_GENERAL } from "@/lib/whatsapp";
 
 export const metadata = buildMetadata({
-  title: "Antalya Klima Servisi Bölgeleri | İlçe ve Mahalle Rehberi",
+  title: "İzmir Klima Servisi Bölgeleri | İlçe ve Mahalle Rehberi",
   description:
-    "Antalya'nın tüm ilçeleri ve mahalleleri için klima servisi, bakım, tamir, montaj ve gaz dolumu sayfalarına ulaşın.",
-  path: "/antalya",
+    "İzmir'in tüm ilçeleri ve mahalleleri için klima servisi, bakım, tamir, montaj ve gaz dolumu sayfalarına ulaşın.",
+  path: "/izmir",
 });
 
-export default function AntalyaPage() {
+export default function IzmirPage() {
   const mahalleCount = ilceler.reduce((total, ilce) => total + ilce.mahalleler.length, 0);
-  const antalyaStories = getTestimonialsForContext({
+  const izmirStories = getTestimonialsForContext({
     serviceName: "Klima Servisi",
     serviceType: "klima",
     hasBrand: false,
-    seed: "antalya-rehber",
+    seed: "izmir-rehber",
     count: 2,
   });
 
   return (
     <>
       <HeroSection
-        title="Antalya hizmet bölgesi rehberi"
+        title="İzmir hizmet bölgesi rehberi"
         subtitle="İlçenizi veya mahallenizi seçerek size en yakın teknik ekibi yönlendirelim."
         primaryCtaText="Hemen Ara"
         secondaryCtaText="WhatsApp'tan Yaz"
@@ -86,7 +86,7 @@ export default function AntalyaPage() {
 
             <div className="lg:col-span-3 order-1 lg:order-2">
               <div className="mb-8">
-                <h2 className="text-3xl font-bold text-brand-dark mb-4">Antalya ilçeleri</h2>
+                <h2 className="text-3xl font-bold text-brand-dark mb-4">İzmir ilçeleri</h2>
                 <p className="text-gray-600">
                   İlçe sayfaları; mahalle listesi, fiyat bilgisi ve ana hizmet sayfalarına giden bağlantıları bir arada sunar.
                 </p>
@@ -122,7 +122,7 @@ export default function AntalyaPage() {
 
       <ServiceProcessSection />
 
-      <ContextTestimonials items={antalyaStories} />
+      <ContextTestimonials items={izmirStories} />
 
       <ContactCTA
         whatsappPrefill={WHATSAPP_PREFILL_GENERAL}

@@ -5,9 +5,9 @@ import ContactCTA from "@/components/sections/ContactCTA";
 import { Thermometer } from "lucide-react";
 
 export const metadata: Metadata = {
-  title: "Antalya Klima Servisi Markaları | Tüm Klima Markaları",
+  title: "İzmir Klima Servisi Markaları | Tüm Klima Markaları",
   description:
-    "Antalya genelinde hizmet verdiğimiz tüm klima markaları. Arçelik, Beko, Mitsubishi, Daikin, LG, Samsung ve daha fazlası için garantili klima servisi.",
+    "İzmir genelinde hizmet verdiğimiz tüm klima markaları. Arçelik, Beko, Mitsubishi, Daikin, LG, Samsung ve daha fazlası için garantili klima servisi.",
   alternates: { canonical: "/klima-markalari" },
 };
 
@@ -27,7 +27,7 @@ export default function KlimaMarkalariPage() {
             <span className="text-brand-red">Klima Markaları</span>
           </h1>
           <p className="text-lg text-neutral-600 max-w-2xl mx-auto">
-            Antalya genelinde aşağıdaki tüm klima markalarına aynı gün, garantili ve profesyonel
+            İzmir genelinde aşağıdaki tüm klima markalarına aynı gün, garantili ve profesyonel
             teknik servis sunuyoruz.
           </p>
         </div>

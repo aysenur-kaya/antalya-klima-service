@@ -11,16 +11,16 @@ import { getTestimonialsForContext } from "@/lib/testimonials";
 import { WHATSAPP_PREFILL_GENERAL } from "@/lib/whatsapp";
 
 export const metadata = buildMetadata({
-  title: "Servis Markaları | Antalya Klima ve Beyaz Eşya Servisi",
+  title: "Servis Markaları | İzmir Klima ve Beyaz Eşya Servisi",
   description:
-    "Antalya genelinde klima ve beyaz eşya için hizmet verdiğimiz marka sayfaları. Markanızı seçerek servis detaylarına ulaşın.",
+    "İzmir genelinde klima ve beyaz eşya için hizmet verdiğimiz marka sayfaları. Markanızı seçerek servis detaylarına ulaşın.",
   path: "/servis",
 });
 
 const groups = [
   {
     title: "Klima Markaları",
-    description: "Klima markanızı seçerek Antalya geneli marka servis sayfasına geçin.",
+    description: "Klima markanızı seçerek İzmir geneli marka servis sayfasına geçin.",
     icon: Thermometer,
     brands: klimaMarkalari,
     suffix: "klima-servisi",
@@ -46,7 +46,7 @@ export default function ServisMarkalariPage() {
   return (
     <>
       <HeroSection
-        title="Antalya servis markaları"
+        title="İzmir servis markaları"
         subtitle="Marka ve cihaz türünü seçerek servis bilgilerine hızlıca ulaşabilirsiniz."
         primaryCtaText="Hemen Ara"
         secondaryCtaText="WhatsApp'tan Yaz"

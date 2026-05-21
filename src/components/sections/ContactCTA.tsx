@@ -59,7 +59,7 @@ export default function ContactCTA(
               </p>
 
               <p className="text-xs sm:text-[13px] text-neutral-500 font-medium leading-relaxed">
-                Aynı gün servis imkânı&nbsp;&nbsp;•&nbsp;&nbsp;Şeffaf bilgilendirme &nbsp;&nbsp;•&nbsp;&nbsp;Antalya geneli
+                Aynı gün servis imkânı&nbsp;&nbsp;•&nbsp;&nbsp;Şeffaf bilgilendirme &nbsp;&nbsp;•&nbsp;&nbsp;İzmir geneli
                 yönlendirme
               </p>
             </div>

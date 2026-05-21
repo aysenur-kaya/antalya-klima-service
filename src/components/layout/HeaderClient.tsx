@@ -135,7 +135,7 @@ export default function HeaderClient({
                 A
               </div>
               <span className="text-xl md:text-2xl font-bold text-white tracking-tight drop-shadow-md">
-                Antalya <span className="text-white/85 font-extrabold">Servisi</span>
+                İzmir <span className="text-white/85 font-extrabold">Servisi</span>
               </span>
             </Link>
 
@@ -202,11 +202,11 @@ export default function HeaderClient({
                         ))}
                         <div className="my-1 border-t border-gray-100" />
                         <Link
-                          href="/antalya"
+                          href="/izmir"
                           onClick={closeAllMenus}
                           className="text-left px-4 py-2 text-sm text-brand-red hover:bg-red-50 font-medium rounded-lg transition-colors"
                         >
-                          {"Antalya Rehberi →"}
+                          {"İzmir Rehberi →"}
                         </Link>
                       </div>
                     </div>
@@ -409,11 +409,11 @@ export default function HeaderClient({
                 </Link>
               ))}
               <Link
-                href="/antalya"
+                href="/izmir"
                 onClick={closeAllMenus}
                 className="text-brand-red font-semibold text-sm py-2.5 pl-4 pr-2 hover:bg-red-50 rounded-lg transition-colors"
               >
-                {"Antalya Rehberi →"}
+                {"İzmir Rehberi →"}
               </Link>
             </div>
           </div>

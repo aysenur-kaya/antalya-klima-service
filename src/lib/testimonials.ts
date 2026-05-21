@@ -12,50 +12,50 @@ const POOLS: Record<string, Testimonial[]> = {
       quote:
         "Önce telefonda neye bakılacağını anlattılar; teknik detayları aşırıya kaçmadan özetlediler. Randevu saatine uydular.",
       name: "B. T.",
-      context: "Muratpaşa",
+      context: "Konak",
     },
     {
       quote:
         "WhatsApp'tan model fotoğrafı attım; uygunluk ve yaklaşım süresi konusunda net cevap aldım.",
       name: "K. A.",
-      context: "Kepez",
+      context: "Bornova",
     },
     {
       quote:
         "İşe başlamadan ücret kalemlerini konuştuk; onaydan sonra ilerlediler. Süreç sürpriz çıkmadan tamamlandı.",
       name: "Ö. R.",
-      context: "Konyaaltı",
+      context: "Karşıyaka",
     },
   ],
   klima: [
-    { quote: "Klimanın su akıtması için sabah aradım, öğleden sonra evdeydiler. Süreç boyunca ne yapılacağını adım adım anlattılar.", name: "E. Y.", context: "Muratpaşa, split klima" },
-    { quote: "Bakımdan sonra hem ses hem de soğutma düzeldi. Fiyatı işe başlamadan öğrendim, sürpriz olmadı.", name: "M. K.", context: "Konyaaltı" },
+    { quote: "Klimanın su akıtması için sabah aradım, öğleden sonra evdeydiler. Süreç boyunca ne yapılacağını adım adım anlattılar.", name: "E. Y.", context: "Konak, split klima" },
+    { quote: "Bakımdan sonra hem ses hem de soğutma düzeldi. Fiyatı işe başlamadan öğrendim, sürpriz olmadı.", name: "M. K.", context: "Karşıyaka" },
     { quote: "Dış üniteye ulaşım zordu ama ekip çözüm buldu. Randevu saatine sadık kaldılar.", name: "S. T.", context: "Site dairesi" },
   ],
   klima_bakim: [
-    { quote: "Sezon öncesi bakım yaptırdım; filtre ve drenaj temizliği sonrası cihaz eskisi gibi soğuttu.", name: "A. D.", context: "Kepez" },
-    { quote: "Apartman dairesinde iç üniteye dikkatli müdahale ettiler, evi dağıtmadan bitirdiler.", name: "L. Ş.", context: "Muratpaşa" },
-    { quote: "Bakım süresini ve neye bakıldığını kısaca yazılı özetlediler, içime sindi.", name: "J. F.", context: "Aksu" },
+    { quote: "Sezon öncesi bakım yaptırdım; filtre ve drenaj temizliği sonrası cihaz eskisi gibi soğuttu.", name: "A. D.", context: "Bornova" },
+    { quote: "Apartman dairesinde iç üniteye dikkatli müdahale ettiler, evi dağıtmadan bitirdiler.", name: "L. Ş.", context: "Konak" },
+    { quote: "Bakım süresini ve neye bakıldığını kısaca yazılı özetlediler, içime sindi.", name: "J. F.", context: "Çiğli" },
   ],
   klima_tamir: [
-    { quote: "Arıza kodu vermiştim, yanlarında uygun parça ile geldiler. Onaydan sonra değiştirip test ettiler.", name: "R. B.", context: "Alanya" },
-    { quote: "Gece çalışan klima gürültülendi; ertesi gün kontrol edip sorunu netleştirdiler.", name: "N. Ç.", context: "Konyaaltı" },
-    { quote: "Tamir öncesi ve sonrası fotoğraf tuttuk, hem teşhis hem işçilik mantıklıydı.", name: "F. L.", context: "Manavgat" },
+    { quote: "Arıza kodu vermiştim, yanlarında uygun parça ile geldiler. Onaydan sonra değiştirip test ettiler.", name: "R. B.", context: "Çeşme" },
+    { quote: "Gece çalışan klima gürültülendi; ertesi gün kontrol edip sorunu netleştirdiler.", name: "N. Ç.", context: "Karşıyaka" },
+    { quote: "Tamir öncesi ve sonrası fotoğraf tuttuk, hem teşhis hem işçilik mantıklıydı.", name: "F. L.", context: "Ödemiş" },
   ],
   beyaz_esya: [
-    { quote: "Çamaşır makinesi suyu almıyordu; hortumdan pompaya kontrol ettiler, işlem öncesi ücreti konuştuk.", name: "H. A.", context: "Manavgat" },
-    { quote: "Buzdolabı tam soğutmuyordu; teşhisten sonra fan kaynaklı olduğu ortaya çıktı.", name: "G. P.", context: "Serik" },
-    { quote: "Bulaşık makinesi suyu ısıtmıyordu, rezistans tarafını ölçtüler; onay sonrası değiştirdiler.", name: "Z. K.", context: "Kepez" },
+    { quote: "Çamaşır makinesi suyu almıyordu; hortumdan pompaya kontrol ettiler, işlem öncesi ücreti konuştuk.", name: "H. A.", context: "Ödemiş" },
+    { quote: "Buzdolabı tam soğutmuyordu; teşhisten sonra fan kaynaklı olduğu ortaya çıktı.", name: "G. P.", context: "Torbalı" },
+    { quote: "Bulaşık makinesi suyu ısıtmıyordu, rezistans tarafını ölçtüler; onay sonrası değiştirdiler.", name: "Z. K.", context: "Bornova" },
   ],
   buzdolabi: [
-    { quote: "Derin dondurucu tarafı düzensiz çalışıyordu; termostat ayarı ve kontaktör tarafını incelediler.", name: "V. Ö.", context: "Kepez" },
-    { quote: "No-frost modelde buzlanma vardı, ne yapılacağını adım adım anlattılar.", name: "İ. M.", context: "Muratpaşa" },
-    { quote: "Kapı contasından hava kaçırıyordu, küçük değişimle düzeldi.", name: "T. B.", context: "Finike" },
+    { quote: "Derin dondurucu tarafı düzensiz çalışıyordu; termostat ayarı ve kontaktör tarafını incelediler.", name: "V. Ö.", context: "Bornova" },
+    { quote: "No-frost modelde buzlanma vardı, ne yapılacağını adım adım anlattılar.", name: "İ. M.", context: "Konak" },
+    { quote: "Kapı contasından hava kaçırıyordu, küçük değişimle düzeldi.", name: "T. B.", context: "Seferihisar" },
   ],
   brand: [
-    { quote: "Marka aramasıyla geldim; özel servis olduğu açıkça söylendi, işlem tutarı onayla ilerledi.", name: "C. U.", context: "Antalya" },
-    { quote: "Cihazın modelini WhatsApp’tan attım, uygun mudur diye önden cevap verdiler.", name: "P. E.", context: "Aksu" },
-    { quote: "Yedek parça bulunamayınca alternatif çözüm önerdiler; seçim bende kaldı.", name: "D. R.", context: "Serik" },
+    { quote: "Marka aramasıyla geldim; özel servis olduğu açıkça söylendi, işlem tutarı onayla ilerledi.", name: "C. U.", context: "İzmir" },
+    { quote: "Cihazın modelini WhatsApp’tan attım, uygun mudur diye önden cevap verdiler.", name: "P. E.", context: "Çiğli" },
+    { quote: "Yedek parça bulunamayınca alternatif çözüm önerdiler; seçim bende kaldı.", name: "D. R.", context: "Torbalı" },
   ],
 };
 

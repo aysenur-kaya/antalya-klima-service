@@ -2,7 +2,7 @@ import { CONTACT_INFO } from "@/lib/constants";
 
 /** Genel servis talebi (sayfa bağlamı yoksa) */
 export const WHATSAPP_PREFILL_GENERAL =
-  "Merhaba, Antalya'da klima veya beyaz eşya için servis talebi oluşturmak istiyorum. Yardımcı olur musunuz?";
+  "Merhaba, İzmir'de klima veya beyaz eşya için servis talebi oluşturmak istiyorum. Yardımcı olur musunuz?";
 
 /**
  * WhatsApp sohbet URL'si. `message` verilmezse `CONTACT_INFO.whatsapp` aynen döner.
@@ -35,8 +35,8 @@ export function buildLandingWhatsappMessage(args: {
     return `Merhaba, ${locationText} bölgesinde ${brandName} ${svc} için destek almak istiyorum.`;
   }
 
-  if (locationText === "Antalya") {
-    return `Merhaba, Antalya geneli ${svc} için servis talebi oluşturmak istiyorum.`;
+  if (locationText === "İzmir") {
+    return `Merhaba, İzmir geneli ${svc} için servis talebi oluşturmak istiyorum.`;
   }
 
   return `Merhaba, ${locationText} için ${svc} talep etmek istiyorum.`;
@@ -44,7 +44,7 @@ export function buildLandingWhatsappMessage(args: {
 
 /** Rehber sayfası: konu başlığına göre */
 export function buildGuideWhatsappMessage(guideTitleShort: string): string {
-  return `Merhaba, "${guideTitleShort}" konusunda teknik destek almak istiyorum. Antalya'da yardımcı olur musunuz?`;
+  return `Merhaba, "${guideTitleShort}" konusunda teknik destek almak istiyorum. İzmir'de yardımcı olur musunuz?`;
 }
 
 /** İlçe bölge sayfası (/bolgeler/[slug]) */

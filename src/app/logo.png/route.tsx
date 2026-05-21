@@ -35,7 +35,7 @@ export async function GET() {
         </div>
         <div style={{ display: "flex", flexDirection: "column" }}>
           <span style={{ color: "#1e293b", fontSize: "22px", fontWeight: "bold", lineHeight: 1.2 }}>
-            Antalya <span style={{ color: "#C81E1E" }}>Servisi</span>
+            İzmir <span style={{ color: "#C81E1E" }}>Servisi</span>
           </span>
           <span style={{ color: "#64748b", fontSize: "12px" }}>
             Klima &amp; Beyaz Eşya Teknik Servis

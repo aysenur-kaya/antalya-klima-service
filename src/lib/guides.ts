@@ -28,7 +28,7 @@ export type Guide = {
 export const GUIDES: Guide[] = [
   {
     slug: "klima-neden-sogutmuyor",
-    title: "Klima Neden Soğutmuyor? En Yaygın 7 Sebep | Antalya Servisi",
+    title: "Klima Neden Soğutmuyor? En Yaygın 7 Sebep | İzmir Servisi",
     description:
       "Klima soğutmuyorsa filtreden gaz kaybına kadar yaygın nedenleri özetledik. Evde güvenle kontrol edebilecekleriniz ve ne zaman teknik servis çağırmanız gerektiği.",
     category: "klima",
@@ -89,15 +89,15 @@ export const GUIDES: Guide[] = [
           "Kaçak yoksa ve miktar üretici aralığındaysa yeterli olabilir. Kaçak varsa önce onarım veya sızdırmazlık gerekir; aksi hâlde gaz yeniden kaybedilir.",
       },
       {
-        question: "Antalya sıcağında kapasite yetmiyor gibi; normal mi?",
+        question: "İzmir sıcağında kapasite yetmiyor gibi; normal mi?",
         answer:
           "Aşırı sıcak ve yüksek güneş yükünde cihazlar sınırda çalışır. Yine de geçen yıla göre belirgin kötüleşme varsa bakım ve teknik kontrol önerilir.",
       },
     ],
     relatedServiceLinks: [
-      { href: "/antalya-klima-servisi", label: "Antalya klima servisi" },
-      { href: "/antalya-klima-tamir-servisi", label: "Antalya klima tamir servisi" },
-      { href: "/antalya-klima-bakim-servisi", label: "Antalya klima bakım servisi" },
+      { href: "/izmir-klima-servisi", label: "İzmir klima servisi" },
+      { href: "/izmir-klima-tamir-servisi", label: "İzmir klima tamir servisi" },
+      { href: "/izmir-klima-bakim-servisi", label: "İzmir klima bakım servisi" },
       { href: "/hizmetler/klima-tamiri", label: "Klima tamiri (bilgi sayfası)" },
     ],
     relatedBrandLinks: [
@@ -106,9 +106,9 @@ export const GUIDES: Guide[] = [
       { href: "/servis/daikin-klima-servisi", label: "Daikin klima servisi" },
     ],
     relatedLocationLinks: [
-      { href: "/muratpasa-klima-servisi", label: "Muratpaşa klima servisi" },
-      { href: "/konyaalti-klima-servisi", label: "Konyaaltı klima servisi" },
-      { href: "/kepez-klima-servisi", label: "Kepez klima servisi" },
+      { href: "/konak-klima-servisi", label: "Konak klima servisi" },
+      { href: "/karsiyaka-klima-servisi", label: "Karşıyaka klima servisi" },
+      { href: "/bornova-klima-servisi", label: "Bornova klima servisi" },
     ],
     relatedGuideSlugs: ["klima-gaz-dolumu-ne-zaman-yapilir", "klima-su-akitiyor", "klima-neden-ses-yapar"],
   },
@@ -163,8 +163,8 @@ export const GUIDES: Guide[] = [
       },
     ],
     relatedServiceLinks: [
-      { href: "/antalya-klima-servisi", label: "Antalya klima servisi" },
-      { href: "/antalya-klima-montaj-servisi", label: "Antalya klima montaj servisi" },
+      { href: "/izmir-klima-servisi", label: "İzmir klima servisi" },
+      { href: "/izmir-klima-montaj-servisi", label: "İzmir klima montaj servisi" },
       { href: "/hizmetler/klima-bakimi", label: "Klima bakımı" },
     ],
     relatedBrandLinks: [
@@ -172,9 +172,9 @@ export const GUIDES: Guide[] = [
       { href: "/servis/vestel-klima-servisi", label: "Vestel klima servisi" },
     ],
     relatedLocationLinks: [
-      { href: "/alanya-klima-servisi", label: "Alanya klima servisi" },
-      { href: "/manavgat-klima-servisi", label: "Manavgat klima servisi" },
-      { href: "/serik-klima-servisi", label: "Serik klima servisi" },
+      { href: "/cesme-klima-servisi", label: "Çeşme klima servisi" },
+      { href: "/odemis-klima-servisi", label: "Ödemiş klima servisi" },
+      { href: "/torbali-klima-servisi", label: "Torbalı klima servisi" },
     ],
     relatedGuideSlugs: ["klima-neden-sogutmuyor", "klima-neden-ses-yapar", "klima-gaz-dolumu-ne-zaman-yapilir"],
   },
@@ -225,8 +225,8 @@ export const GUIDES: Guide[] = [
       },
     ],
     relatedServiceLinks: [
-      { href: "/antalya-klima-gaz-dolumu-servisi", label: "Antalya klima gaz dolumu" },
-      { href: "/antalya-klima-servisi", label: "Antalya klima servisi" },
+      { href: "/izmir-klima-gaz-dolumu-servisi", label: "İzmir klima gaz dolumu" },
+      { href: "/izmir-klima-servisi", label: "İzmir klima servisi" },
       { href: "/hizmetler/klima-gaz-dolumu", label: "Klima gaz dolumu bilgi" },
     ],
     relatedBrandLinks: [
@@ -234,7 +234,7 @@ export const GUIDES: Guide[] = [
       { href: "/servis/samsung-klima-servisi", label: "Samsung klima servisi" },
     ],
     relatedLocationLinks: [
-      { href: "/aksu-klima-servisi", label: "Aksu klima servisi" },
+      { href: "/cigli-klima-servisi", label: "Çiğli klima servisi" },
       { href: "/dosemealti-klima-servisi", label: "Döşemealtı klima servisi" },
     ],
     relatedGuideSlugs: ["klima-neden-sogutmuyor", "klima-e1-arizasi", "klima-neden-ses-yapar"],
@@ -280,8 +280,8 @@ export const GUIDES: Guide[] = [
       },
     ],
     relatedServiceLinks: [
-      { href: "/antalya-klima-tamir-servisi", label: "Antalya klima tamir" },
-      { href: "/antalya-klima-bakim-servisi", label: "Antalya klima bakım" },
+      { href: "/izmir-klima-tamir-servisi", label: "İzmir klima tamir" },
+      { href: "/izmir-klima-bakim-servisi", label: "İzmir klima bakım" },
       { href: "/hizmetler/klima-tamiri", label: "Klima tamiri" },
     ],
     relatedBrandLinks: [
@@ -289,8 +289,8 @@ export const GUIDES: Guide[] = [
       { href: "/servis/mitsubishi-klima-servisi", label: "Mitsubishi klima servisi" },
     ],
     relatedLocationLinks: [
-      { href: "/muratpasa-klima-servisi", label: "Muratpaşa klima servisi" },
-      { href: "/konyaalti-klima-servisi", label: "Konyaaltı klima servisi" },
+      { href: "/konak-klima-servisi", label: "Konak klima servisi" },
+      { href: "/karsiyaka-klima-servisi", label: "Karşıyaka klima servisi" },
     ],
     relatedGuideSlugs: ["klima-neden-sogutmuyor", "klima-su-akitiyor", "klima-e1-arizasi"],
   },
@@ -335,8 +335,8 @@ export const GUIDES: Guide[] = [
       },
     ],
     relatedServiceLinks: [
-      { href: "/antalya-klima-servisi", label: "Antalya klima servisi" },
-      { href: "/antalya-klima-tamir-servisi", label: "Antalya klima tamir" },
+      { href: "/izmir-klima-servisi", label: "İzmir klima servisi" },
+      { href: "/izmir-klima-tamir-servisi", label: "İzmir klima tamir" },
       { href: "/hizmetler/klima-servisi", label: "Klima servisi bilgi" },
     ],
     relatedBrandLinks: [
@@ -344,8 +344,8 @@ export const GUIDES: Guide[] = [
       { href: "/servis/beko-klima-servisi", label: "Beko klima" },
     ],
     relatedLocationLinks: [
-      { href: "/kepez-klima-servisi", label: "Kepez klima servisi" },
-      { href: "/muratpasa-klima-servisi", label: "Muratpaşa klima servisi" },
+      { href: "/bornova-klima-servisi", label: "Bornova klima servisi" },
+      { href: "/konak-klima-servisi", label: "Konak klima servisi" },
     ],
     relatedGuideSlugs: ["klima-neden-sogutmuyor", "klima-gaz-dolumu-ne-zaman-yapilir", "klima-neden-ses-yapar"],
   },
@@ -395,8 +395,8 @@ export const GUIDES: Guide[] = [
       },
     ],
     relatedServiceLinks: [
-      { href: "/antalya-camasir-makinesi-servisi", label: "Antalya çamaşır makinesi servisi" },
-      { href: "/antalya-beyaz-esya-servisi", label: "Antalya beyaz eşya servisi" },
+      { href: "/izmir-camasir-makinesi-servisi", label: "İzmir çamaşır makinesi servisi" },
+      { href: "/izmir-beyaz-esya-servisi", label: "İzmir beyaz eşya servisi" },
       { href: "/hizmetler/camasir-makinesi-servisi", label: "Çamaşır makinesi servisi bilgi" },
     ],
     relatedBrandLinks: [
@@ -405,8 +405,8 @@ export const GUIDES: Guide[] = [
       { href: "/servis/arcelik-beyaz-esya-servisi", label: "Arçelik beyaz eşya" },
     ],
     relatedLocationLinks: [
-      { href: "/muratpasa-camasir-makinesi-servisi", label: "Muratpaşa çamaşır makinesi" },
-      { href: "/konyaalti-camasir-makinesi-servisi", label: "Konyaaltı çamaşır makinesi" },
+      { href: "/konak-camasir-makinesi-servisi", label: "Konak çamaşır makinesi" },
+      { href: "/karsiyaka-camasir-makinesi-servisi", label: "Karşıyaka çamaşır makinesi" },
     ],
     relatedGuideSlugs: ["buzdolabi-sogutmuyor", "bulasik-makinesi-temiz-yikamiyor", "firin-isitmiyor"],
   },
@@ -455,8 +455,8 @@ export const GUIDES: Guide[] = [
       },
     ],
     relatedServiceLinks: [
-      { href: "/antalya-buzdolabi-servisi", label: "Antalya buzdolabı servisi" },
-      { href: "/antalya-beyaz-esya-servisi", label: "Antalya beyaz eşya" },
+      { href: "/izmir-buzdolabi-servisi", label: "İzmir buzdolabı servisi" },
+      { href: "/izmir-beyaz-esya-servisi", label: "İzmir beyaz eşya" },
       { href: "/hizmetler/buzdolabi-servisi", label: "Buzdolabı servisi bilgi" },
     ],
     relatedBrandLinks: [
@@ -464,8 +464,8 @@ export const GUIDES: Guide[] = [
       { href: "/servis/vestel-beyaz-esya-servisi", label: "Vestel beyaz eşya" },
     ],
     relatedLocationLinks: [
-      { href: "/muratpasa-buzdolabi-servisi", label: "Muratpaşa buzdolabı" },
-      { href: "/kepez-buzdolabi-servisi", label: "Kepez buzdolabı" },
+      { href: "/konak-buzdolabi-servisi", label: "Konak buzdolabı" },
+      { href: "/bornova-buzdolabi-servisi", label: "Bornova buzdolabı" },
     ],
     relatedGuideSlugs: ["camasir-makinesi-su-bosaltmiyor", "bulasik-makinesi-temiz-yikamiyor", "firin-isitmiyor"],
   },
@@ -514,16 +514,16 @@ export const GUIDES: Guide[] = [
       },
     ],
     relatedServiceLinks: [
-      { href: "/antalya-bulasik-makinesi-servisi", label: "Antalya bulaşık makinesi servisi" },
-      { href: "/antalya-beyaz-esya-servisi", label: "Antalya beyaz eşya" },
+      { href: "/izmir-bulasik-makinesi-servisi", label: "İzmir bulaşık makinesi servisi" },
+      { href: "/izmir-beyaz-esya-servisi", label: "İzmir beyaz eşya" },
     ],
     relatedBrandLinks: [
       { href: "/servis/profilo-beyaz-esya-servisi", label: "Profilo beyaz eşya" },
       { href: "/servis/bosch-beyaz-esya-servisi", label: "Bosch beyaz eşya" },
     ],
     relatedLocationLinks: [
-      { href: "/muratpasa-beyaz-esya-servisi", label: "Muratpaşa beyaz eşya" },
-      { href: "/alanya-beyaz-esya-servisi", label: "Alanya beyaz eşya" },
+      { href: "/konak-beyaz-esya-servisi", label: "Konak beyaz eşya" },
+      { href: "/cesme-beyaz-esya-servisi", label: "Çeşme beyaz eşya" },
     ],
     relatedGuideSlugs: ["camasir-makinesi-su-bosaltmiyor", "buzdolabi-sogutmuyor", "firin-isitmiyor"],
   },
@@ -568,16 +568,16 @@ export const GUIDES: Guide[] = [
       },
     ],
     relatedServiceLinks: [
-      { href: "/antalya-firin-servisi", label: "Antalya fırın servisi" },
-      { href: "/antalya-beyaz-esya-servisi", label: "Antalya beyaz eşya" },
+      { href: "/izmir-firin-servisi", label: "İzmir fırın servisi" },
+      { href: "/izmir-beyaz-esya-servisi", label: "İzmir beyaz eşya" },
     ],
     relatedBrandLinks: [
       { href: "/servis/arcelik-beyaz-esya-servisi", label: "Arçelik beyaz eşya" },
       { href: "/servis/siemens-beyaz-esya-servisi", label: "Siemens beyaz eşya" },
     ],
     relatedLocationLinks: [
-      { href: "/konyaalti-beyaz-esya-servisi", label: "Konyaaltı beyaz eşya" },
-      { href: "/serik-beyaz-esya-servisi", label: "Serik beyaz eşya" },
+      { href: "/karsiyaka-beyaz-esya-servisi", label: "Karşıyaka beyaz eşya" },
+      { href: "/torbali-beyaz-esya-servisi", label: "Torbalı beyaz eşya" },
     ],
     relatedGuideSlugs: ["buzdolabi-sogutmuyor", "bulasik-makinesi-temiz-yikamiyor", "camasir-makinesi-su-bosaltmiyor"],
   },

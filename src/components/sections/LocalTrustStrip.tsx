@@ -5,7 +5,7 @@ const items = [
   { icon: MessageCircle, text: "Hızlı telefon ve WhatsApp dönüşü" },
   { icon: Users, text: "Deneyimli teknik ekip" },
   { icon: Wrench, text: "Şeffaf arıza bilgilendirmesi" },
-  { icon: MapPin, text: "Antalya geneli servis ağı" },
+  { icon: MapPin, text: "İzmir geneli servis ağı" },
 ];
 
 export default function LocalTrustStrip() {

@@ -7,7 +7,7 @@ import ContactCTA from "@/components/sections/ContactCTA";
 import { WHATSAPP_PREFILL_GENERAL } from "@/lib/whatsapp";
 
 export const metadata: Metadata = buildMetadata({
-  title: "Teknik Bilgi Merkezi | Antalya Klima ve Beyaz Eşya Rehberi",
+  title: "Teknik Bilgi Merkezi | İzmir Klima ve Beyaz Eşya Rehberi",
   description:
     "Klima ve beyaz eşya arızalarında yaygın nedenler, güvenli kullanıcı kontrolleri ve ne zaman teknik destek almanız gerektiği. Blog değil; servis uzmanlığına odaklı kısa rehberler.",
   path: "/rehber",
@@ -40,7 +40,7 @@ export default function RehberIndexPage() {
               oluşturmanızı kolaylaştırmak.
             </p>
             <p className="mt-4 text-sm text-neutral-500">
-              Toplam <strong className="text-neutral-800">{total}</strong> rehber · Antalya servisi altyapısı ile uyumlu iç linkler
+              Toplam <strong className="text-neutral-800">{total}</strong> rehber · İzmir servisi altyapısı ile uyumlu iç linkler
             </p>
           </div>
         </div>

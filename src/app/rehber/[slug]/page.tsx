@@ -283,7 +283,7 @@ export default async function RehberDetailPage({ params }: PageProps) {
 
         <ContactCTA
           headline="Teknik destek ve servis planlaması"
-          description="Antalya genelinde klima ve beyaz eşya için ekip yönlendirmesi almak üzere bize ulaşın."
+          description="İzmir genelinde klima ve beyaz eşya için ekip yönlendirmesi almak üzere bize ulaşın."
           whatsappPrefill={buildGuideWhatsappMessage(h1Text)}
           primaryButtonLabel="Servis Talebi Oluştur"
           secondaryButtonLabel="WhatsApp'tan Yaz"

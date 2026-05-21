@@ -4,7 +4,7 @@ import { SITE_URL } from "@/lib/constants";
 export type BuildMetadataArgs = {
   title: string;
   description: string;
-  /** Sayfanın gerçek yolu (OG url için), örn. "/muratpasa/foo-klima-servisi" */
+  /** Sayfanın gerçek yolu (OG url için), örn. "/konak/foo-klima-servisi" */
   path: string;
   /** Canonical farklı ise (alias sayfalar); yoksa path ile aynı kabul edilir */
   canonicalPath?: string;
@@ -16,7 +16,7 @@ const ogImage = {
   url: "/og-image.jpg",
   width: 1200,
   height: 630,
-  alt: "Antalya Servisi",
+  alt: "İzmir Servisi",
 } as const;
 
 function normalizePath(p: string): string {
@@ -48,7 +48,7 @@ export function buildMetadata({
       type,
       locale: "tr_TR",
       url: pageUrl,
-      siteName: "Antalya Servisi",
+      siteName: "İzmir Servisi",
       title,
       description,
       images: [ogImage],

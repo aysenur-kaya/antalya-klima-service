@@ -22,7 +22,7 @@ const features = [
     icon: BadgeInfo,
   },
   {
-    title: "Antalya geneli servis ağı",
+    title: "İzmir geneli servis ağı",
     desc: "İlçe ve mahalle bazlı yönlendirme ile adresinize uygun rota seçimi.",
     icon: MapPin,
   },

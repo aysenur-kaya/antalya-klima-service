@@ -4,7 +4,7 @@ import { SITE_URL } from "@/lib/constants";
 
 export const metadata = {
   title: "Gizlilik Politikası",
-  description: "Antalya Servisi gizlilik politikası ve veri güvenliği bilgilendirmesi.",
+  description: "İzmir Servisi gizlilik politikası ve veri güvenliği bilgilendirmesi.",
   alternates: { canonical: `${SITE_URL}/gizlilik-politikasi` },
 };
 

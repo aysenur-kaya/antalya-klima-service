@@ -11,9 +11,9 @@ import { getTestimonialsForContext } from "@/lib/testimonials";
 import { WHATSAPP_PREFILL_GENERAL } from "@/lib/whatsapp";
 
 export const metadata = buildMetadata({
-  title: "Hizmetlerimiz | Antalya Klima ve Beyaz Eşya Servisi",
+  title: "Hizmetlerimiz | İzmir Klima ve Beyaz Eşya Servisi",
   description:
-    "Antalya genelinde klima servisi, bakım, tamir, montaj, gaz dolumu ve beyaz eşya servis kategorilerimizi inceleyin.",
+    "İzmir genelinde klima servisi, bakım, tamir, montaj, gaz dolumu ve beyaz eşya servis kategorilerimizi inceleyin.",
   path: "/hizmetler",
 });
 
@@ -46,7 +46,7 @@ const featureCards = [
     label: "BÖLGE AĞI",
     title: "İlçe ve mahalle rehberi",
     description:
-      "Antalya'daki ilçe ve mahalle sayfalarından hizmet ve fiyat bilgilerine geçiş yapabilirsiniz.",
+      "İzmir'deki ilçe ve mahalle sayfalarından hizmet ve fiyat bilgilerine geçiş yapabilirsiniz.",
     href: "/bolgeler",
     cta: "Bölgeleri incele",
   },
@@ -64,7 +64,7 @@ export default function HizmetlerPage() {
   return (
     <>
       <HeroSection
-        title="Antalya Teknik Servis Hizmetleri"
+        title="İzmir Teknik Servis Hizmetleri"
         subtitle="Bakım, tamir, montaj ve arıza tespiti için tüm hizmet kategorilerini tek yerde, kolay gezilebilir şekilde sunduk."
         primaryCtaText="Hemen Ara"
         secondaryCtaText="WhatsApp'tan Yaz"
@@ -82,7 +82,7 @@ export default function HizmetlerPage() {
                 Servis türünü seçin, sonra bölge veya markaya ilerleyin.
               </h2>
               <p className="text-gray-600 leading-relaxed">
-                Bu sayfa ana kategori merkezidir. Her hizmet detayından Antalya geneli şehir sayfalarına, marka sayfalarına ve ilçe sayfalarına geçiş yapılabilir.
+                Bu sayfa ana kategori merkezidir. Her hizmet detayından İzmir geneli şehir sayfalarına, marka sayfalarına ve ilçe sayfalarına geçiş yapılabilir.
               </p>
             </div>
 

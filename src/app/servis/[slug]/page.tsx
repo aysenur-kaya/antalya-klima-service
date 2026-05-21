@@ -89,17 +89,17 @@ export default async function ServisMarkaDetayPage({ params }: PageProps) {
   const { brand, serviceName, type } = parsed;
   const relatedBrands = type === "klima" ? klimaMarkalari : beyazEsyaMarkalari;
   const highlightedDistricts = ilceler.slice(0, 12);
-  const landingHref = `/antalya/${brand.slug}-${type}-servisi`;
+  const landingHref = `/izmir/${brand.slug}-${type}-servisi`;
 
   const serviceSchema = {
     "@context": "https://schema.org",
     "@type": "Service",
-    name: `Antalya ${brand.name} ${serviceName}`,
-    description: `${brand.name} marka cihazlar için Antalya genelinde marka bağımsız özel servis hizmeti.`,
-    areaServed: "Antalya",
+    name: `İzmir ${brand.name} ${serviceName}`,
+    description: `${brand.name} marka cihazlar için İzmir genelinde marka bağımsız özel servis hizmeti.`,
+    areaServed: "İzmir",
     provider: {
       "@type": "LocalBusiness",
-      name: "Antalya Servisi",
+      name: "İzmir Servisi",
       url: SITE_URL,
     },
   };
@@ -113,7 +113,7 @@ export default async function ServisMarkaDetayPage({ params }: PageProps) {
   });
 
   const brandWaMsg = buildLandingWhatsappMessage({
-    locationText: "Antalya",
+    locationText: "İzmir",
     serviceName,
     brandName: brand.name,
   });
@@ -132,7 +132,7 @@ export default async function ServisMarkaDetayPage({ params }: PageProps) {
       <JsonLd data={breadcrumbSchema} />
       <JsonLd data={serviceSchema} />
       <HeroSection
-        title={`Antalya ${brand.name} ${serviceName}`}
+        title={`İzmir ${brand.name} ${serviceName}`}
         subtitle={brandWaHeroSub}
         primaryCtaText="Hemen Ara"
         secondaryCtaText="WhatsApp'tan Yaz"
@@ -168,7 +168,7 @@ export default async function ServisMarkaDetayPage({ params }: PageProps) {
                 </h2>
                 <p className="text-gray-600 leading-relaxed mb-6">{brandBodyLead}</p>
                 <p className="text-gray-600 leading-relaxed mb-6">
-                  {brand.name} cihazlarda özel servis yaklaşımımız; doğru arıza tespiti, kullanıcıya açık işlem kalemleri ve onay sonrası onarım adımlarına dayanır. Antalya genelinde cihaz modeli, arıza belirtisi ve konum bilgisine göre en uygun ekip yönlendirilir.
+                  {brand.name} cihazlarda özel servis yaklaşımımız; doğru arıza tespiti, kullanıcıya açık işlem kalemleri ve onay sonrası onarım adımlarına dayanır. İzmir genelinde cihaz modeli, arıza belirtisi ve konum bilgisine göre en uygun ekip yönlendirilir.
                 </p>
                 <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
                   {[
@@ -190,7 +190,7 @@ export default async function ServisMarkaDetayPage({ params }: PageProps) {
                   {brand.name} servisini ilçenizde arıyorsanız
                 </h3>
                 <p className="text-gray-600 leading-relaxed mb-6">
-                  İlçenizi seçerek {brand.name} servisi için yönlendirme alabilir; marka ve cihaz türünü netleştirebilirsiniz. Aşağıdaki ilçeler sık erişilen bölgelerdir; tüm liste Antalya bölge rehberindedir.
+                  İlçenizi seçerek {brand.name} servisi için yönlendirme alabilir; marka ve cihaz türünü netleştirebilirsiniz. Aşağıdaki ilçeler sık erişilen bölgelerdir; tüm liste İzmir bölge rehberindedir.
                 </p>
                 <div className="grid grid-cols-2 md:grid-cols-3 gap-3">
                   {highlightedDistricts.map((ilce) => (
@@ -208,7 +208,7 @@ export default async function ServisMarkaDetayPage({ params }: PageProps) {
 
             <aside className="space-y-6">
               <div className="rounded-3xl border border-gray-200 bg-white p-6 md:p-8 shadow-sm">
-                <h3 className="text-xl font-bold mb-3 text-neutral-900">Antalya geneli marka sayfası</h3>
+                <h3 className="text-xl font-bold mb-3 text-neutral-900">İzmir geneli marka sayfası</h3>
                 <p className="text-neutral-600 text-sm leading-relaxed mb-6">
                   Şehir geneli sayfaya geçerek ilçe veya mahalle bazlı servis yönlendirmesine devam edebilirsiniz.
                 </p>
@@ -216,7 +216,7 @@ export default async function ServisMarkaDetayPage({ params }: PageProps) {
                   href={landingHref}
                   className="inline-flex items-center gap-2 rounded-xl bg-brand-red px-5 py-3 text-sm font-bold text-white hover:bg-[#9f1414] transition-colors"
                 >
-                  Antalya {brand.name} servisi <ArrowRight className="w-4 h-4" aria-hidden />
+                  İzmir {brand.name} servisi <ArrowRight className="w-4 h-4" aria-hidden />
                 </Link>
               </div>
 
@@ -225,7 +225,7 @@ export default async function ServisMarkaDetayPage({ params }: PageProps) {
                 <div className="flex flex-col gap-3">
                   <Link href="/servis" className="text-sm font-semibold text-gray-700 hover:text-brand-red">Tüm markalar</Link>
                   <Link href="/hizmetler" className="text-sm font-semibold text-gray-700 hover:text-brand-red">Tüm hizmetler</Link>
-                  <Link href="/antalya" className="text-sm font-semibold text-gray-700 hover:text-brand-red">Antalya ilçeleri</Link>
+                  <Link href="/izmir" className="text-sm font-semibold text-gray-700 hover:text-brand-red">İzmir ilçeleri</Link>
                 </div>
               </div>
             </aside>

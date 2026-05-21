@@ -16,14 +16,14 @@ const systemFontStack = "-apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, 
 export const metadata: Metadata = {
   metadataBase: new URL(SITE_URL),
   title: {
-    default: "Antalya Servisi - Klima ve Beyaz Eşya Teknik Servisi",
-    template: "%s | Antalya Servisi"
+    default: "İzmir Servisi - Klima ve Beyaz Eşya Teknik Servisi",
+    template: "%s | İzmir Servisi"
   },
-  description: "Antalya bölgesinde klima ve beyaz eşya servisi için aynı gün garantili teknik destek. 7/24 profesyonel ekip ve uzman çözümler.",
-  keywords: ["antalya klima servisi", "antalya beyaz eşya servisi", "klima tamiri", "buzdolabı servisi", "çamaşır makinesi servisi"],
-  authors: [{ name: "Antalya Servisi" }],
-  creator: "Antalya Servisi",
-  publisher: "Antalya Servisi",
+  description: "İzmir bölgesinde klima ve beyaz eşya servisi için aynı gün garantili teknik destek. 7/24 profesyonel ekip ve uzman çözümler.",
+  keywords: ["izmir klima servisi", "izmir beyaz eşya servisi", "klima tamiri", "buzdolabı servisi", "çamaşır makinesi servisi"],
+  authors: [{ name: "İzmir Servisi" }],
+  creator: "İzmir Servisi",
+  publisher: "İzmir Servisi",
   formatDetection: {
     email: false,
     address: true,
@@ -33,22 +33,22 @@ export const metadata: Metadata = {
     type: "website",
     locale: "tr_TR",
     url: SITE_URL,
-    siteName: "Antalya Servisi",
-    title: "Antalya Servisi - Klima ve Beyaz Eşya Teknik Servisi",
-    description: "Antalya bölgesinde klima ve beyaz eşya servisi için aynı gün garantili teknik destek.",
+    siteName: "İzmir Servisi",
+    title: "İzmir Servisi - Klima ve Beyaz Eşya Teknik Servisi",
+    description: "İzmir bölgesinde klima ve beyaz eşya servisi için aynı gün garantili teknik destek.",
     images: [
       {
         url: "/og-image.jpg",
         width: 1200,
         height: 630,
-        alt: "Antalya Servisi",
+        alt: "İzmir Servisi",
       },
     ],
   },
   twitter: {
     card: "summary_large_image",
-    title: "Antalya Servisi - Klima ve Beyaz Eşya Teknik Servisi",
-    description: "Antalya bölgesinde klima ve beyaz eşya servisi için aynı gün garantili teknik destek.",
+    title: "İzmir Servisi - Klima ve Beyaz Eşya Teknik Servisi",
+    description: "İzmir bölgesinde klima ve beyaz eşya servisi için aynı gün garantili teknik destek.",
     images: ["/og-image.jpg"],
   },
   verification: {

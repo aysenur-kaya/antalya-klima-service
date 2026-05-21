@@ -24,7 +24,7 @@ export function getDefaultPageFaqs(): FaqItem[] {
     {
       question: "Hangi bölgelere hizmet veriyorsunuz?",
       answer:
-        "Antalya’nın merkez ilçelerinden Kemer, Alanya, Manavgat, Serik ve diğer ilçelere kadar geniş bir mobil servis ağımız vardır.",
+        "İzmir'in merkez ilçelerinden Konak, Bornova, Karşıyaka, Buca, Çiğli ve diğer ilçelere kadar geniş bir mobil servis ağımız vardır.",
     },
   ];
 }
@@ -34,7 +34,7 @@ type CatchAllFaqContext = {
   serviceName: string;
   serviceType: "klima" | "beyaz-esya";
   brandName?: string;
-  /** örn. muratpasa — lokal SSS varyasyonu */
+  /** örn. konak — lokal SSS varyasyonu */
   ilceSlug?: string;
   /** URL suffix: klima-bakim-servisi vb. */
   serviceSuffix?: string;
@@ -90,25 +90,25 @@ function serviceSpecificFaqs(ctx: CatchAllFaqContext): FaqItem[] {
 
 function ilceLocalFaqs(ilceSlug: string | undefined, locationText: string): FaqItem[] {
   if (!ilceSlug) return [];
-  if (ilceSlug === "muratpasa") {
+  if (ilceSlug === "konak") {
     return [
       {
-        question: "Muratpaşa’da aynı gün servis var mı?",
+        question: "Konak'ta aynı gün servis var mı?",
         answer:
           "Yoğun merkez hattında çoğu talep aynı gün içinde planlanır; saat aralığı çağrı sırasında netleştirilir. Site güvenliği veya dış ünite erişimi bekleme yaratabilir.",
       },
     ];
   }
-  if (ilceSlug === "konyaalti") {
+  if (ilceSlug === "karsiyaka") {
     return [
       {
-        question: "Konyaaltı’nda klima bakımı ne kadar sürer?",
+        question: "Karşıyaka'da klima bakımı ne kadar sürer?",
         answer:
           "Tek ünite için tipik bakım genelde bir saat civarındadır. Birden fazla ünite veya zor erişimli dış ünite süreyi uzatabilir.",
       },
     ];
   }
-  if (ilceSlug === "alanya") {
+  if (ilceSlug === "cesme") {
     return [
       {
         question: `${locationText} çevresinde uzak mahallelere ne zaman gelinir?`,

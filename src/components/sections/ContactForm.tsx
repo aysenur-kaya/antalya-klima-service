@@ -40,7 +40,7 @@ export default function ContactForm() {
     // Formdaki bilgileri WhatsApp mesajına dönüştür ve yönlendir.
     // Backend email/CRM entegrasyonu yapılana kadar bu yöntem lead kaybını önler.
     const lines = [
-      `*Servis Talebi — Antalya Servisi*`,
+      `*Servis Talebi — İzmir Servisi*`,
       `Ad Soyad: ${form.adSoyad}`,
       `Telefon: ${form.telefon}`,
       form.konu ? `Konu: ${form.konu}` : null,

@@ -94,8 +94,8 @@ function parseSlug(slugs: string[]): ParsedSlug {
   let marka: Brand | undefined;
 
   if (slugs.length === 1) {
-    if (baseLastPart === "" || baseLastPart === "antalya") {
-      // Generic Antalya-level page — valid, no location constraint
+    if (baseLastPart === "" || baseLastPart === "izmir") {
+      // Generic İzmir-level page — valid, no location constraint
     } else {
       // baseLastPart must resolve to a known ilce, marka, or ilce+marka compound
       ilce = getIlceBySlug(baseLastPart);
@@ -125,8 +125,8 @@ function parseSlug(slugs: string[]): ParsedSlug {
       }
     }
   } else if (slugs.length === 2) {
-    // First segment must be "antalya" or a valid ilce
-    if (slugs[0] !== "antalya") {
+    // First segment must be "izmir" or a valid ilce
+    if (slugs[0] !== "izmir") {
       ilce = getIlceBySlug(slugs[0]);
       if (!ilce) return { isValid: false };
     }
@@ -140,14 +140,14 @@ function parseSlug(slugs: string[]): ParsedSlug {
           if (!marka) return { isValid: false };
         }
       } else {
-        // slugs[0] === "antalya": prefix must be a valid marka
+        // slugs[0] === "izmir": prefix must be a valid marka
         marka = getBrandBySlug(baseLastPart, serviceType);
         if (!marka) return { isValid: false };
       }
     }
   } else {
     // slugs.length === 3
-    // First segment must be a valid ilce ("antalya" has no mahalleler in our data model)
+    // First segment must be a valid ilce ("izmir" has no mahalleler in our data model)
     ilce = getIlceBySlug(slugs[0]);
     if (!ilce) return { isValid: false };
 
@@ -181,7 +181,7 @@ export async function generateMetadata({ params }: PageProps): Promise<Metadata>
     ? `${ilce?.name ?? ""} ${mahalle.name}`.trim()
     : ilce
       ? ilce.name
-      : "Antalya";
+      : "İzmir";
 
   const brandText = marka ? `${marka.name} ` : "";
 
@@ -219,7 +219,7 @@ export default async function DynamicServicePage({ params }: PageProps) {
     ? `${ilce?.name ?? ""} ${mahalle.name}`.trim()
     : ilce
       ? ilce.name
-      : "Antalya";
+      : "İzmir";
 
   const brandText = marka ? `${marka.name} ` : "";
   
@@ -262,11 +262,11 @@ export default async function DynamicServicePage({ params }: PageProps) {
     slugPath
   );
 
-  const isPureAntalyaLevelIndexable =
+  const isPureIzmirLevelIndexable =
     !ilce && !mahalle && !marka && resolvedParams.slug.length === 1;
   const includeCatchAllFaqJsonLd =
     !catchAllSeoFlags.noindex &&
-    (Boolean(ilce) || Boolean(mahalle) || isPureAntalyaLevelIndexable);
+    (Boolean(ilce) || Boolean(mahalle) || isPureIzmirLevelIndexable);
   const testimonialItems = getTestimonialsForContext({
     serviceName,
     serviceType,
@@ -275,7 +275,7 @@ export default async function DynamicServicePage({ params }: PageProps) {
     count: 2,
   });
 
-  const spotlightSlugs = ["muratpasa", "konyaalti", "kepez", "alanya", "manavgat", "serik"];
+  const spotlightSlugs = ["konak", "bornova", "karsiyaka", "buca", "cigli", "bayrakli"];
   let nearbyLinks: { href: string; label: string; hint?: string }[] = [];
   if (mahalle && ilce) {
     nearbyLinks = getNearbyMahalleler(ilce, mahalle.slug, 6).map((m) => ({
@@ -348,7 +348,7 @@ export default async function DynamicServicePage({ params }: PageProps) {
 
       <ServiceCards
         type={serviceType || undefined}
-        locationSlug={ilce ? ilce.slug : resolvedParams.slug[0] === "antalya" ? "antalya" : undefined}
+        locationSlug={ilce ? ilce.slug : resolvedParams.slug[0] === "izmir" ? "izmir" : undefined}
       />
 
       <LocalTrustStrip />
@@ -454,7 +454,7 @@ export default async function DynamicServicePage({ params }: PageProps) {
       {!marka && displayBrands.length > 0 && (
         <BrandGrid
           brands={displayBrands}
-          basePath={ilce ? (mahalle ? `/${ilce.slug}/${mahalle.slug}` : `/${ilce.slug}`) : "/antalya"}
+          basePath={ilce ? (mahalle ? `/${ilce.slug}/${mahalle.slug}` : `/${ilce.slug}`) : "/izmir"}
           linkMode={brandGridLinkMode}
           title={`${locationText} hizmet verdiğimiz ${serviceType === "klima" ? "klima" : "beyaz eşya"} markaları`}
         />
@@ -473,7 +473,7 @@ export default async function DynamicServicePage({ params }: PageProps) {
           locations={ilceler}
           basePath=""
           serviceType={serviceType as "klima" | "beyaz-esya"}
-          title="Antalya geneli hizmet bölgelerimiz"
+          title="İzmir geneli hizmet bölgelerimiz"
           subtitle="İlçe seçerek servis sayfalarına devam edebilirsiniz."
         />
       )}

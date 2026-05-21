@@ -4,14 +4,14 @@
  * Architecture:
  *   /sitemap.xml              → sitemap index (app/sitemap.xml/route.ts)
  *   /sitemap-static.xml       → hub, directory, legal pages
- *   /sitemap-services.xml     → /hizmetler/* + /antalya-* geo landings
+ *   /sitemap-services.xml     → /hizmetler/* + /izmir-* geo landings
  *   /sitemap-districts.xml    → ilçe landings + /bolgeler/* + pricing
  *   /sitemap-neighborhoods.xml → mahalle landings
  *   /sitemap-brands.xml       → /servis/* canonical brand pages
  *
  *   - İlçe bazlı fiyat detay URL’leri (bolgeler altında) yalnızca yüksek öncelikli ilçelerde
  *     (neighborhood-seo ile aynı liste) — ince/çoğaltıcı URL yükünü azaltır.
- *   - /antalya/[brand]-* and /[brand]-* (no district) are EXCLUDED because
+ *   - /izmir/[brand]-* and /[brand]-* (no district) are EXCLUDED because
  *     those pages carry canonical → /servis/* — including them would submit
  *     non-canonical URLs to search engines.
  *   - Pure service-suffix pages (e.g. /klima-servisi) are EXCLUDED because
@@ -53,9 +53,9 @@ export const SEGMENT_URLS = {
   brands:        `${SITE_URL}/sitemap-brands.xml`,
 } as const;
 
-// Antalya-level geo landings: canonical = themselves (distinct geo-modified
+// İzmir-level geo landings: canonical = themselves (distinct geo-modified
 // intent from /hizmetler/* editorial pages).
-const ANTALYA_LANDING_SUFFIXES = Array.from(
+const IZMIR_LANDING_SUFFIXES = Array.from(
   new Set([
     ...allServicePages.map((s) => s.landingSlug),
     "klima-ariza-servisi",
@@ -147,7 +147,7 @@ export function staticSegmentUrls(): UrlEntry[] {
   const guideUrls = getAllGuideSlugs().map((slug) => u(`/rehber/${slug}`, 0.65, "monthly"));
   return [
     u("/", 1.0),
-    u("/antalya", 0.9),
+    u("/izmir", 0.9),
     u("/hizmetler", 0.9),
     u("/servis", 0.9),
     u("/rehber", 0.75, "weekly"),
@@ -170,9 +170,9 @@ export function servicesSegmentUrls(): UrlEntry[] {
     entries.push(u(`/hizmetler/${service.slug}`, 0.9));
   }
 
-  // Antalya-level geo landings — unique canonical, high commercial intent
-  for (const suffix of ANTALYA_LANDING_SUFFIXES) {
-    entries.push(u(`/antalya-${suffix}`, 0.85));
+  // İzmir-level geo landings — unique canonical, high commercial intent
+  for (const suffix of IZMIR_LANDING_SUFFIXES) {
+    entries.push(u(`/izmir-${suffix}`, 0.85));
   }
 
   return entries;
@@ -218,7 +218,7 @@ export function brandsSegmentUrls(): UrlEntry[] {
   const entries: UrlEntry[] = [];
 
   // Authoritative brand pages — canonical targets for all brand-level traffic.
-  // /antalya/[brand]-* and /[brand]-* (no district) are intentionally excluded:
+  // /izmir/[brand]-* and /[brand]-* (no district) are intentionally excluded:
   // those catch-all pages set canonical → /servis/* so submitting them would
   // ask Google to index URLs we've already told it not to treat as primary.
   for (const brand of klimaMarkalari) {

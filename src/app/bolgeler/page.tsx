@@ -7,9 +7,9 @@ import { buildMetadata } from "@/lib/metadata";
 import { WHATSAPP_PREFILL_GENERAL } from "@/lib/whatsapp";
 
 export const metadata = buildMetadata({
-  title: "Antalya Hizmet Bölgelerimiz | Tüm İlçeler ve Mahalleler",
+  title: "İzmir Hizmet Bölgelerimiz | Tüm İlçeler ve Mahalleler",
   description:
-    "Antalya geneli klima ve beyaz eşya servis hizmeti verdiğimiz tüm ilçeler ve mahalleler. Muratpaşa, Konyaaltı, Kepez ve tüm Antalya bölgeleri.",
+    "İzmir geneli klima ve beyaz eşya servis hizmeti verdiğimiz tüm ilçeler ve mahalleler. Konak, Bornova, Karşıyaka ve tüm İzmir bölgeleri.",
   path: "/bolgeler",
 });
 
@@ -17,8 +17,8 @@ export default function BolgelerPage() {
   return (
     <div className="bg-white min-h-screen">
       <HeroSection 
-        title="Antalya Hizmet Bölgelerimiz" 
-        subtitle="Antalya'nın 19 ilçesinde ve tüm mahallelerinde profesyonel teknik servis ekiplerimizle hizmetinizdeyiz."
+        title="İzmir Hizmet Bölgelerimiz" 
+        subtitle="İzmir'in 30 ilçesinde ve tüm mahallelerinde profesyonel teknik servis ekiplerimizle hizmetinizdeyiz."
         primaryCtaText="Hemen Ara"
         secondaryCtaText="WhatsApp'tan Yaz"
         whatsappPrefill={WHATSAPP_PREFILL_GENERAL}

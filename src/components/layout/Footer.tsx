@@ -19,11 +19,11 @@ export default function Footer() {
                 A
               </div>
               <span className="text-2xl md:text-3xl font-bold text-neutral-900 tracking-tight">
-                Antalya <span className="text-brand-red">Servisi</span>
+                İzmir <span className="text-brand-red">Servisi</span>
               </span>
             </Link>
             <p className="text-lg text-neutral-600 max-w-md leading-relaxed">
-              Antalya genelinde klima ve beyaz eşya servis ihtiyaçlarınız için hızlı, güvenilir ve profesyonel teknik destek sunuyoruz.
+              İzmir genelinde klima ve beyaz eşya servis ihtiyaçlarınız için hızlı, güvenilir ve profesyonel teknik destek sunuyoruz.
             </p>
           </div>
         </div>
@@ -78,10 +78,10 @@ export default function Footer() {
               ))}
             </div>
             <Link
-              href="/antalya"
+              href="/izmir"
               className="group inline-flex items-center mt-4 text-sm font-semibold text-brand-red hover:text-[#9f1414] transition-colors"
             >
-              Antalya Rehberini Gör
+              İzmir Rehberini Gör
               <span className="ml-1 transition-transform group-hover:translate-x-1">→</span>
             </Link>
           </div>
@@ -111,7 +111,7 @@ export default function Footer() {
                   <strong className="block text-neutral-900 mb-1">{CONTACT_INFO.name}</strong>
                   {CONTACT_INFO.addressFull}
                   <br />
-                  Antalya / Türkiye
+                  İzmir / Türkiye
                 </div>
               </li>
               <li className="flex items-start gap-3">

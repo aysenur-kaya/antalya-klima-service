@@ -33,8 +33,8 @@ export async function generateMetadata({ params }: PageProps): Promise<Metadata>
   }
 
   return buildMetadata({
-    title: `${service.title} | Antalya Servisi`,
-    description: `${service.title} için Antalya genelinde aynı gün, garantili ve profesyonel teknik servis. ${service.summary}`,
+    title: `${service.title} | İzmir Servisi`,
+    description: `${service.title} için İzmir genelinde aynı gün, garantili ve profesyonel teknik servis. ${service.summary}`,
     path: `/hizmetler/${service.slug}`,
     type: "article",
   });
@@ -55,11 +55,11 @@ export default async function HizmetDetayPage({ params }: PageProps) {
     description: service.summary,
     areaServed: {
       "@type": "City",
-      name: "Antalya",
+      name: "İzmir",
     },
     provider: {
       "@type": "LocalBusiness",
-      name: "Antalya Servisi",
+      name: "İzmir Servisi",
       url: SITE_URL,
     },
   };
@@ -73,7 +73,7 @@ export default async function HizmetDetayPage({ params }: PageProps) {
   });
 
   const hizmetWaMsg = buildLandingWhatsappMessage({
-    locationText: "Antalya",
+    locationText: "İzmir",
     serviceName: service.title,
   });
 
@@ -89,7 +89,7 @@ export default async function HizmetDetayPage({ params }: PageProps) {
       <JsonLd data={serviceSchema} />
       <HeroSection
         title={service.title}
-        subtitle={`Antalya geneli · ${service.summary}`}
+        subtitle={`İzmir geneli · ${service.summary}`}
         primaryCtaText="Hemen Ara"
         secondaryCtaText="WhatsApp'tan Yaz"
         whatsappPrefill={hizmetWaMsg}
@@ -157,15 +157,15 @@ export default async function HizmetDetayPage({ params }: PageProps) {
 
             <aside className="space-y-6">
               <div className="rounded-3xl border border-gray-200 bg-white p-6 md:p-8 shadow-sm">
-                <h3 className="text-xl font-bold mb-3 text-neutral-900">Antalya geneli hizmet</h3>
+                <h3 className="text-xl font-bold mb-3 text-neutral-900">İzmir geneli hizmet</h3>
                 <p className="text-neutral-600 text-sm leading-relaxed mb-6">
                   Bu hizmet için şehir geneli sayfaya geçerek servis talebi oluşturabilir veya bölge seçebilirsiniz.
                 </p>
                 <Link
-                  href={`/antalya-${service.landingSlug}`}
+                  href={`/izmir-${service.landingSlug}`}
                   className="inline-flex items-center gap-2 rounded-xl bg-brand-red px-5 py-3 text-sm font-bold text-white hover:bg-[#9f1414] transition-colors"
                 >
-                  Antalya {service.shortTitle} <ArrowRight className="w-4 h-4" aria-hidden />
+                  İzmir {service.shortTitle} <ArrowRight className="w-4 h-4" aria-hidden />
                 </Link>
               </div>
 
@@ -178,7 +178,7 @@ export default async function HizmetDetayPage({ params }: PageProps) {
                   <Link href="/servis" className="text-sm font-semibold text-gray-700 hover:text-brand-red">
                     Marka sayfalarını incele
                   </Link>
-                  <Link href="/antalya" className="text-sm font-semibold text-gray-700 hover:text-brand-red">
+                  <Link href="/izmir" className="text-sm font-semibold text-gray-700 hover:text-brand-red">
                     İlçe ve mahalleleri gör
                   </Link>
                   <Link href="/bolgeler" className="text-sm font-semibold text-gray-700 hover:text-brand-red">

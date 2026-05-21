@@ -4,7 +4,7 @@ import { SITE_URL } from "@/lib/constants";
 
 export const metadata = {
   title: "Kullanım Şartları",
-  description: "Antalya Servisi web sitesi kullanım şartları ve kuralları.",
+  description: "İzmir Servisi web sitesi kullanım şartları ve kuralları.",
   alternates: { canonical: `${SITE_URL}/kullanim-sartlari` },
 };
 
@@ -27,7 +27,7 @@ export default function SartlarPage() {
             </p>
             <h2 className="text-2xl font-bold mb-4">Fikri Mülkiyet</h2>
             <p className="mb-6">
-              {"Sitede yer alan tüm içeriklerin telif hakları Antalya Servisi'ne aittir. İzinsiz kullanımı yasaktır."}
+              {"Sitede yer alan tüm içeriklerin telif hakları İzmir Servisi'ne aittir. İzinsiz kullanımı yasaktır."}
             </p>
           </div>
         </div>
