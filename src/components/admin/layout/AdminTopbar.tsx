@@ -142,12 +142,12 @@ export default function AdminTopbar({ onMenuClick, title = "Dashboard" }: AdminT
 
             {notificationsOpen ? (
               <div
-                className="absolute right-0 top-full z-50 mt-2 w-[min(100vw-2rem,320px)] overflow-hidden rounded-xl border border-brand-border bg-white shadow-[0_12px_40px_-12px_rgba(15,23,42,0.2)]"
+                className="absolute right-0 top-full z-50 mt-2 w-80 max-w-[320px] overflow-hidden rounded-xl border border-brand-border bg-white shadow-[0_12px_40px_-12px_rgba(15,23,42,0.2)] max-sm:fixed max-sm:right-4 max-sm:top-[4.75rem] max-sm:mt-0 max-sm:w-[calc(100vw-32px)] max-sm:max-w-[calc(100vw-32px)] sm:mt-2"
                 role="menu"
                 onClick={(e) => e.stopPropagation()}
               >
                 <div className="flex items-center justify-between border-b border-brand-border px-4 py-3">
-                  <p className="text-sm font-semibold text-brand-dark">Bildirimler</p>
+                  <p className="min-w-0 text-sm font-semibold text-brand-dark">Bildirimler</p>
                   <button
                     type="button"
                     onClick={() => setNotificationsOpen(false)}
@@ -163,20 +163,24 @@ export default function AdminTopbar({ onMenuClick, title = "Dashboard" }: AdminT
                     Yükleniyor…
                   </div>
                 ) : hasNotifications ? (
-                  <ul className="max-h-72 overflow-y-auto py-1">
+                  <ul className="max-h-[min(50vh,18rem)] overflow-y-auto overscroll-contain py-1 sm:max-h-72">
                     {notifications.map((n) => (
-                      <li key={n.id}>
+                      <li key={n.id} className="min-w-0">
                         <button
                           type="button"
-                          className="w-full border-b border-brand-border/80 px-4 py-3 text-left last:border-0 hover:bg-brand-light/80"
+                          className="w-full min-w-0 border-b border-brand-border/80 px-4 py-3 text-left last:border-0 hover:bg-brand-light/80"
                           onClick={() => {
                             navigateToSection(n.sectionId);
                             setNotificationsOpen(false);
                           }}
                         >
-                          <p className="text-sm font-medium text-brand-dark">{n.title}</p>
-                          <p className="mt-0.5 text-xs text-slate-500 line-clamp-2">{n.body}</p>
-                          <p className="mt-1 text-xs text-slate-400">
+                          <p className="break-words whitespace-normal text-sm font-medium text-brand-dark">
+                            {n.title}
+                          </p>
+                          <p className="mt-0.5 line-clamp-3 break-words whitespace-normal text-xs leading-relaxed text-slate-500">
+                            {n.body}
+                          </p>
+                          <p className="mt-1 break-words whitespace-normal text-xs text-slate-400">
                             {formatRelativeTime(n.createdAt)}
                           </p>
                         </button>
@@ -184,7 +188,7 @@ export default function AdminTopbar({ onMenuClick, title = "Dashboard" }: AdminT
                     ))}
                   </ul>
                 ) : (
-                  <p className="px-4 py-6 text-center text-sm text-slate-500">
+                  <p className="break-words whitespace-normal px-4 py-6 text-center text-sm text-slate-500">
                     Yeni bildiriminiz yok
                   </p>
                 )}
