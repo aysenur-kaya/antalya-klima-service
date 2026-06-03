@@ -1,8 +1,6 @@
 import type { Metadata } from "next";
 import "./globals.css";
-import Header from "@/components/layout/Header";
-import Footer from "@/components/layout/Footer";
-import MobileCTALoader from "@/components/layout/MobileCTALoader";
+import ConditionalSiteChrome from "@/components/layout/ConditionalSiteChrome";
 import { SITE_URL } from "@/lib/constants";
 import JsonLd from "@/components/seo/JsonLd";
 import {
@@ -87,10 +85,7 @@ export default function RootLayout({
         className="min-h-screen bg-white text-brand-dark flex flex-col"
         style={{ fontFamily: systemFontStack }}
       >
-        <Header />
-        <main className="flex-1">{children}</main>
-        <Footer />
-        <MobileCTALoader />
+        <ConditionalSiteChrome>{children}</ConditionalSiteChrome>
       </body>
     </html>
   );

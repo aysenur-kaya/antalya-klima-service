@@ -1,0 +1,5 @@
+import AdminShell from "@/components/admin/layout/AdminShell";
+
+export default function AdminPage() {
+  return <AdminShell />;
+}

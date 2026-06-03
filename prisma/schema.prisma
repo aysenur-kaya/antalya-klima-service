@@ -1,0 +1,168 @@
+// İzmir Klima Servisi — admin panel PostgreSQL şeması
+// AdminUser: bcrypt hash + HTTP-only oturum çerezi (JWT) ile kimlik doğrulama.
+
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "postgresql"
+  url      = env("DATABASE_URL")
+}
+
+enum AdminRole {
+  SUPER_ADMIN
+  EDITOR
+}
+
+enum CustomerRequestStatus {
+  NEW
+  IN_PROGRESS
+  COMPLETED
+}
+
+enum ServiceType {
+  KLIMA
+  BEYAZ_ESYA
+}
+
+enum BlogPostStatus {
+  DRAFT
+  PUBLISHED
+}
+
+model AdminUser {
+  id           String    @id @default(cuid())
+  email        String    @unique
+  name         String
+  passwordHash String    @map("password_hash")
+  role         AdminRole @default(EDITOR)
+  active       Boolean   @default(true)
+  createdAt    DateTime  @default(now()) @map("created_at")
+  updatedAt    DateTime  @updatedAt @map("updated_at")
+
+  @@map("admin_users")
+}
+
+model CustomerRequest {
+  id        String                @id @default(cuid())
+  reference String?               @unique
+  name      String
+  phone     String
+  district  String
+  service   String
+  message   String                @db.Text
+  status    CustomerRequestStatus @default(NEW)
+  createdAt DateTime              @default(now()) @map("created_at")
+  updatedAt DateTime              @updatedAt @map("updated_at")
+
+  @@index([status])
+  @@index([createdAt])
+  @@map("customer_requests")
+}
+
+model Service {
+  id        String      @id @default(cuid())
+  title     String
+  slug      String      @unique
+  type      ServiceType
+  summary   String?     @db.Text
+  active    Boolean     @default(true)
+  sortOrder Int         @default(0) @map("sort_order")
+  createdAt DateTime    @default(now()) @map("created_at")
+  updatedAt DateTime    @updatedAt @map("updated_at")
+
+  @@index([active])
+  @@map("services")
+}
+
+model BlogPost {
+  id          String         @id @default(cuid())
+  title       String
+  slug        String         @unique
+  excerpt     String?        @db.Text
+  content     String?        @db.Text
+  status      BlogPostStatus @default(DRAFT)
+  views       Int            @default(0)
+  publishedAt DateTime?      @map("published_at")
+  createdAt   DateTime       @default(now()) @map("created_at")
+  updatedAt   DateTime       @updatedAt @map("updated_at")
+
+  @@index([status])
+  @@map("blog_posts")
+}
+
+/// Site geneli SEO — tek kayıt (id: "default")
+model SeoSetting {
+  id                 String   @id @default("default")
+  siteTitle          String   @map("site_title")
+  metaDescription    String   @map("meta_description") @db.Text
+  canonicalUrl       String   @map("canonical_url")
+  googleVerification String?  @map("google_verification")
+  robotsIndex        Boolean  @default(true) @map("robots_index")
+  createdAt          DateTime @default(now()) @map("created_at")
+  updatedAt          DateTime @updatedAt @map("updated_at")
+
+  @@map("seo_settings")
+}
+
+model District {
+  id            String         @id @default(cuid())
+  name          String
+  slug          String         @unique
+  landingActive Boolean        @default(false) @map("landing_active")
+  sortOrder     Int            @default(0) @map("sort_order")
+  neighborhoods Neighborhood[]
+  createdAt     DateTime       @default(now()) @map("created_at")
+  updatedAt     DateTime       @updatedAt @map("updated_at")
+
+  @@map("districts")
+}
+
+model Neighborhood {
+  id         String   @id @default(cuid())
+  name       String
+  slug       String
+  districtId String   @map("district_id")
+  district   District @relation(fields: [districtId], references: [id], onDelete: Cascade)
+  active     Boolean  @default(true)
+  createdAt  DateTime @default(now()) @map("created_at")
+  updatedAt  DateTime @updatedAt @map("updated_at")
+
+  @@unique([districtId, slug])
+  @@map("neighborhoods")
+}
+
+model Testimonial {
+  id        String   @id @default(cuid())
+  author    String
+  district  String
+  rating    Int      @default(5)
+  excerpt   String   @db.Text
+  published Boolean  @default(false)
+  sortOrder Int      @default(0) @map("sort_order")
+  createdAt DateTime @default(now()) @map("created_at")
+  updatedAt DateTime @updatedAt @map("updated_at")
+
+  @@index([published])
+  @@map("testimonials")
+}
+
+/// İletişim + genel site ayarları — tek kayıt (id: "default")
+model SiteSetting {
+  id               String   @id @default("default")
+  siteName         String   @map("site_name")
+  defaultCity      String   @default("İzmir") @map("default_city")
+  phone            String
+  phoneFormatted   String   @map("phone_formatted")
+  whatsappUrl      String   @map("whatsapp_url")
+  workingHours     String   @map("working_hours")
+  stickyCtaEnabled Boolean  @default(true) @map("sticky_cta_enabled")
+  maintenanceMode  Boolean  @default(false) @map("maintenance_mode")
+  showTestimonials Boolean  @default(true) @map("show_testimonials")
+  analyticsEnabled Boolean  @default(false) @map("analytics_enabled")
+  createdAt        DateTime @default(now()) @map("created_at")
+  updatedAt        DateTime @updatedAt @map("updated_at")
+
+  @@map("site_settings")
+}
