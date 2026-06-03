@@ -216,31 +216,29 @@ export default function DistrictManagement() {
           <div className="space-y-4">
             {displayDistricts.map((d) => (
               <div key={d.id} className="rounded-xl border border-brand-border overflow-hidden">
-                <div className="flex flex-col items-start gap-4 bg-brand-light/50 px-5 py-4 sm:flex-row sm:flex-wrap sm:items-center sm:gap-3 sm:px-4 sm:py-3">
-                  <div className="min-w-0 w-full sm:flex-1">
-                    <p className="truncate font-medium text-brand-dark">{d.name}</p>
-                    <code className="mt-1.5 block break-all text-xs leading-relaxed text-slate-500 sm:mt-1">
-                      /bolgeler/{d.slug}
-                    </code>
-                  </div>
-                  <Badge
-                    variant={d.landingActive ? "success" : "default"}
-                    className="mt-0 shrink-0 sm:mt-0"
-                  >
+                {/* Mobil: her bilgi ayrı satır, dikey akış */}
+                <div className="flex flex-col items-start gap-4 bg-brand-light/50 px-5 py-4 sm:hidden">
+                  <p className="w-full text-base font-medium leading-snug text-brand-dark">
+                    {d.name}
+                  </p>
+                  <Badge variant={d.landingActive ? "success" : "default"} className="shrink-0">
                     {d.landingActive ? "Aktif" : "Taslak"}
                   </Badge>
-                  <span className="w-full text-sm text-slate-500 sm:w-auto">
+                  <span className="text-sm text-slate-500">
                     {d._count?.neighborhoods ?? d.neighborhoods?.length ?? 0} mahalle
                   </span>
+                  <code className="block w-full break-all text-xs leading-relaxed text-slate-500">
+                    /bolgeler/{d.slug}
+                  </code>
                   <button
                     type="button"
                     onClick={() => setExpandedId(expandedId === d.id ? null : d.id)}
-                    className="inline-flex w-full items-center gap-1.5 rounded-lg px-2 py-2 text-sm text-brand-red hover:bg-red-50 sm:w-auto sm:py-1.5"
+                    className="inline-flex items-center gap-1.5 rounded-lg px-2 py-2 text-sm text-brand-red hover:bg-red-50"
                   >
                     <MapPinned className="h-3.5 w-3.5 shrink-0" />
                     Mahalleler
                   </button>
-                  <div className="flex w-full items-center justify-end gap-1 border-t border-brand-border/60 pt-3 sm:w-auto sm:border-0 sm:pt-0">
+                  <div className="flex w-full items-center justify-end gap-2 border-t border-brand-border/60 pt-3">
                     <button
                       type="button"
                       onClick={() => openDistrictEdit(d)}
@@ -258,6 +256,44 @@ export default function DistrictManagement() {
                       <Trash2 className="h-4 w-4" />
                     </button>
                   </div>
+                </div>
+
+                {/* Desktop: yatay özet satırı */}
+                <div className="hidden flex-wrap items-center gap-3 bg-brand-light/50 px-4 py-3 sm:flex">
+                  <div className="min-w-0 flex-1">
+                    <p className="font-medium text-brand-dark">{d.name}</p>
+                    <code className="text-xs text-slate-500">/bolgeler/{d.slug}</code>
+                  </div>
+                  <Badge variant={d.landingActive ? "success" : "default"}>
+                    {d.landingActive ? "Aktif" : "Taslak"}
+                  </Badge>
+                  <span className="text-sm text-slate-500">
+                    {d._count?.neighborhoods ?? d.neighborhoods?.length ?? 0} mahalle
+                  </span>
+                  <button
+                    type="button"
+                    onClick={() => setExpandedId(expandedId === d.id ? null : d.id)}
+                    className="inline-flex items-center gap-1 rounded-lg px-2 py-1.5 text-sm text-brand-red hover:bg-red-50"
+                  >
+                    <MapPinned className="h-3.5 w-3.5" />
+                    Mahalleler
+                  </button>
+                  <button
+                    type="button"
+                    onClick={() => openDistrictEdit(d)}
+                    className="p-2 text-slate-500 hover:text-brand-red"
+                    aria-label={`${d.name} düzenle`}
+                  >
+                    <Pencil className="h-4 w-4" />
+                  </button>
+                  <button
+                    type="button"
+                    onClick={() => deleteDistrict(d)}
+                    className="p-2 text-slate-500 hover:text-brand-red"
+                    aria-label={`${d.name} sil`}
+                  >
+                    <Trash2 className="h-4 w-4" />
+                  </button>
                 </div>
                 {expandedId === d.id ? (
                   <div className="border-t border-brand-border bg-white p-4">

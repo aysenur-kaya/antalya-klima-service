@@ -1,12 +1,25 @@
 "use client";
 
 import { useState } from "react";
-import { useRouter, useSearchParams } from "next/navigation";
+import { useSearchParams } from "next/navigation";
 import { Wind, Loader2 } from "lucide-react";
 import Button from "@/components/admin/ui/Button";
 
+type LoginApiBody = {
+  success?: boolean;
+  error?: string;
+  code?: string;
+  data?: { user?: { email: string } };
+};
+
+function resolveRedirectPath(from: string | null): string {
+  if (from && from.startsWith("/admin") && from !== "/admin/login") {
+    return from;
+  }
+  return "/admin";
+}
+
 export default function AdminLoginForm() {
-  const router = useRouter();
   const searchParams = useSearchParams();
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
@@ -18,28 +31,58 @@ export default function AdminLoginForm() {
     setError(null);
     setLoading(true);
 
+    const loginUrl = "/api/admin/auth/login";
+
     try {
-      const res = await fetch("/api/admin/auth/login", {
+      console.log("[admin/login] İstek gönderiliyor:", loginUrl, { email: email.trim() });
+
+      const res = await fetch(loginUrl, {
         method: "POST",
-        credentials: "same-origin",
+        credentials: "include",
         headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({ email, password }),
+        body: JSON.stringify({ email: email.trim(), password }),
       });
 
-      const data = await res.json();
-
-      if (!res.ok || !data.success) {
-        setError(data.error ?? "Giriş başarısız.");
+      let data: LoginApiBody = {};
+      const rawText = await res.text();
+      try {
+        data = rawText ? (JSON.parse(rawText) as LoginApiBody) : {};
+      } catch (parseErr) {
+        console.error("[admin/login] JSON parse hatası:", parseErr, "body:", rawText.slice(0, 200));
+        setError("Sunucu yanıtı okunamadı. Konsolu kontrol edin.");
         return;
       }
 
-      const from = searchParams.get("from");
-      const safeFrom =
-        from && from.startsWith("/admin") && from !== "/admin/login" ? from : "/admin";
-      router.push(safeFrom);
-      router.refresh();
-    } catch {
-      setError("Bağlantı hatası. Lütfen tekrar deneyin.");
+      console.log("[admin/login] Yanıt:", {
+        status: res.status,
+        ok: res.ok,
+        success: data.success,
+        code: data.code,
+      });
+
+      if (!res.ok || !data.success) {
+        const message =
+          data.error ??
+          (res.status === 401
+            ? "E-posta veya şifre hatalı."
+            : res.status >= 500
+              ? "Sunucu hatası. Veritabanı ve .env ayarlarını kontrol edin."
+              : "Giriş başarısız.");
+        console.error("[admin/login] Hata:", message, data);
+        setError(message);
+        return;
+      }
+
+      const target = resolveRedirectPath(searchParams.get("from"));
+      console.log("[admin/login] Başarılı, yönlendiriliyor:", target);
+
+      // Çerez middleware’e gitsin diye tam sayfa yönlendirme (mobil/LAN için güvenilir)
+      window.location.assign(target);
+    } catch (networkErr) {
+      console.error("[admin/login] Ağ hatası:", networkErr);
+      setError(
+        "Sunucuya bağlanılamadı. Aynı ağda olduğunuzdan ve adresin doğru olduğundan emin olun."
+      );
     } finally {
       setLoading(false);
     }
@@ -63,7 +106,7 @@ export default function AdminLoginForm() {
           {error ? (
             <div
               role="alert"
-              className="mb-4 rounded-xl border border-red-100 bg-red-50 px-4 py-3 text-sm text-brand-red"
+              className="mb-4 rounded-xl border border-red-200 bg-red-50 px-4 py-3 text-sm font-medium text-brand-red"
             >
               {error}
             </div>

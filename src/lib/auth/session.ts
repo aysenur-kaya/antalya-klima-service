@@ -2,8 +2,13 @@ import { SignJWT, jwtVerify } from "jose";
 import { cookies } from "next/headers";
 import type { NextRequest, NextResponse } from "next/server";
 
+import {
+  getSessionCookieOptions,
+  SESSION_MAX_AGE_SEC,
+} from "@/lib/auth/cookie-options";
+
 export const ADMIN_SESSION_COOKIE = "izmir_admin_session";
-const SESSION_MAX_AGE_SEC = 60 * 60 * 24 * 7; // 7 gün
+export { SESSION_MAX_AGE_SEC };
 
 export type AdminSessionPayload = {
   sub: string;
@@ -82,18 +87,18 @@ export async function verifySessionToken(
   }
 }
 
-export function getSessionCookieOptions() {
-  return {
-    httpOnly: true,
-    secure: process.env.NODE_ENV === "production",
-    sameSite: "lax" as const,
-    path: "/",
-    maxAge: SESSION_MAX_AGE_SEC,
-  };
-}
+export { getSessionCookieOptions } from "@/lib/auth/cookie-options";
 
 export function setSessionCookie(response: NextResponse, token: string) {
-  response.cookies.set(ADMIN_SESSION_COOKIE, token, getSessionCookieOptions());
+  const options = getSessionCookieOptions();
+  response.cookies.set(ADMIN_SESSION_COOKIE, token, options);
+  if (process.env.NODE_ENV === "development") {
+    console.log("[auth] Oturum çerezi ayarlandı", {
+      secure: options.secure,
+      sameSite: options.sameSite,
+      path: options.path,
+    });
+  }
 }
 
 export function clearSessionCookie(response: NextResponse) {

@@ -95,7 +95,11 @@ export async function POST(request: NextRequest) {
     });
 
     setSessionCookie(response, token);
-    console.log("[auth/login] Başarılı giriş:", email);
+    const setCookie = response.headers.get("set-cookie");
+    console.log("[auth/login] Başarılı giriş:", email, {
+      hasSetCookie: Boolean(setCookie),
+      host: request.headers.get("host"),
+    });
     return response;
   });
 
