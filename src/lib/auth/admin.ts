@@ -1,23 +1,12 @@
-import { prisma } from "@/lib/prisma";
-import { getSessionFromCookies, type AdminSessionPayload } from "@/lib/auth/session";
+import { cookies } from "next/headers";
+import { ADMIN_SESSION_COOKIE, type AdminSessionPayload } from "@/lib/auth/session";
+import { resolveAdminSession } from "@/lib/auth/resolve-session";
 
+/** Node.js server — JWT + DB aktif kullanıcı ve güncel rol */
 export async function getCurrentAdmin(): Promise<AdminSessionPayload | null> {
-  const session = await getSessionFromCookies();
-  if (!session) return null;
-
-  const user = await prisma.adminUser.findUnique({
-    where: { id: session.sub },
-    select: { id: true, email: true, name: true, role: true, active: true },
-  });
-
-  if (!user || !user.active) return null;
-
-  return {
-    sub: user.id,
-    email: user.email,
-    name: user.name,
-    role: user.role,
-  };
+  const cookieStore = await cookies();
+  const token = cookieStore.get(ADMIN_SESSION_COOKIE)?.value;
+  return resolveAdminSession(token);
 }
 
 export function isPublicAdminPath(pathname: string): boolean {

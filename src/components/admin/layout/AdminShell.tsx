@@ -28,6 +28,32 @@ export default function AdminShell() {
   }, []);
 
   useEffect(() => {
+    if (!sidebarOpen) return;
+    const mq = window.matchMedia("(min-width: 1024px)");
+    function lockScroll() {
+      if (!mq.matches) document.body.style.overflow = "hidden";
+    }
+    function unlockScroll() {
+      document.body.style.overflow = "";
+    }
+    lockScroll();
+    mq.addEventListener("change", unlockScroll);
+    return () => {
+      mq.removeEventListener("change", unlockScroll);
+      unlockScroll();
+    };
+  }, [sidebarOpen]);
+
+  useEffect(() => {
+    if (!sidebarOpen) return;
+    function onEscape(e: KeyboardEvent) {
+      if (e.key === "Escape") setSidebarOpen(false);
+    }
+    document.addEventListener("keydown", onEscape);
+    return () => document.removeEventListener("keydown", onEscape);
+  }, [sidebarOpen]);
+
+  useEffect(() => {
     const sectionIds = [
       "overview",
       "requests",
@@ -61,7 +87,7 @@ export default function AdminShell() {
   }, []);
 
   return (
-    <AdminDashboardProvider>
+    <AdminDashboardProvider onNavigateSection={scrollToSection}>
     <div className="flex min-h-screen bg-brand-light">
       <AdminSidebar
         open={sidebarOpen}
@@ -70,7 +96,7 @@ export default function AdminShell() {
         onNavigate={scrollToSection}
       />
 
-      <div className="flex min-w-0 flex-1 flex-col">
+      <div className="flex min-w-0 flex-1 flex-col overflow-x-hidden">
         <AdminTopbar onMenuClick={() => setSidebarOpen(true)} />
 
         <div className="premium-gradient flex-1">

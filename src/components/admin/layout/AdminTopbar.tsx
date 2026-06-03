@@ -4,31 +4,9 @@ import { useEffect, useRef, useState } from "react";
 import { useRouter } from "next/navigation";
 import { Bell, Menu, Search, LogOut, Loader2, X } from "lucide-react";
 import Button from "@/components/admin/ui/Button";
+import AdminSearchDropdown from "@/components/admin/layout/AdminSearchDropdown";
 import { useAdminDashboardSearch } from "@/components/admin/context/AdminDashboardContext";
-
-const SAMPLE_NOTIFICATIONS = [
-  {
-    id: "1",
-    title: "Yeni müşteri talebi",
-    body: "Karşıyaka — Klima bakımı talebi alındı.",
-    time: "5 dk önce",
-    unread: true,
-  },
-  {
-    id: "2",
-    title: "Blog taslağı",
-    body: "Yaz sezonu kontrol listesi taslak olarak kayıtlı.",
-    time: "1 saat önce",
-    unread: true,
-  },
-  {
-    id: "3",
-    title: "İlçe landing",
-    body: "Bornova landing sayfası aktif.",
-    time: "Dün",
-    unread: false,
-  },
-];
+import { formatRelativeTime } from "@/lib/admin/format";
 
 type AdminTopbarProps = {
   onMenuClick: () => void;
@@ -37,11 +15,20 @@ type AdminTopbarProps = {
 
 export default function AdminTopbar({ onMenuClick, title = "Dashboard" }: AdminTopbarProps) {
   const router = useRouter();
-  const { searchQuery, setSearchQuery } = useAdminDashboardSearch();
+  const {
+    searchQuery,
+    setSearchQuery,
+    notifications,
+    notificationsLoading,
+    unreadNotificationCount,
+    refreshNotifications,
+    navigateToSection,
+  } = useAdminDashboardSearch();
   const [loggingOut, setLoggingOut] = useState(false);
   const [notificationsOpen, setNotificationsOpen] = useState(false);
+  const [searchOpen, setSearchOpen] = useState(false);
   const notificationsRef = useRef<HTMLDivElement>(null);
-  const searchInputRef = useRef<HTMLInputElement>(null);
+  const searchRef = useRef<HTMLDivElement>(null);
 
   useEffect(() => {
     if (!notificationsOpen) return;
@@ -67,6 +54,30 @@ export default function AdminTopbar({ onMenuClick, title = "Dashboard" }: AdminT
     };
   }, [notificationsOpen]);
 
+  useEffect(() => {
+    if (!searchOpen) return;
+
+    function handlePointerDown(e: MouseEvent | TouchEvent) {
+      const target = e.target as Node;
+      if (searchRef.current && !searchRef.current.contains(target)) {
+        setSearchOpen(false);
+      }
+    }
+
+    function handleEscape(e: KeyboardEvent) {
+      if (e.key === "Escape") setSearchOpen(false);
+    }
+
+    document.addEventListener("mousedown", handlePointerDown);
+    document.addEventListener("touchstart", handlePointerDown);
+    document.addEventListener("keydown", handleEscape);
+    return () => {
+      document.removeEventListener("mousedown", handlePointerDown);
+      document.removeEventListener("touchstart", handlePointerDown);
+      document.removeEventListener("keydown", handleEscape);
+    };
+  }, [searchOpen]);
+
   async function handleLogout() {
     setLoggingOut(true);
     try {
@@ -80,15 +91,20 @@ export default function AdminTopbar({ onMenuClick, title = "Dashboard" }: AdminT
 
   function toggleNotifications(e: React.MouseEvent) {
     e.stopPropagation();
-    setNotificationsOpen((open) => !open);
+    const next = !notificationsOpen;
+    setNotificationsOpen(next);
+    if (next) {
+      setSearchOpen(false);
+      refreshNotifications();
+    }
   }
 
-  const hasNotifications = SAMPLE_NOTIFICATIONS.length > 0;
+  const hasNotifications = notifications.length > 0;
 
   return (
     <header className="sticky top-0 z-30 border-b border-brand-border bg-white/90 backdrop-blur-md">
       <div className="flex flex-col gap-2 px-4 py-3 sm:px-6">
-        <div className="flex h-12 items-center gap-2 sm:h-auto sm:gap-3">
+        <div className="flex min-h-12 flex-wrap items-center gap-2 sm:h-auto sm:flex-nowrap sm:gap-3">
           <button
             type="button"
             onClick={onMenuClick}
@@ -119,7 +135,7 @@ export default function AdminTopbar({ onMenuClick, title = "Dashboard" }: AdminT
               aria-haspopup="true"
             >
               <Bell className="h-5 w-5" />
-              {hasNotifications ? (
+              {unreadNotificationCount > 0 ? (
                 <span className="absolute right-1.5 top-1.5 h-2 w-2 rounded-full bg-brand-red ring-2 ring-white" />
               ) : null}
             </button>
@@ -141,16 +157,29 @@ export default function AdminTopbar({ onMenuClick, title = "Dashboard" }: AdminT
                     <X className="h-4 w-4" />
                   </button>
                 </div>
-                {hasNotifications ? (
+                {notificationsLoading ? (
+                  <div className="flex items-center justify-center gap-2 px-4 py-8 text-sm text-slate-500">
+                    <Loader2 className="h-4 w-4 animate-spin" aria-hidden />
+                    Yükleniyor…
+                  </div>
+                ) : hasNotifications ? (
                   <ul className="max-h-72 overflow-y-auto py-1">
-                    {SAMPLE_NOTIFICATIONS.map((n) => (
-                      <li
-                        key={n.id}
-                        className="cursor-default border-b border-brand-border/80 px-4 py-3 last:border-0 hover:bg-brand-light/80"
-                      >
-                        <p className="text-sm font-medium text-brand-dark">{n.title}</p>
-                        <p className="mt-0.5 text-xs text-slate-500">{n.body}</p>
-                        <p className="mt-1 text-xs text-slate-400">{n.time}</p>
+                    {notifications.map((n) => (
+                      <li key={n.id}>
+                        <button
+                          type="button"
+                          className="w-full border-b border-brand-border/80 px-4 py-3 text-left last:border-0 hover:bg-brand-light/80"
+                          onClick={() => {
+                            navigateToSection(n.sectionId);
+                            setNotificationsOpen(false);
+                          }}
+                        >
+                          <p className="text-sm font-medium text-brand-dark">{n.title}</p>
+                          <p className="mt-0.5 text-xs text-slate-500 line-clamp-2">{n.body}</p>
+                          <p className="mt-1 text-xs text-slate-400">
+                            {formatRelativeTime(n.createdAt)}
+                          </p>
+                        </button>
                       </li>
                     ))}
                   </ul>
@@ -166,42 +195,55 @@ export default function AdminTopbar({ onMenuClick, title = "Dashboard" }: AdminT
           <Button
             variant="secondary"
             size="sm"
-            className="hidden shrink-0 sm:inline-flex"
+            className="inline-flex shrink-0 gap-1.5 px-2.5 sm:px-3"
             onClick={handleLogout}
             disabled={loggingOut}
             aria-label="Çıkış yap"
           >
             {loggingOut ? (
-              <Loader2 className="h-4 w-4 animate-spin" />
+              <Loader2 className="h-4 w-4 shrink-0 animate-spin" />
             ) : (
-              <LogOut className="h-4 w-4" />
+              <LogOut className="h-4 w-4 shrink-0" />
             )}
-            Çıkış
+            <span className="text-xs sm:text-sm">Çıkış</span>
           </Button>
         </div>
 
-        {/* Arama: tüm ekran genişliklerinde aktif */}
-        <div className="flex w-full items-center gap-2 rounded-xl border border-brand-border bg-brand-light px-3 py-2 focus-within:border-brand-red/40 focus-within:ring-2 focus-within:ring-brand-red/10">
-          <Search className="h-4 w-4 shrink-0 text-slate-400" aria-hidden />
-          <input
-            ref={searchInputRef}
-            type="search"
-            placeholder="Panelde ara (hizmet, blog, talep, ilçe…)"
-            value={searchQuery}
-            onChange={(e) => setSearchQuery(e.target.value)}
-            className="w-full min-w-0 bg-transparent text-sm text-brand-dark outline-none placeholder:text-slate-400"
-            aria-label="Panelde ara"
-          />
-          {searchQuery ? (
-            <button
-              type="button"
-              onClick={() => setSearchQuery("")}
-              className="shrink-0 rounded-lg p-1 text-slate-500 hover:bg-white hover:text-brand-red"
-              aria-label="Aramayı temizle"
-            >
-              <X className="h-4 w-4" />
-            </button>
-          ) : null}
+        <div className="relative w-full" ref={searchRef}>
+          <div className="flex w-full items-center gap-2 rounded-xl border border-brand-border bg-brand-light px-3 py-2 focus-within:border-brand-red/40 focus-within:ring-2 focus-within:ring-brand-red/10">
+            <Search className="h-4 w-4 shrink-0 text-slate-400" aria-hidden />
+            <input
+              type="search"
+              placeholder="Panelde ara (hizmet, blog, talep, ilçe…)"
+              value={searchQuery}
+              onChange={(e) => {
+                setSearchQuery(e.target.value);
+                setSearchOpen(true);
+              }}
+              onFocus={() => setSearchOpen(true)}
+              className="w-full min-w-0 bg-transparent text-sm text-brand-dark outline-none placeholder:text-slate-400"
+              aria-label="Panelde ara"
+              aria-expanded={searchOpen && !!searchQuery.trim()}
+              aria-controls="admin-search-results"
+              autoComplete="off"
+            />
+            {searchQuery ? (
+              <button
+                type="button"
+                onClick={() => {
+                  setSearchQuery("");
+                  setSearchOpen(false);
+                }}
+                className="shrink-0 rounded-lg p-1 text-slate-500 hover:bg-white hover:text-brand-red"
+                aria-label="Aramayı temizle"
+              >
+                <X className="h-4 w-4" />
+              </button>
+            ) : null}
+          </div>
+          <div id="admin-search-results">
+            <AdminSearchDropdown open={searchOpen} onClose={() => setSearchOpen(false)} />
+          </div>
         </div>
       </div>
     </header>

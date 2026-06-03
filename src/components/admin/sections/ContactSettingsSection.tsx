@@ -8,8 +8,6 @@ import { StatusMessage, LoadingBlock } from "@/components/admin/ui/StatusMessage
 import { adminInputClass } from "@/components/admin/ui/form-styles";
 import { adminApi } from "@/lib/admin/api-client";
 import { useAdminDashboardSearch } from "@/components/admin/context/AdminDashboardContext";
-import { matchesSearchQuery } from "@/lib/admin/search";
-import SearchNoResults from "@/components/admin/ui/SearchNoResults";
 
 type ContactForm = {
   siteName: string;
@@ -26,22 +24,7 @@ export default function ContactSettingsSection() {
   const [saving, setSaving] = useState(false);
   const [error, setError] = useState<string | null>(null);
   const [success, setSuccess] = useState<string | null>(null);
-  const { searchQuery, isSearching } = useAdminDashboardSearch();
-
-  const formVisible =
-    form &&
-    (!isSearching ||
-      matchesSearchQuery(
-        searchQuery,
-        form.siteName,
-        form.phone,
-        form.phoneFormatted,
-        form.whatsappUrl,
-        form.workingHours,
-        "telefon",
-        "whatsapp",
-        "iletişim"
-      ));
+  const { isSearching } = useAdminDashboardSearch();
 
   const load = useCallback(async () => {
     setLoading(true);
@@ -85,6 +68,8 @@ export default function ContactSettingsSection() {
     load();
   }
 
+  if (isSearching) return null;
+
   return (
     <SectionCard
       id="contact"
@@ -107,8 +92,6 @@ export default function ContactSettingsSection() {
         <LoadingBlock />
       ) : !form ? (
         <StatusMessage type="info" message="Site ayarları yüklenemedi. npm run db:seed çalıştırın." />
-      ) : !formVisible ? (
-        <SearchNoResults />
       ) : (
         <form id="contact-form" onSubmit={handleSave} className="grid gap-6 lg:grid-cols-2">
           <div className="rounded-2xl border border-brand-border bg-brand-light/80 p-5 lg:col-span-2">

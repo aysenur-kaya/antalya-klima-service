@@ -1,3 +1,5 @@
+export const runtime = "nodejs";
+
 import { prisma } from "@/lib/prisma";
 import { runProtectedAdminRoute } from "@/lib/api/admin-auth";
 import { isJsonParseError, parseJsonBody } from "@/lib/api/parse";
@@ -72,5 +74,5 @@ export async function PATCH(request: Request) {
       data,
     });
     return jsonSuccess({ item });
-  });
+  }, { request, permission: "settings" });
 }

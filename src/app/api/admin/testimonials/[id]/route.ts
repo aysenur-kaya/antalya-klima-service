@@ -1,3 +1,5 @@
+export const runtime = "nodejs";
+
 import { prisma } from "@/lib/prisma";
 import { runProtectedAdminRoute } from "@/lib/api/admin-auth";
 import { isJsonParseError, parseIdParam, parseJsonBody } from "@/lib/api/parse";
@@ -49,10 +51,10 @@ export async function PATCH(request: Request, ctx: RouteCtx) {
 
     const item = await prisma.testimonial.update({ where: { id }, data });
     return jsonSuccess({ item });
-  });
+  }, { request });
 }
 
-export async function DELETE(_request: Request, ctx: RouteCtx) {
+export async function DELETE(request: Request, ctx: RouteCtx) {
   return runProtectedAdminRoute(async () => {
     const { id: rawId } = await ctx.params;
     const id = parseIdParam(rawId);
@@ -60,5 +62,5 @@ export async function DELETE(_request: Request, ctx: RouteCtx) {
 
     await prisma.testimonial.delete({ where: { id } });
     return jsonSuccess({ deleted: true });
-  });
+  }, { request });
 }

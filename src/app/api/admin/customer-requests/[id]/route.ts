@@ -1,3 +1,5 @@
+export const runtime = "nodejs";
+
 import { CustomerRequestStatus } from "@prisma/client";
 import { prisma } from "@/lib/prisma";
 import { runProtectedAdminRoute } from "@/lib/api/admin-auth";
@@ -30,10 +32,10 @@ export async function PATCH(request: Request, ctx: RouteCtx) {
       data: { status: status as CustomerRequestStatus },
     });
     return jsonSuccess({ item });
-  });
+  }, { request });
 }
 
-export async function DELETE(_request: Request, ctx: RouteCtx) {
+export async function DELETE(request: Request, ctx: RouteCtx) {
   return runProtectedAdminRoute(async () => {
     const { id: rawId } = await ctx.params;
     const id = parseIdParam(rawId);
@@ -41,5 +43,5 @@ export async function DELETE(_request: Request, ctx: RouteCtx) {
 
     await prisma.customerRequest.delete({ where: { id } });
     return jsonSuccess({ deleted: true });
-  });
+  }, { request });
 }

@@ -22,7 +22,7 @@ import { SITE_URL } from "@/lib/constants";
 import { ilceler, klimaMarkalari, beyazEsyaMarkalari } from "@/lib/data";
 import { isHighPriorityDistrict, isIndexableNeighborhood } from "@/lib/neighborhood-seo";
 import { allServicePages, klimaServicePages } from "@/lib/services";
-import { getAllGuideSlugs } from "@/lib/guides";
+import { getPublishedRehberSlugs } from "@/lib/blog/public";
 
 // ---------------------------------------------------------------------------
 // Constants
@@ -143,8 +143,14 @@ export function xmlResponse(xml: string): Response {
 // URL generators — one per sitemap segment
 // ---------------------------------------------------------------------------
 
-export function staticSegmentUrls(): UrlEntry[] {
-  const guideUrls = getAllGuideSlugs().map((slug) => u(`/rehber/${slug}`, 0.65, "monthly"));
+export async function staticSegmentUrls(): Promise<UrlEntry[]> {
+  let guideUrls: UrlEntry[] = [];
+  try {
+    const slugs = await getPublishedRehberSlugs();
+    guideUrls = slugs.map((slug) => u(`/rehber/${slug}`, 0.65, "monthly"));
+  } catch {
+    guideUrls = [];
+  }
   return [
     u("/", 1.0),
     u("/izmir", 0.9),

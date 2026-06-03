@@ -1,6 +1,6 @@
 "use client";
 
-import { useCallback, useEffect, useMemo, useState } from "react";
+import { useState } from "react";
 import { Star, Plus, Pencil, Trash2 } from "lucide-react";
 import SectionCard from "@/components/admin/ui/SectionCard";
 import Badge from "@/components/admin/ui/Badge";
@@ -17,10 +17,17 @@ import {
   DataTableCell,
   DataTableHeaderCell,
 } from "@/components/admin/ui/DataTable";
+import {
+  MobileCard,
+  MobileCardActions,
+  MobileCardField,
+  MobileCardList,
+} from "@/components/admin/ui/MobileCard";
 import { adminApi } from "@/lib/admin/api-client";
 import { useAdminDashboardSearch } from "@/components/admin/context/AdminDashboardContext";
-import { filterBySearch } from "@/lib/admin/search";
 import SearchNoResults from "@/components/admin/ui/SearchNoResults";
+import AdminPagination from "@/components/admin/ui/AdminPagination";
+import { usePaginatedAdminList } from "@/components/admin/hooks/usePaginatedAdminList";
 
 type Testimonial = {
   id: string;
@@ -52,44 +59,32 @@ function Stars({ count }: { count: number }) {
 }
 
 export default function TestimonialsManagement() {
-  const [items, setItems] = useState<Testimonial[]>([]);
-  const [loading, setLoading] = useState(true);
   const [error, setError] = useState<string | null>(null);
   const [success, setSuccess] = useState<string | null>(null);
   const [modalOpen, setModalOpen] = useState(false);
   const [editing, setEditing] = useState<Testimonial | null>(null);
   const [form, setForm] = useState(emptyForm);
   const [saving, setSaving] = useState(false);
-  const { searchQuery, isSearching } = useAdminDashboardSearch();
+  const { searchQuery, isSearching: dashboardSearchActive } = useAdminDashboardSearch();
 
-  const displayItems = useMemo(
-    () =>
-      filterBySearch(items, searchQuery, (t) => [
-        t.author,
-        t.district,
-        t.excerpt,
-        t.published ? "yayında" : "beklemede",
-        String(t.rating),
-      ]),
-    [items, searchQuery]
-  );
-
-  const load = useCallback(async () => {
-    setLoading(true);
-    setError(null);
-    const res = await adminApi<{ items: Testimonial[] }>("/api/admin/testimonials");
-    if (res.success) {
-      setItems(res.data.items);
-    } else {
-      setItems([]);
-      setError(res.error);
-    }
-    setLoading(false);
-  }, []);
-
-  useEffect(() => {
-    load();
-  }, [load]);
+  const {
+    items,
+    total,
+    offset,
+    page,
+    totalPages,
+    pageSize,
+    loading,
+    error: listError,
+    hasMore,
+    isSearching,
+    goNext,
+    goPrev,
+    refresh,
+  } = usePaginatedAdminList<Testimonial>({
+    path: "/api/admin/testimonials",
+    searchQuery,
+  });
 
   function openCreate() {
     setEditing(null);
@@ -128,7 +123,7 @@ export default function TestimonialsManagement() {
     }
     setSuccess(editing ? "Yorum güncellendi." : "Yorum eklendi.");
     setModalOpen(false);
-    load();
+    refresh();
   }
 
   async function handleDelete(t: Testimonial) {
@@ -139,8 +134,10 @@ export default function TestimonialsManagement() {
       return;
     }
     setSuccess("Yorum silindi.");
-    load();
+    refresh();
   }
+
+  if (dashboardSearchActive) return null;
 
   return (
     <>
@@ -155,15 +152,55 @@ export default function TestimonialsManagement() {
           </Button>
         }
       >
-        {error ? <StatusMessage type="error" message={error} className="mb-4" /> : null}
+        {error || listError ? (
+          <StatusMessage type="error" message={error ?? listError ?? ""} className="mb-4" />
+        ) : null}
         {success ? <StatusMessage type="success" message={success} className="mb-4" /> : null}
         {loading ? (
           <LoadingBlock />
-        ) : items.length === 0 ? (
+        ) : total === 0 && !isSearching ? (
           <EmptyState message="Henüz yorum kaydı yok." />
-        ) : isSearching && displayItems.length === 0 ? (
+        ) : items.length === 0 ? (
           <SearchNoResults />
         ) : (
+          <>
+          <MobileCardList>
+            {items.map((t) => (
+              <MobileCard key={t.id}>
+                <MobileCardField label="Müşteri / İlçe">
+                  <p className="font-medium">{t.author}</p>
+                  <p className="text-slate-500">{t.district}</p>
+                </MobileCardField>
+                <MobileCardField label="Puan">
+                  <Stars count={t.rating} />
+                </MobileCardField>
+                <MobileCardField label="Yorum">
+                  <p className="text-slate-600">{t.excerpt}</p>
+                </MobileCardField>
+                <MobileCardField label="Yayın">
+                  <Badge variant={t.published ? "success" : "default"}>
+                    {t.published ? "Yayında" : "Beklemede"}
+                  </Badge>
+                </MobileCardField>
+                <MobileCardActions>
+                  <button
+                    type="button"
+                    onClick={() => openEdit(t)}
+                    className="p-2 text-brand-red hover:bg-red-50 rounded-lg"
+                  >
+                    <Pencil className="h-4 w-4" />
+                  </button>
+                  <button
+                    type="button"
+                    onClick={() => handleDelete(t)}
+                    className="p-2 text-slate-500 hover:text-brand-red rounded-lg"
+                  >
+                    <Trash2 className="h-4 w-4" />
+                  </button>
+                </MobileCardActions>
+              </MobileCard>
+            ))}
+          </MobileCardList>
           <DataTable>
             <DataTableHead>
               <DataTableHeaderCell>Müşteri</DataTableHeaderCell>
@@ -174,7 +211,7 @@ export default function TestimonialsManagement() {
               <DataTableHeaderCell className="text-right">İşlem</DataTableHeaderCell>
             </DataTableHead>
             <DataTableBody>
-              {displayItems.map((t) => (
+              {items.map((t) => (
                 <DataTableRow key={t.id}>
                   <DataTableCell className="font-medium">{t.author}</DataTableCell>
                   <DataTableCell>{t.district}</DataTableCell>
@@ -201,6 +238,18 @@ export default function TestimonialsManagement() {
               ))}
             </DataTableBody>
           </DataTable>
+          <AdminPagination
+            total={total}
+            offset={offset}
+            pageSize={pageSize}
+            page={page}
+            totalPages={totalPages}
+            hasMore={hasMore}
+            onPrev={goPrev}
+            onNext={goNext}
+            loading={loading}
+          />
+          </>
         )}
       </SectionCard>
 

@@ -7,8 +7,6 @@ import { StatusMessage, LoadingBlock } from "@/components/admin/ui/StatusMessage
 import { adminInputClass, adminTextareaClass } from "@/components/admin/ui/form-styles";
 import { adminApi } from "@/lib/admin/api-client";
 import { useAdminDashboardSearch } from "@/components/admin/context/AdminDashboardContext";
-import { matchesSearchQuery } from "@/lib/admin/search";
-import SearchNoResults from "@/components/admin/ui/SearchNoResults";
 
 type SeoForm = {
   siteTitle: string;
@@ -24,20 +22,7 @@ export default function SeoSettingsSection() {
   const [saving, setSaving] = useState(false);
   const [error, setError] = useState<string | null>(null);
   const [success, setSuccess] = useState<string | null>(null);
-  const { searchQuery, isSearching } = useAdminDashboardSearch();
-
-  const formVisible =
-    form &&
-    (!isSearching ||
-      matchesSearchQuery(
-        searchQuery,
-        form.siteTitle,
-        form.metaDescription,
-        form.canonicalUrl,
-        form.googleVerification,
-        "seo",
-        "robots"
-      ));
+  const { isSearching } = useAdminDashboardSearch();
 
   const load = useCallback(async () => {
     setLoading(true);
@@ -80,6 +65,8 @@ export default function SeoSettingsSection() {
     load();
   }
 
+  if (isSearching) return null;
+
   return (
     <SectionCard
       id="seo"
@@ -105,8 +92,6 @@ export default function SeoSettingsSection() {
           type="info"
           message="SEO ayarları yüklenemedi. npm run db:seed çalıştırın."
         />
-      ) : !formVisible ? (
-        <SearchNoResults />
       ) : (
         <form id="seo-form" onSubmit={handleSave} className="grid gap-4 sm:grid-cols-2">
           <div className="sm:col-span-2">

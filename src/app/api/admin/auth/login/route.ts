@@ -1,20 +1,40 @@
+export const runtime = "nodejs";
+
 import { NextRequest, NextResponse } from "next/server";
 import { prisma } from "@/lib/prisma";
 import { verifyPassword } from "@/lib/auth/password";
-import {
-  createSessionToken,
-  setSessionCookie,
-} from "@/lib/auth/session";
+import { createSessionToken, setSessionCookie } from "@/lib/auth/session";
 import { withApiHandler } from "@/lib/api/handler";
 import { jsonError, jsonSuccess } from "@/lib/api/response";
+import { checkRateLimit, getClientIp, resetRateLimit } from "@/lib/auth/rate-limit";
+import { authLog, maskEmail } from "@/lib/auth/safe-log";
 
 export async function POST(request: NextRequest) {
+  const ip = getClientIp(request);
+  const rateKey = `login:${ip}`;
+  const limit = checkRateLimit(rateKey);
+
+  if (!limit.allowed) {
+    authLog("warn", "[auth/login] Rate limit aşıldı", { ip, retryAfterSec: limit.retryAfterSec });
+    return NextResponse.json(
+      {
+        success: false,
+        error: `Çok fazla deneme. ${limit.retryAfterSec} saniye sonra tekrar deneyin.`,
+        code: "RATE_LIMITED",
+      },
+      {
+        status: 429,
+        headers: { "Retry-After": String(limit.retryAfterSec) },
+      }
+    );
+  }
+
   const result = await withApiHandler(async () => {
     let body: { email?: string; password?: string };
     try {
       body = await request.json();
-    } catch (parseError) {
-      console.error("[auth/login] JSON parse hatası:", parseError);
+    } catch {
+      authLog("error", "[auth/login] JSON parse hatası");
       return jsonError("Geçersiz istek gövdesi.", 400, "INVALID_BODY");
     }
 
@@ -25,7 +45,7 @@ export async function POST(request: NextRequest) {
       return jsonError("E-posta ve şifre zorunludur.", 400, "VALIDATION");
     }
 
-    console.log("[auth/login] Giriş denemesi:", email);
+    authLog("log", "[auth/login] Giriş denemesi", { email: maskEmail(email) });
 
     let user;
     try {
@@ -33,25 +53,22 @@ export async function POST(request: NextRequest) {
         where: { email },
       });
     } catch (dbError) {
-      console.error("[auth/login] Prisma findUnique hatası:", dbError);
+      authLog("error", "[auth/login] Veritabanı hatası");
       throw dbError;
     }
 
     if (!user) {
-      console.warn("[auth/login] Kullanıcı bulunamadı:", email);
+      authLog("warn", "[auth/login] Geçersiz kimlik bilgileri");
       return jsonError("E-posta veya şifre hatalı.", 401, "INVALID_CREDENTIALS");
     }
 
     if (!user.active) {
-      console.warn("[auth/login] Hesap pasif:", email);
+      authLog("warn", "[auth/login] Pasif hesap", { userId: user.id });
       return jsonError("E-posta veya şifre hatalı.", 401, "INVALID_CREDENTIALS");
     }
 
     if (!user.passwordHash?.startsWith("$2")) {
-      console.error(
-        "[auth/login] Geçersiz passwordHash (bcrypt değil). npm run db:seed çalıştırın:",
-        email
-      );
+      authLog("error", "[auth/login] passwordHash yapılandırılmamış", { userId: user.id });
       return jsonError(
         "Admin şifresi yapılandırılmamış. Sunucuda npm run db:seed çalıştırın.",
         503,
@@ -62,28 +79,22 @@ export async function POST(request: NextRequest) {
     let valid = false;
     try {
       valid = await verifyPassword(password, user.passwordHash);
-    } catch (bcryptError) {
-      console.error("[auth/login] bcrypt doğrulama hatası:", bcryptError);
-      throw bcryptError;
+    } catch {
+      authLog("error", "[auth/login] Şifre doğrulama hatası");
+      throw new Error("Password verification failed");
     }
 
     if (!valid) {
-      console.warn("[auth/login] Şifre eşleşmedi:", email);
+      authLog("warn", "[auth/login] Geçersiz kimlik bilgileri");
       return jsonError("E-posta veya şifre hatalı.", 401, "INVALID_CREDENTIALS");
     }
 
-    let token: string;
-    try {
-      token = await createSessionToken({
-        sub: user.id,
-        email: user.email,
-        name: user.name,
-        role: user.role,
-      });
-    } catch (sessionError) {
-      console.error("[auth/login] Oturum token oluşturulamadı:", sessionError);
-      throw sessionError;
-    }
+    const token = await createSessionToken({
+      sub: user.id,
+      email: user.email,
+      name: user.name,
+      role: user.role,
+    });
 
     const response = jsonSuccess({
       user: {
@@ -95,9 +106,10 @@ export async function POST(request: NextRequest) {
     });
 
     setSessionCookie(response, token);
-    const setCookie = response.headers.get("set-cookie");
-    console.log("[auth/login] Başarılı giriş:", email, {
-      hasSetCookie: Boolean(setCookie),
+    resetRateLimit(rateKey);
+    authLog("log", "[auth/login] Başarılı giriş", {
+      userId: user.id,
+      role: user.role,
       host: request.headers.get("host"),
     });
     return response;

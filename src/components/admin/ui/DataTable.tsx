@@ -8,8 +8,8 @@ export function DataTable({
   className?: string;
 }) {
   return (
-    <div className={cn("overflow-x-auto -mx-1", className)}>
-      <table className="w-full min-w-[640px] text-left text-sm">{children}</table>
+    <div className={cn("hidden overflow-x-auto md:block", className)}>
+      <table className="w-full min-w-0 text-left text-sm">{children}</table>
     </div>
   );
 }

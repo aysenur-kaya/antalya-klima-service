@@ -1,6 +1,6 @@
 "use client";
 
-import { useCallback, useEffect, useMemo, useState } from "react";
+import { useState } from "react";
 import { MapPinned, Plus, Pencil, Trash2 } from "lucide-react";
 import SectionCard from "@/components/admin/ui/SectionCard";
 import Badge from "@/components/admin/ui/Badge";
@@ -11,8 +11,9 @@ import { StatusMessage, LoadingBlock } from "@/components/admin/ui/StatusMessage
 import { adminInputClass } from "@/components/admin/ui/form-styles";
 import { adminApi } from "@/lib/admin/api-client";
 import { useAdminDashboardSearch } from "@/components/admin/context/AdminDashboardContext";
-import { filterBySearch, matchesSearchQuery } from "@/lib/admin/search";
 import SearchNoResults from "@/components/admin/ui/SearchNoResults";
+import AdminPagination from "@/components/admin/ui/AdminPagination";
+import { usePaginatedAdminList } from "@/components/admin/hooks/usePaginatedAdminList";
 
 type Neighborhood = {
   id: string;
@@ -35,8 +36,6 @@ const emptyDistrict = { name: "", slug: "", landingActive: false, sortOrder: 0 }
 const emptyNeighborhood = { name: "", slug: "", active: true };
 
 export default function DistrictManagement() {
-  const [items, setItems] = useState<District[]>([]);
-  const [loading, setLoading] = useState(true);
   const [error, setError] = useState<string | null>(null);
   const [success, setSuccess] = useState<string | null>(null);
   const [expandedId, setExpandedId] = useState<string | null>(null);
@@ -50,47 +49,27 @@ export default function DistrictManagement() {
   const [editingNeighborhood, setEditingNeighborhood] = useState<Neighborhood | null>(null);
   const [neighborhoodForm, setNeighborhoodForm] = useState(emptyNeighborhood);
   const [saving, setSaving] = useState(false);
-  const { searchQuery, isSearching } = useAdminDashboardSearch();
+  const { searchQuery } = useAdminDashboardSearch();
 
-  const displayDistricts = useMemo(() => {
-    const q = searchQuery.trim();
-    if (!q) return items;
-
-    return items
-      .map((d) => {
-        const districtMatch = matchesSearchQuery(q, d.name, d.slug, d.landingActive ? "aktif" : "taslak");
-        const neighborhoods = d.neighborhoods ?? [];
-        const filteredNeighborhoods = filterBySearch(neighborhoods, q, (n) => [
-          n.name,
-          n.slug,
-          n.active ? "aktif" : "pasif",
-        ]);
-
-        if (districtMatch) return d;
-        if (filteredNeighborhoods.length > 0) {
-          return { ...d, neighborhoods: filteredNeighborhoods };
-        }
-        return null;
-      })
-      .filter((d): d is District => d !== null);
-  }, [items, searchQuery]);
-
-  const load = useCallback(async () => {
-    setLoading(true);
-    setError(null);
-    const res = await adminApi<{ items: District[] }>("/api/admin/districts");
-    if (res.success) {
-      setItems(res.data.items);
-    } else {
-      setItems([]);
-      setError(res.error);
-    }
-    setLoading(false);
-  }, []);
-
-  useEffect(() => {
-    load();
-  }, [load]);
+  const {
+    items,
+    total,
+    offset,
+    page,
+    totalPages,
+    pageSize,
+    loading,
+    error: listError,
+    hasMore,
+    isSearching,
+    goNext,
+    goPrev,
+    refresh,
+  } = usePaginatedAdminList<District>({
+    path: "/api/admin/districts",
+    searchQuery,
+    pageSize: 15,
+  });
 
   function openDistrictCreate() {
     setEditingDistrict(null);
@@ -127,7 +106,7 @@ export default function DistrictManagement() {
     }
     setSuccess(editingDistrict ? "İlçe güncellendi." : "İlçe eklendi.");
     setDistrictModal(false);
-    load();
+    refresh();
   }
 
   async function deleteDistrict(d: District) {
@@ -139,7 +118,7 @@ export default function DistrictManagement() {
     }
     setSuccess("İlçe silindi.");
     if (expandedId === d.id) setExpandedId(null);
-    load();
+    refresh();
   }
 
   function openNeighborhoodCreate(districtId: string) {
@@ -177,7 +156,7 @@ export default function DistrictManagement() {
     }
     setSuccess(editingNeighborhood ? "Mahalle güncellendi." : "Mahalle eklendi.");
     setNeighborhoodModal(false);
-    load();
+    refresh();
   }
 
   async function deleteNeighborhood(id: string) {
@@ -188,7 +167,7 @@ export default function DistrictManagement() {
       return;
     }
     setSuccess("Mahalle silindi.");
-    load();
+    refresh();
   }
 
   return (
@@ -204,24 +183,29 @@ export default function DistrictManagement() {
           </Button>
         }
       >
-        {error ? <StatusMessage type="error" message={error} className="mb-4" /> : null}
+        {error || listError ? (
+          <StatusMessage type="error" message={error ?? listError ?? ""} className="mb-4" />
+        ) : null}
         {success ? <StatusMessage type="success" message={success} className="mb-4" /> : null}
         {loading ? (
           <LoadingBlock />
-        ) : items.length === 0 ? (
+        ) : total === 0 && !isSearching ? (
           <EmptyState message="Henüz ilçe kaydı yok." />
-        ) : isSearching && displayDistricts.length === 0 ? (
+        ) : items.length === 0 ? (
           <SearchNoResults />
         ) : (
           <div className="space-y-4">
-            {displayDistricts.map((d) => (
+            {items.map((d) => (
               <div key={d.id} className="rounded-xl border border-brand-border overflow-hidden">
                 {/* Mobil: her bilgi ayrı satır, dikey akış */}
-                <div className="flex flex-col items-start gap-4 bg-brand-light/50 px-5 py-4 sm:hidden">
+                <div className="flex flex-col items-start gap-4 bg-brand-light/50 px-5 py-4 md:hidden">
                   <p className="w-full text-base font-medium leading-snug text-brand-dark">
                     {d.name}
                   </p>
-                  <Badge variant={d.landingActive ? "success" : "default"} className="shrink-0">
+                  <Badge
+                    variant={d.landingActive ? "success" : "default"}
+                    className="block w-fit shrink-0"
+                  >
                     {d.landingActive ? "Aktif" : "Taslak"}
                   </Badge>
                   <span className="text-sm text-slate-500">
@@ -259,7 +243,7 @@ export default function DistrictManagement() {
                 </div>
 
                 {/* Desktop: yatay özet satırı */}
-                <div className="hidden flex-wrap items-center gap-3 bg-brand-light/50 px-4 py-3 sm:flex">
+                <div className="hidden flex-wrap items-center gap-3 bg-brand-light/50 px-4 py-3 md:flex">
                   <div className="min-w-0 flex-1">
                     <p className="font-medium text-brand-dark">{d.name}</p>
                     <code className="text-xs text-slate-500">/bolgeler/{d.slug}</code>
@@ -308,7 +292,10 @@ export default function DistrictManagement() {
                     ) : (
                       <ul className="divide-y divide-brand-border rounded-lg border border-brand-border">
                         {d.neighborhoods?.map((n) => (
-                          <li key={n.id} className="flex items-center justify-between px-3 py-2 text-sm">
+                          <li
+                            key={n.id}
+                            className="flex flex-col gap-2 px-3 py-3 text-sm sm:flex-row sm:items-center sm:justify-between"
+                          >
                             <span>
                               {n.name}{" "}
                               <code className="text-xs text-slate-400">({n.slug})</code>
@@ -330,6 +317,17 @@ export default function DistrictManagement() {
                 ) : null}
               </div>
             ))}
+            <AdminPagination
+              total={total}
+              offset={offset}
+              pageSize={pageSize}
+              page={page}
+              totalPages={totalPages}
+              hasMore={hasMore}
+              onPrev={goPrev}
+              onNext={goNext}
+              loading={loading}
+            />
           </div>
         )}
       </SectionCard>

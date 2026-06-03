@@ -1,4 +1,6 @@
-import { BlogPostStatus } from "@prisma/client";
+export const runtime = "nodejs";
+
+import { BlogPostStatus, ServiceType } from "@prisma/client";
 import { prisma } from "@/lib/prisma";
 import { runProtectedAdminRoute } from "@/lib/api/admin-auth";
 import { isJsonParseError, parseIdParam, parseJsonBody } from "@/lib/api/parse";
@@ -12,6 +14,19 @@ import {
 } from "@/lib/api/validation";
 
 type RouteCtx = { params: Promise<{ id: string }> };
+
+export async function GET(request: Request, ctx: RouteCtx) {
+  return runProtectedAdminRoute(async () => {
+    const { id: rawId } = await ctx.params;
+    const id = parseIdParam(rawId);
+    if (!id) return jsonError("Geçersiz kayıt kimliği.", 400, "VALIDATION");
+
+    const item = await prisma.blogPost.findUnique({ where: { id } });
+    if (!item) return jsonError("Yazı bulunamadı.", 404, "NOT_FOUND");
+
+    return jsonSuccess({ item });
+  }, { request });
+}
 
 export async function PATCH(request: Request, ctx: RouteCtx) {
   return runProtectedAdminRoute(async () => {
@@ -31,6 +46,7 @@ export async function PATCH(request: Request, ctx: RouteCtx) {
       status?: BlogPostStatus;
       excerpt?: string | null;
       content?: string | null;
+      category?: ServiceType;
       views?: number;
       publishedAt?: Date | null;
     } = {};
@@ -52,15 +68,20 @@ export async function PATCH(request: Request, ctx: RouteCtx) {
     }
     if (body.excerpt !== undefined) data.excerpt = optionalString(body.excerpt) ?? null;
     if (body.content !== undefined) data.content = optionalString(body.content, 50000) ?? null;
+    if (body.category !== undefined) {
+      const category = requireEnum(body.category, ["KLIMA", "BEYAZ_ESYA"] as const, "Kategori");
+      if (!category) return jsonError("Geçersiz kategori.", 400, "VALIDATION");
+      data.category = category;
+    }
     const views = optionalInt(body.views);
     if (views !== undefined) data.views = views;
 
     const item = await prisma.blogPost.update({ where: { id }, data });
     return jsonSuccess({ item });
-  });
+  }, { request });
 }
 
-export async function DELETE(_request: Request, ctx: RouteCtx) {
+export async function DELETE(request: Request, ctx: RouteCtx) {
   return runProtectedAdminRoute(async () => {
     const { id: rawId } = await ctx.params;
     const id = parseIdParam(rawId);
@@ -68,5 +89,5 @@ export async function DELETE(_request: Request, ctx: RouteCtx) {
 
     await prisma.blogPost.delete({ where: { id } });
     return jsonSuccess({ deleted: true });
-  });
+  }, { request });
 }

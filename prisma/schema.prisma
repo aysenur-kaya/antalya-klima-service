@@ -82,6 +82,7 @@ model BlogPost {
   slug        String         @unique
   excerpt     String?        @db.Text
   content     String?        @db.Text
+  category    ServiceType    @default(KLIMA)
   status      BlogPostStatus @default(DRAFT)
   views       Int            @default(0)
   publishedAt DateTime?      @map("published_at")
@@ -89,6 +90,7 @@ model BlogPost {
   updatedAt   DateTime       @updatedAt @map("updated_at")
 
   @@index([status])
+  @@index([status, category])
   @@map("blog_posts")
 }
 

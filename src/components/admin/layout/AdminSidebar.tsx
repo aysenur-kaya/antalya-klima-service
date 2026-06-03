@@ -22,40 +22,41 @@ export default function AdminSidebar({
     <>
       <div
         className={cn(
-          "fixed inset-0 z-40 bg-brand-dark/40 backdrop-blur-sm transition-opacity lg:hidden",
-          open ? "opacity-100" : "pointer-events-none opacity-0"
+          "fixed inset-0 z-40 bg-brand-dark/50 backdrop-blur-[2px] transition-[opacity,visibility] duration-300 ease-out lg:hidden",
+          open ? "visible opacity-100" : "invisible opacity-0"
         )}
         onClick={onClose}
-        aria-hidden
+        role="presentation"
+        aria-hidden={!open}
       />
 
       <aside
         className={cn(
-          "fixed inset-y-0 left-0 z-50 flex w-[min(100%,280px)] flex-col border-r border-brand-border bg-white shadow-xl transition-transform duration-300 lg:static lg:z-auto lg:w-64 lg:translate-x-0 lg:shadow-none",
+          "fixed inset-y-0 left-0 z-50 flex w-[min(88vw,300px)] flex-col border-r border-brand-border bg-white shadow-2xl transition-transform duration-300 ease-out will-change-transform lg:static lg:z-auto lg:w-64 lg:translate-x-0 lg:shadow-none",
           open ? "translate-x-0" : "-translate-x-full lg:translate-x-0"
         )}
       >
-        <div className="flex h-16 items-center justify-between border-b border-brand-border px-4">
-          <Link href="/admin" className="flex items-center gap-2.5" onClick={onClose}>
-            <span className="flex h-9 w-9 items-center justify-center rounded-xl bg-gradient-to-br from-brand-red to-brand-red-dark text-white shadow-[0_4px_14px_-4px_rgba(198,40,40,0.5)]">
+        <div className="flex h-16 shrink-0 items-center justify-between border-b border-brand-border px-4">
+          <Link href="/admin" className="flex min-w-0 items-center gap-2.5" onClick={onClose}>
+            <span className="flex h-9 w-9 shrink-0 items-center justify-center rounded-xl bg-gradient-to-br from-brand-red to-brand-red-dark text-white shadow-[0_4px_14px_-4px_rgba(198,40,40,0.5)]">
               <Wind className="h-5 w-5" aria-hidden />
             </span>
-            <div>
-              <p className="text-sm font-semibold text-brand-dark">İzmir Servisi</p>
+            <div className="min-w-0">
+              <p className="truncate text-sm font-semibold text-brand-dark">İzmir Servisi</p>
               <p className="text-xs text-slate-500">Yönetim Paneli</p>
             </div>
           </Link>
           <button
             type="button"
             onClick={onClose}
-            className="rounded-lg p-2 text-slate-500 hover:bg-brand-gray lg:hidden"
+            className="shrink-0 rounded-lg p-2 text-slate-500 hover:bg-brand-gray lg:hidden"
             aria-label="Menüyü kapat"
           >
             <X className="h-5 w-5" />
           </button>
         </div>
 
-        <nav className="flex-1 overflow-y-auto px-3 py-4">
+        <nav className="flex-1 overflow-y-auto overscroll-contain px-3 py-4">
           <p className="mb-2 px-3 text-xs font-semibold uppercase tracking-wider text-slate-400">
             Menü
           </p>
@@ -73,7 +74,7 @@ export default function AdminSidebar({
                       onClose();
                     }}
                     className={cn(
-                      "flex items-center gap-3 rounded-xl px-3 py-2.5 text-sm font-medium transition-all",
+                      "flex items-center gap-3 rounded-xl px-3 py-3 text-sm font-medium transition-all",
                       isActive
                         ? "bg-gradient-to-r from-brand-red to-brand-red-dark text-white shadow-[0_4px_14px_-6px_rgba(198,40,40,0.55)]"
                         : "text-slate-600 hover:bg-red-50 hover:text-brand-red"
@@ -88,11 +89,12 @@ export default function AdminSidebar({
           </ul>
         </nav>
 
-        <div className="border-t border-brand-border p-4">
+        <div className="shrink-0 border-t border-brand-border p-4">
           <Link
             href="/"
             target="_blank"
             className="flex items-center justify-center gap-2 rounded-xl border border-brand-border bg-brand-light px-3 py-2.5 text-sm font-medium text-brand-dark transition-colors hover:border-brand-red/30 hover:bg-red-50/50"
+            onClick={onClose}
           >
             <ExternalLink className="h-4 w-4 text-brand-red" aria-hidden />
             Siteyi Görüntüle

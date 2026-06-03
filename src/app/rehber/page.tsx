@@ -1,10 +1,13 @@
 import type { Metadata } from "next";
 import Link from "next/link";
-import { BookOpen, ChevronRight, Snowflake, WashingMachine } from "lucide-react";
+import { BookOpen, Snowflake, WashingMachine } from "lucide-react";
 import { buildMetadata } from "@/lib/metadata";
-import { getAllGuides, getGuidesByCategory } from "@/lib/guides";
+import { getPublishedRehberList } from "@/lib/blog/public";
+import RehberPostCard from "@/components/rehber/RehberPostCard";
 import ContactCTA from "@/components/sections/ContactCTA";
 import { WHATSAPP_PREFILL_GENERAL } from "@/lib/whatsapp";
+
+export const dynamic = "force-dynamic";
 
 export const metadata: Metadata = buildMetadata({
   title: "Teknik Bilgi Merkezi | İzmir Klima ve Beyaz Eşya Rehberi",
@@ -14,10 +17,11 @@ export const metadata: Metadata = buildMetadata({
   type: "website",
 });
 
-export default function RehberIndexPage() {
-  const klima = getGuidesByCategory("klima");
-  const beyaz = getGuidesByCategory("beyaz-esya");
-  const total = getAllGuides().length;
+export default async function RehberIndexPage() {
+  const posts = await getPublishedRehberList();
+  const klima = posts.filter((p) => p.category === "KLIMA");
+  const beyaz = posts.filter((p) => p.category === "BEYAZ_ESYA");
+  const total = posts.length;
 
   return (
     <div className="bg-white min-h-screen">
@@ -58,24 +62,17 @@ export default function RehberIndexPage() {
                 <p className="text-gray-600 text-sm md:text-base mt-1">Soğutma, drenaj, gaz ve hata kodları</p>
               </div>
             </div>
-            <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
-              {klima.map((g) => (
-                <Link
-                  key={g.slug}
-                  href={`/rehber/${g.slug}`}
-                  className="group flex items-start justify-between gap-4 rounded-2xl border border-gray-200 bg-white p-5 md:p-6 shadow-sm hover:border-brand-red/35 hover:shadow-md transition-all"
-                >
-                  <div>
-                    <h3 className="font-bold text-brand-dark group-hover:text-brand-red transition-colors leading-snug mb-2">
-                      {g.title.split("|")[0].trim()}
-                    </h3>
-                    <p className="text-sm text-gray-600 leading-relaxed line-clamp-2">{g.description}</p>
-                    <span className="mt-3 inline-flex text-xs font-semibold text-gray-500">{g.deviceType}</span>
-                  </div>
-                  <ChevronRight className="w-5 h-5 text-gray-300 group-hover:text-brand-red shrink-0 mt-1 transition-transform group-hover:translate-x-0.5" />
-                </Link>
-              ))}
-            </div>
+            {klima.length > 0 ? (
+              <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+                {klima.map((post) => (
+                  <RehberPostCard key={post.slug} post={post} />
+                ))}
+              </div>
+            ) : (
+              <p className="text-sm text-gray-500 rounded-2xl border border-dashed border-gray-200 bg-white p-6">
+                Henüz yayınlanmış klima rehberi yok.
+              </p>
+            )}
           </div>
 
           <div>
@@ -88,24 +85,17 @@ export default function RehberIndexPage() {
                 <p className="text-gray-600 text-sm md:text-base mt-1">Çamaşır, buzdolabı, bulaşık ve fırın</p>
               </div>
             </div>
-            <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
-              {beyaz.map((g) => (
-                <Link
-                  key={g.slug}
-                  href={`/rehber/${g.slug}`}
-                  className="group flex items-start justify-between gap-4 rounded-2xl border border-gray-200 bg-white p-5 md:p-6 shadow-sm hover:border-brand-red/35 hover:shadow-md transition-all"
-                >
-                  <div>
-                    <h3 className="font-bold text-brand-dark group-hover:text-brand-red transition-colors leading-snug mb-2">
-                      {g.title.split("|")[0].trim()}
-                    </h3>
-                    <p className="text-sm text-gray-600 leading-relaxed line-clamp-2">{g.description}</p>
-                    <span className="mt-3 inline-flex text-xs font-semibold text-gray-500">{g.deviceType}</span>
-                  </div>
-                  <ChevronRight className="w-5 h-5 text-gray-300 group-hover:text-brand-red shrink-0 mt-1 transition-transform group-hover:translate-x-0.5" />
-                </Link>
-              ))}
-            </div>
+            {beyaz.length > 0 ? (
+              <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+                {beyaz.map((post) => (
+                  <RehberPostCard key={post.slug} post={post} />
+                ))}
+              </div>
+            ) : (
+              <p className="text-sm text-gray-500 rounded-2xl border border-dashed border-gray-200 bg-white p-6">
+                Henüz yayınlanmış beyaz eşya rehberi yok.
+              </p>
+            )}
           </div>
         </div>
       </section>

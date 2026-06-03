@@ -81,6 +81,11 @@ async function main() {
     {
       title: "İzmir'de Klima Bakımı Ne Zaman Yapılmalı?",
       slug: "izmir-klima-bakimi-ne-zaman",
+      category: ServiceType.KLIMA,
+      excerpt:
+        "Filtre temizliği, dış ünite kontrolü ve sezon öncesi bakım aralıkları — İzmir ikliminde klima bakımı ne zaman yapılmalı?",
+      content:
+        "## Bakım aralığı\n\nYoğun kullanımda **yılda en az bir kez** profesyonel bakım önerilir.\n\n## Evde kontrol\n\n- Filtreleri düzenli temizleyin\n- Dış ünite hava akışını kontrol edin\n\nSorun sürerse [klima servisi](/hizmetler/klima-servisi) sayfamızdan destek alabilirsiniz.",
       status: BlogPostStatus.PUBLISHED,
       views: 1240,
       publishedAt: new Date("2026-05-30"),
@@ -88,6 +93,10 @@ async function main() {
     {
       title: "Klima Gaz Dolumu Fiyatları 2026",
       slug: "klima-gaz-dolumu-fiyatlari",
+      category: ServiceType.KLIMA,
+      excerpt: "Gaz dolumu fiyatını etkileyen faktörler ve ne zaman dolum yerine kaçak tespiti gerekir.",
+      content:
+        "## Fiyatı etkileyenler\n\nKapasite, gaz tipi ve **kaçak tespiti** ihtiyacı maliyeti belirler.\n\n## Dikkat\n\nKaçak varken yalnızca dolum geçici çözümdür; kalıcı onarım gerekir.",
       status: BlogPostStatus.PUBLISHED,
       views: 890,
       publishedAt: new Date("2026-05-22"),
@@ -95,6 +104,8 @@ async function main() {
     {
       title: "Yaz Sezonu Öncesi Klima Kontrol Listesi",
       slug: "yaz-sezonu-klima-kontrol",
+      category: ServiceType.KLIMA,
+      excerpt: "Sezon öncesi kısa kontrol listesi — taslak örnek yazı.",
       status: BlogPostStatus.DRAFT,
       views: 0,
     },

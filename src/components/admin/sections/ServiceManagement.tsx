@@ -1,6 +1,6 @@
 "use client";
 
-import { useCallback, useEffect, useMemo, useState } from "react";
+import { useState } from "react";
 import { Pencil, Plus, Trash2 } from "lucide-react";
 import SectionCard from "@/components/admin/ui/SectionCard";
 import Badge from "@/components/admin/ui/Badge";
@@ -8,7 +8,7 @@ import Button from "@/components/admin/ui/Button";
 import SimpleModal from "@/components/admin/ui/SimpleModal";
 import EmptyState from "@/components/admin/ui/EmptyState";
 import { StatusMessage, LoadingBlock } from "@/components/admin/ui/StatusMessage";
-import { adminInputClass } from "@/components/admin/ui/form-styles";
+import { adminInputClass, adminTextareaClass } from "@/components/admin/ui/form-styles";
 import {
   DataTable,
   DataTableHead,
@@ -17,11 +17,18 @@ import {
   DataTableCell,
   DataTableHeaderCell,
 } from "@/components/admin/ui/DataTable";
+import {
+  MobileCard,
+  MobileCardActions,
+  MobileCardField,
+  MobileCardList,
+} from "@/components/admin/ui/MobileCard";
 import { adminApi } from "@/lib/admin/api-client";
 import { formatAdminDate, serviceTypeLabel } from "@/lib/admin/format";
 import { useAdminDashboardSearch } from "@/components/admin/context/AdminDashboardContext";
-import { filterBySearch } from "@/lib/admin/search";
 import SearchNoResults from "@/components/admin/ui/SearchNoResults";
+import AdminPagination from "@/components/admin/ui/AdminPagination";
+import { usePaginatedAdminList } from "@/components/admin/hooks/usePaginatedAdminList";
 
 type Service = {
   id: string;
@@ -30,6 +37,7 @@ type Service = {
   type: "KLIMA" | "BEYAZ_ESYA";
   active: boolean;
   sortOrder: number;
+  summary?: string | null;
   updatedAt: string;
 };
 
@@ -39,6 +47,7 @@ type ServiceForm = {
   type: "KLIMA" | "BEYAZ_ESYA";
   active: boolean;
   sortOrder: number;
+  summary: string;
 };
 
 const emptyForm: ServiceForm = {
@@ -47,46 +56,36 @@ const emptyForm: ServiceForm = {
   type: "KLIMA",
   active: true,
   sortOrder: 0,
+  summary: "",
 };
 
 export default function ServiceManagement() {
-  const [items, setItems] = useState<Service[]>([]);
-  const [loading, setLoading] = useState(true);
   const [error, setError] = useState<string | null>(null);
   const [success, setSuccess] = useState<string | null>(null);
   const [modalOpen, setModalOpen] = useState(false);
   const [editing, setEditing] = useState<Service | null>(null);
   const [form, setForm] = useState(emptyForm);
   const [saving, setSaving] = useState(false);
-  const { searchQuery, isSearching } = useAdminDashboardSearch();
+  const { searchQuery } = useAdminDashboardSearch();
 
-  const displayItems = useMemo(
-    () =>
-      filterBySearch(items, searchQuery, (s) => [
-        s.title,
-        s.slug,
-        serviceTypeLabel(s.type),
-        s.active ? "aktif" : "pasif",
-      ]),
-    [items, searchQuery]
-  );
-
-  const load = useCallback(async () => {
-    setLoading(true);
-    setError(null);
-    const res = await adminApi<{ items: Service[] }>("/api/admin/services");
-    if (res.success) {
-      setItems(res.data.items);
-    } else {
-      setItems([]);
-      setError(res.error);
-    }
-    setLoading(false);
-  }, []);
-
-  useEffect(() => {
-    load();
-  }, [load]);
+  const {
+    items,
+    total,
+    offset,
+    page,
+    totalPages,
+    pageSize,
+    loading,
+    error: listError,
+    hasMore,
+    isSearching,
+    goNext,
+    goPrev,
+    refresh,
+  } = usePaginatedAdminList<Service>({
+    path: "/api/admin/services",
+    searchQuery,
+  });
 
   function openCreate() {
     setEditing(null);
@@ -102,6 +101,7 @@ export default function ServiceManagement() {
       type: s.type,
       active: s.active,
       sortOrder: s.sortOrder,
+      summary: s.summary ?? "",
     });
     setModalOpen(true);
   }
@@ -130,7 +130,7 @@ export default function ServiceManagement() {
     }
     setSuccess(editing ? "Hizmet güncellendi." : "Hizmet oluşturuldu.");
     setModalOpen(false);
-    load();
+    refresh();
   }
 
   async function handleDelete(s: Service) {
@@ -141,7 +141,7 @@ export default function ServiceManagement() {
       return;
     }
     setSuccess("Hizmet silindi.");
-    load();
+    refresh();
   }
 
   return (
@@ -157,15 +157,61 @@ export default function ServiceManagement() {
           </Button>
         }
       >
-        {error ? <StatusMessage type="error" message={error} className="mb-4" /> : null}
+        {error || listError ? (
+          <StatusMessage type="error" message={error ?? listError ?? ""} className="mb-4" />
+        ) : null}
         {success ? <StatusMessage type="success" message={success} className="mb-4" /> : null}
         {loading ? (
           <LoadingBlock />
-        ) : items.length === 0 ? (
+        ) : total === 0 && !isSearching ? (
           <EmptyState message="Henüz hizmet kaydı yok. Yeni Hizmet ile ekleyin." />
-        ) : isSearching && displayItems.length === 0 ? (
+        ) : items.length === 0 ? (
           <SearchNoResults />
         ) : (
+          <>
+          <MobileCardList>
+            {items.map((service) => (
+              <MobileCard key={service.id}>
+                <MobileCardField label="Hizmet">
+                  <p className="font-medium">{service.title}</p>
+                  <code className="mt-1 block break-all rounded-lg bg-brand-gray px-2 py-0.5 text-xs text-slate-600">
+                    {service.slug}
+                  </code>
+                </MobileCardField>
+                <MobileCardField label="Kategori / Durum">
+                  <div className="flex flex-wrap gap-2">
+                    <Badge variant={service.type === "KLIMA" ? "brand" : "default"}>
+                      {serviceTypeLabel(service.type)}
+                    </Badge>
+                    <Badge variant={service.active ? "success" : "default"}>
+                      {service.active ? "Aktif" : "Pasif"}
+                    </Badge>
+                  </div>
+                </MobileCardField>
+                <MobileCardField label="Güncelleme">
+                  <span className="text-slate-500">{formatAdminDate(service.updatedAt)}</span>
+                </MobileCardField>
+                <MobileCardActions>
+                  <button
+                    type="button"
+                    onClick={() => openEdit(service)}
+                    className="inline-flex items-center gap-1 rounded-lg px-2 py-1.5 text-sm text-brand-red hover:bg-red-50"
+                  >
+                    <Pencil className="h-3.5 w-3.5" />
+                    Düzenle
+                  </button>
+                  <button
+                    type="button"
+                    onClick={() => handleDelete(service)}
+                    className="rounded-lg p-2 text-slate-500 hover:bg-red-50 hover:text-brand-red"
+                    aria-label="Sil"
+                  >
+                    <Trash2 className="h-4 w-4" />
+                  </button>
+                </MobileCardActions>
+              </MobileCard>
+            ))}
+          </MobileCardList>
           <DataTable>
             <DataTableHead>
               <DataTableHeaderCell>Hizmet</DataTableHeaderCell>
@@ -176,7 +222,7 @@ export default function ServiceManagement() {
               <DataTableHeaderCell className="text-right">İşlem</DataTableHeaderCell>
             </DataTableHead>
             <DataTableBody>
-              {displayItems.map((service) => (
+              {items.map((service) => (
                 <DataTableRow key={service.id}>
                   <DataTableCell className="font-medium text-brand-dark">{service.title}</DataTableCell>
                   <DataTableCell>
@@ -221,6 +267,18 @@ export default function ServiceManagement() {
               ))}
             </DataTableBody>
           </DataTable>
+          <AdminPagination
+            total={total}
+            offset={offset}
+            pageSize={pageSize}
+            page={page}
+            totalPages={totalPages}
+            hasMore={hasMore}
+            onPrev={goPrev}
+            onNext={goNext}
+            loading={loading}
+          />
+          </>
         )}
       </SectionCard>
 
@@ -261,7 +319,17 @@ export default function ServiceManagement() {
               <option value="BEYAZ_ESYA">Beyaz Eşya</option>
             </select>
           </div>
-          <div className="flex gap-4">
+          <div>
+            <label className="mb-1 block text-sm font-medium">Özet</label>
+            <textarea
+              className={`${adminTextareaClass} min-h-[88px] resize-y`}
+              rows={3}
+              placeholder="Hizmet sayfasında görünecek kısa açıklama"
+              value={form.summary}
+              onChange={(e) => setForm((f) => ({ ...f, summary: e.target.value }))}
+            />
+          </div>
+          <div className="flex flex-col gap-4 sm:flex-row sm:items-end">
             <label className="flex items-center gap-2 text-sm">
               <input
                 type="checkbox"

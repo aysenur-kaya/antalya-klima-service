@@ -6,7 +6,12 @@ import { StatusMessage, LoadingBlock } from "@/components/admin/ui/StatusMessage
 import type { DashboardStat } from "@/components/admin/types";
 import { adminApi } from "@/lib/admin/api-client";
 import { useAdminDashboardSearch } from "@/components/admin/context/AdminDashboardContext";
-import { matchesSearchQuery } from "@/lib/admin/search";
+
+type OverviewStatsData = {
+  customerRequests: { total: number; newCount: number };
+  services: { total: number; activeCount: number };
+  blogPosts: { total: number; publishedCount: number };
+};
 
 const emptyStats: DashboardStat[] = [
   { id: "1", label: "Toplam Talep", value: "—", change: "yüklenemedi", trend: "neutral" },
@@ -15,97 +20,70 @@ const emptyStats: DashboardStat[] = [
   { id: "4", label: "Yayında Blog", value: "—", change: "—", trend: "neutral" },
 ];
 
+function mapStats(data: OverviewStatsData): DashboardStat[] {
+  return [
+    {
+      id: "1",
+      label: "Toplam Talep",
+      value: String(data.customerRequests.total),
+      change: "veritabanı",
+      trend: "up",
+    },
+    {
+      id: "2",
+      label: "Yeni Talep",
+      value: String(data.customerRequests.newCount),
+      change: "bekleyen",
+      trend: data.customerRequests.newCount > 0 ? "up" : "neutral",
+    },
+    {
+      id: "3",
+      label: "Aktif Hizmet",
+      value: String(data.services.activeCount),
+      change: `${data.services.total} toplam`,
+      trend: "neutral",
+    },
+    {
+      id: "4",
+      label: "Yayında Blog",
+      value: String(data.blogPosts.publishedCount),
+      change: `${data.blogPosts.total} yazı`,
+      trend: "up",
+    },
+  ];
+}
+
 export default function OverviewStats() {
   const [stats, setStats] = useState<DashboardStat[]>([]);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState<string | null>(null);
-  const { searchQuery, isSearching } = useAdminDashboardSearch();
-
-  const overviewVisible =
-    !isSearching ||
-    matchesSearchQuery(
-      searchQuery,
-      "genel",
-      "bakış",
-      "talep",
-      "hizmet",
-      "blog",
-      "özet",
-      "dashboard"
-    );
+  const { isSearching } = useAdminDashboardSearch();
 
   useEffect(() => {
     async function load() {
       setLoading(true);
       setError(null);
 
-      const [reqRes, svcRes, blogRes] = await Promise.all([
-        adminApi<{ total: number; items: { status: string }[] }>("/api/admin/customer-requests"),
-        adminApi<{ items: { active: boolean }[]; total: number }>("/api/admin/services"),
-        adminApi<{ items: { status: string }[]; total: number }>("/api/admin/blog-posts"),
-      ]);
+      const res = await adminApi<OverviewStatsData>("/api/admin/stats/overview");
 
-      const failures: string[] = [];
-      if (!reqRes.success) failures.push(reqRes.error);
-      if (!svcRes.success) failures.push(svcRes.error);
-      if (!blogRes.success) failures.push(blogRes.error);
-
-      if (
-        failures.length > 0 ||
-        !reqRes.success ||
-        !svcRes.success ||
-        !blogRes.success
-      ) {
-        setError(failures[0] ?? "Özet verileri yüklenemedi.");
+      if (!res.success) {
+        setError(res.error ?? "Özet verileri yüklenemedi.");
         setStats(emptyStats);
       } else {
-        const newRequests = reqRes.data.items.filter((r) => r.status === "NEW").length;
-        const activeServices = svcRes.data.items.filter((s) => s.active).length;
-        const publishedBlog = blogRes.data.items.filter((b) => b.status === "PUBLISHED").length;
-
-        setStats([
-          {
-            id: "1",
-            label: "Toplam Talep",
-            value: String(reqRes.data.total),
-            change: "veritabanı",
-            trend: "up",
-          },
-          {
-            id: "2",
-            label: "Yeni Talep",
-            value: String(newRequests),
-            change: "bekleyen",
-            trend: newRequests > 0 ? "up" : "neutral",
-          },
-          {
-            id: "3",
-            label: "Aktif Hizmet",
-            value: String(activeServices),
-            change: `${svcRes.data.total} toplam`,
-            trend: "neutral",
-          },
-          {
-            id: "4",
-            label: "Yayında Blog",
-            value: String(publishedBlog),
-            change: `${blogRes.data.total} yazı`,
-            trend: "up",
-          },
-        ]);
+        setStats(mapStats(res.data));
       }
       setLoading(false);
     }
     load();
   }, []);
 
-  if (!overviewVisible) return null;
+  if (isSearching) return null;
 
   return (
     <div id="overview" className="scroll-mt-24 space-y-4">
       <div>
         <h2 className="text-2xl font-semibold text-brand-dark">Genel Bakış</h2>
-        <p className="mt-1 text-sm text-slate-500">Veritabanından canlı özet</p>
+        <p className="mt-1 text-sm text-slate-500">Sunucu tarafı özet sayıları</p>
       </div>
       {error ? <StatusMessage type="error" message={error} className="mb-2" /> : null}
       {loading ? (

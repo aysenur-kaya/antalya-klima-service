@@ -32,7 +32,7 @@ export default function SectionCard({
         </div>
         {action ? <div className="shrink-0">{action}</div> : null}
       </div>
-      <div className="p-5 sm:p-6">{children}</div>
+      <div className="min-w-0 overflow-x-hidden p-4 sm:p-6">{children}</div>
     </section>
   );
 }

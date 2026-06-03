@@ -63,11 +63,13 @@ export default function AdminLoginForm() {
       if (!res.ok || !data.success) {
         const message =
           data.error ??
-          (res.status === 401
-            ? "E-posta veya şifre hatalı."
-            : res.status >= 500
-              ? "Sunucu hatası. Veritabanı ve .env ayarlarını kontrol edin."
-              : "Giriş başarısız.");
+          (res.status === 429
+            ? "Çok fazla deneme. Lütfen bir süre sonra tekrar deneyin."
+            : res.status === 401
+              ? "E-posta veya şifre hatalı."
+              : res.status >= 500
+                ? "Sunucu hatası. Veritabanı ve .env ayarlarını kontrol edin."
+                : "Giriş başarısız.");
         console.error("[admin/login] Hata:", message, data);
         setError(message);
         return;

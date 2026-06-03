@@ -1,12 +1,15 @@
 import { NextResponse } from "next/server";
 import type { NextRequest } from "next/server";
 import { isPublicAdminPath } from "@/lib/auth/admin";
-import { getSessionFromRequest } from "@/lib/auth/session";
+import { getJwtSessionFromRequest } from "@/lib/auth/edge-session";
 
+/**
+ * Edge-safe: yalnızca JWT/çerez doğrulama.
+ * Aktif kullanıcı ve rol kontrolü Node.js admin API route'larında (resolveAdminSession).
+ */
 export async function middleware(request: NextRequest) {
   const { pathname } = request.nextUrl;
 
-  // Kısa yol: /login → admin giriş sayfası
   if (pathname === "/login") {
     const url = new URL("/admin/login", request.url);
     request.nextUrl.searchParams.forEach((value, key) => {
@@ -22,16 +25,16 @@ export async function middleware(request: NextRequest) {
     return NextResponse.next();
   }
 
-  const session = await getSessionFromRequest(request);
+  const jwtSession = await getJwtSessionFromRequest(request);
 
   if (isPublicAdminPath(pathname)) {
-    if (session && pathname === "/admin/login") {
+    if (jwtSession && pathname === "/admin/login") {
       return NextResponse.redirect(new URL("/admin", request.url));
     }
     return NextResponse.next();
   }
 
-  if (!session) {
+  if (!jwtSession) {
     if (isAdminApi) {
       return NextResponse.json(
         { success: false, error: "Oturum gerekli.", code: "UNAUTHORIZED" },
