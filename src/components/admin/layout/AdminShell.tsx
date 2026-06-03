@@ -12,6 +12,8 @@ import DistrictManagement from "@/components/admin/sections/DistrictManagement";
 import ContactSettingsSection from "@/components/admin/sections/ContactSettingsSection";
 import TestimonialsManagement from "@/components/admin/sections/TestimonialsManagement";
 import GeneralSettingsSection from "@/components/admin/sections/GeneralSettingsSection";
+import { AdminDashboardProvider } from "@/components/admin/context/AdminDashboardContext";
+import AdminSearchBar from "@/components/admin/layout/AdminSearchBar";
 
 export default function AdminShell() {
   const [sidebarOpen, setSidebarOpen] = useState(false);
@@ -59,6 +61,7 @@ export default function AdminShell() {
   }, []);
 
   return (
+    <AdminDashboardProvider>
     <div className="flex min-h-screen bg-brand-light">
       <AdminSidebar
         open={sidebarOpen}
@@ -72,6 +75,7 @@ export default function AdminShell() {
 
         <div className="premium-gradient flex-1">
           <div className="mx-auto max-w-6xl space-y-6 px-4 py-6 sm:px-6 sm:py-8 lg:space-y-8">
+            <AdminSearchBar />
             <OverviewStats />
             <CustomerRequestsTable />
             <ServiceManagement />
@@ -85,5 +89,6 @@ export default function AdminShell() {
         </div>
       </div>
     </div>
+    </AdminDashboardProvider>
   );
 }

@@ -21,6 +21,7 @@ export default function AdminLoginForm() {
     try {
       const res = await fetch("/api/admin/auth/login", {
         method: "POST",
+        credentials: "same-origin",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify({ email, password }),
       });
@@ -33,7 +34,9 @@ export default function AdminLoginForm() {
       }
 
       const from = searchParams.get("from");
-      router.push(from && from.startsWith("/admin") ? from : "/admin");
+      const safeFrom =
+        from && from.startsWith("/admin") && from !== "/admin/login" ? from : "/admin";
+      router.push(safeFrom);
       router.refresh();
     } catch {
       setError("Bağlantı hatası. Lütfen tekrar deneyin.");

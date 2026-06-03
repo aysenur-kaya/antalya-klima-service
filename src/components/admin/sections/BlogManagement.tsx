@@ -1,6 +1,6 @@
 "use client";
 
-import { useCallback, useEffect, useState } from "react";
+import { useCallback, useEffect, useMemo, useState } from "react";
 import { FilePlus, Pencil, Trash2 } from "lucide-react";
 import SectionCard from "@/components/admin/ui/SectionCard";
 import Badge from "@/components/admin/ui/Badge";
@@ -19,6 +19,9 @@ import {
 } from "@/components/admin/ui/DataTable";
 import { adminApi } from "@/lib/admin/api-client";
 import { blogStatusLabel, formatAdminDate } from "@/lib/admin/format";
+import { useAdminDashboardSearch } from "@/components/admin/context/AdminDashboardContext";
+import { filterBySearch } from "@/lib/admin/search";
+import SearchNoResults from "@/components/admin/ui/SearchNoResults";
 
 type BlogPost = {
   id: string;
@@ -55,6 +58,18 @@ export default function BlogManagement() {
   const [editing, setEditing] = useState<BlogPost | null>(null);
   const [form, setForm] = useState(emptyForm);
   const [saving, setSaving] = useState(false);
+  const { searchQuery, isSearching } = useAdminDashboardSearch();
+
+  const displayItems = useMemo(
+    () =>
+      filterBySearch(items, searchQuery, (p) => [
+        p.title,
+        p.slug,
+        blogStatusLabel(p.status),
+        p.excerpt ?? "",
+      ]),
+    [items, searchQuery]
+  );
 
   const load = useCallback(async () => {
     setLoading(true);
@@ -142,6 +157,8 @@ export default function BlogManagement() {
           <LoadingBlock />
         ) : items.length === 0 ? (
           <EmptyState message="Henüz blog yazısı yok." />
+        ) : isSearching && displayItems.length === 0 ? (
+          <SearchNoResults />
         ) : (
           <DataTable>
             <DataTableHead>
@@ -152,7 +169,7 @@ export default function BlogManagement() {
               <DataTableHeaderCell className="text-right">İşlem</DataTableHeaderCell>
             </DataTableHead>
             <DataTableBody>
-              {items.map((post) => (
+              {displayItems.map((post) => (
                 <DataTableRow key={post.id}>
                   <DataTableCell>
                     <p className="font-medium text-brand-dark">{post.title}</p>

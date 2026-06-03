@@ -1,6 +1,6 @@
 "use client";
 
-import { useCallback, useEffect, useState } from "react";
+import { useCallback, useEffect, useMemo, useState } from "react";
 import { MapPinned, Plus, Pencil, Trash2 } from "lucide-react";
 import SectionCard from "@/components/admin/ui/SectionCard";
 import Badge from "@/components/admin/ui/Badge";
@@ -10,6 +10,9 @@ import EmptyState from "@/components/admin/ui/EmptyState";
 import { StatusMessage, LoadingBlock } from "@/components/admin/ui/StatusMessage";
 import { adminInputClass } from "@/components/admin/ui/form-styles";
 import { adminApi } from "@/lib/admin/api-client";
+import { useAdminDashboardSearch } from "@/components/admin/context/AdminDashboardContext";
+import { filterBySearch, matchesSearchQuery } from "@/lib/admin/search";
+import SearchNoResults from "@/components/admin/ui/SearchNoResults";
 
 type Neighborhood = {
   id: string;
@@ -47,6 +50,30 @@ export default function DistrictManagement() {
   const [editingNeighborhood, setEditingNeighborhood] = useState<Neighborhood | null>(null);
   const [neighborhoodForm, setNeighborhoodForm] = useState(emptyNeighborhood);
   const [saving, setSaving] = useState(false);
+  const { searchQuery, isSearching } = useAdminDashboardSearch();
+
+  const displayDistricts = useMemo(() => {
+    const q = searchQuery.trim();
+    if (!q) return items;
+
+    return items
+      .map((d) => {
+        const districtMatch = matchesSearchQuery(q, d.name, d.slug, d.landingActive ? "aktif" : "taslak");
+        const neighborhoods = d.neighborhoods ?? [];
+        const filteredNeighborhoods = filterBySearch(neighborhoods, q, (n) => [
+          n.name,
+          n.slug,
+          n.active ? "aktif" : "pasif",
+        ]);
+
+        if (districtMatch) return d;
+        if (filteredNeighborhoods.length > 0) {
+          return { ...d, neighborhoods: filteredNeighborhoods };
+        }
+        return null;
+      })
+      .filter((d): d is District => d !== null);
+  }, [items, searchQuery]);
 
   const load = useCallback(async () => {
     setLoading(true);
@@ -183,9 +210,11 @@ export default function DistrictManagement() {
           <LoadingBlock />
         ) : items.length === 0 ? (
           <EmptyState message="Henüz ilçe kaydı yok." />
+        ) : isSearching && displayDistricts.length === 0 ? (
+          <SearchNoResults />
         ) : (
           <div className="space-y-4">
-            {items.map((d) => (
+            {displayDistricts.map((d) => (
               <div key={d.id} className="rounded-xl border border-brand-border overflow-hidden">
                 <div className="flex flex-wrap items-center gap-3 bg-brand-light/50 px-4 py-3">
                   <div className="min-w-0 flex-1">

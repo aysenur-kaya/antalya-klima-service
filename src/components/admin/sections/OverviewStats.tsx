@@ -5,6 +5,8 @@ import StatCard from "@/components/admin/ui/StatCard";
 import { StatusMessage, LoadingBlock } from "@/components/admin/ui/StatusMessage";
 import type { DashboardStat } from "@/components/admin/types";
 import { adminApi } from "@/lib/admin/api-client";
+import { useAdminDashboardSearch } from "@/components/admin/context/AdminDashboardContext";
+import { matchesSearchQuery } from "@/lib/admin/search";
 
 const emptyStats: DashboardStat[] = [
   { id: "1", label: "Toplam Talep", value: "—", change: "yüklenemedi", trend: "neutral" },
@@ -17,6 +19,20 @@ export default function OverviewStats() {
   const [stats, setStats] = useState<DashboardStat[]>([]);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState<string | null>(null);
+  const { searchQuery, isSearching } = useAdminDashboardSearch();
+
+  const overviewVisible =
+    !isSearching ||
+    matchesSearchQuery(
+      searchQuery,
+      "genel",
+      "bakış",
+      "talep",
+      "hizmet",
+      "blog",
+      "özet",
+      "dashboard"
+    );
 
   useEffect(() => {
     async function load() {
@@ -82,6 +98,8 @@ export default function OverviewStats() {
     }
     load();
   }, []);
+
+  if (!overviewVisible) return null;
 
   return (
     <div id="overview" className="scroll-mt-24 space-y-4">

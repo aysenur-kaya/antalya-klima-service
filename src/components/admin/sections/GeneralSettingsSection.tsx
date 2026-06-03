@@ -6,6 +6,9 @@ import Button from "@/components/admin/ui/Button";
 import { StatusMessage, LoadingBlock } from "@/components/admin/ui/StatusMessage";
 import { adminInputClass } from "@/components/admin/ui/form-styles";
 import { adminApi } from "@/lib/admin/api-client";
+import { useAdminDashboardSearch } from "@/components/admin/context/AdminDashboardContext";
+import { matchesSearchQuery } from "@/lib/admin/search";
+import SearchNoResults from "@/components/admin/ui/SearchNoResults";
 
 type GeneralForm = {
   siteName: string;
@@ -21,6 +24,21 @@ export default function GeneralSettingsSection() {
   const [saving, setSaving] = useState(false);
   const [error, setError] = useState<string | null>(null);
   const [success, setSuccess] = useState<string | null>(null);
+  const { searchQuery, isSearching } = useAdminDashboardSearch();
+
+  const formVisible =
+    form &&
+    (!isSearching ||
+      matchesSearchQuery(
+        searchQuery,
+        form.siteName,
+        form.defaultCity,
+        "bakım",
+        "yorum",
+        "analytics",
+        "genel",
+        "ayar"
+      ));
 
   const load = useCallback(async () => {
     setLoading(true);
@@ -91,6 +109,8 @@ export default function GeneralSettingsSection() {
         <LoadingBlock />
       ) : !form ? (
         <StatusMessage type="info" message="Site ayarları yüklenemedi. npm run db:seed çalıştırın." />
+      ) : !formVisible ? (
+        <SearchNoResults />
       ) : (
         <form id="general-form" onSubmit={handleSave}>
           <div className="grid gap-4 sm:grid-cols-2">

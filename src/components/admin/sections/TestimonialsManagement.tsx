@@ -1,6 +1,6 @@
 "use client";
 
-import { useCallback, useEffect, useState } from "react";
+import { useCallback, useEffect, useMemo, useState } from "react";
 import { Star, Plus, Pencil, Trash2 } from "lucide-react";
 import SectionCard from "@/components/admin/ui/SectionCard";
 import Badge from "@/components/admin/ui/Badge";
@@ -18,6 +18,9 @@ import {
   DataTableHeaderCell,
 } from "@/components/admin/ui/DataTable";
 import { adminApi } from "@/lib/admin/api-client";
+import { useAdminDashboardSearch } from "@/components/admin/context/AdminDashboardContext";
+import { filterBySearch } from "@/lib/admin/search";
+import SearchNoResults from "@/components/admin/ui/SearchNoResults";
 
 type Testimonial = {
   id: string;
@@ -57,6 +60,19 @@ export default function TestimonialsManagement() {
   const [editing, setEditing] = useState<Testimonial | null>(null);
   const [form, setForm] = useState(emptyForm);
   const [saving, setSaving] = useState(false);
+  const { searchQuery, isSearching } = useAdminDashboardSearch();
+
+  const displayItems = useMemo(
+    () =>
+      filterBySearch(items, searchQuery, (t) => [
+        t.author,
+        t.district,
+        t.excerpt,
+        t.published ? "yayında" : "beklemede",
+        String(t.rating),
+      ]),
+    [items, searchQuery]
+  );
 
   const load = useCallback(async () => {
     setLoading(true);
@@ -145,6 +161,8 @@ export default function TestimonialsManagement() {
           <LoadingBlock />
         ) : items.length === 0 ? (
           <EmptyState message="Henüz yorum kaydı yok." />
+        ) : isSearching && displayItems.length === 0 ? (
+          <SearchNoResults />
         ) : (
           <DataTable>
             <DataTableHead>
@@ -156,7 +174,7 @@ export default function TestimonialsManagement() {
               <DataTableHeaderCell className="text-right">İşlem</DataTableHeaderCell>
             </DataTableHead>
             <DataTableBody>
-              {items.map((t) => (
+              {displayItems.map((t) => (
                 <DataTableRow key={t.id}>
                   <DataTableCell className="font-medium">{t.author}</DataTableCell>
                   <DataTableCell>{t.district}</DataTableCell>

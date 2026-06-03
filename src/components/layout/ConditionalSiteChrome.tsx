@@ -11,9 +11,9 @@ export default function ConditionalSiteChrome({
   children: React.ReactNode;
 }) {
   const pathname = usePathname();
-  const isAdmin = pathname?.startsWith("/admin");
+  const isAdminRoute = pathname?.startsWith("/admin") || pathname === "/login";
 
-  if (isAdmin) {
+  if (isAdminRoute) {
     return <>{children}</>;
   }
 

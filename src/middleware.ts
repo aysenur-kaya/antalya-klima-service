@@ -6,6 +6,15 @@ import { getSessionFromRequest } from "@/lib/auth/session";
 export async function middleware(request: NextRequest) {
   const { pathname } = request.nextUrl;
 
+  // Kısa yol: /login → admin giriş sayfası
+  if (pathname === "/login") {
+    const url = new URL("/admin/login", request.url);
+    request.nextUrl.searchParams.forEach((value, key) => {
+      url.searchParams.set(key, value);
+    });
+    return NextResponse.redirect(url);
+  }
+
   const isAdminUi = pathname === "/admin" || pathname.startsWith("/admin/");
   const isAdminApi = pathname.startsWith("/api/admin/");
 
@@ -41,5 +50,5 @@ export async function middleware(request: NextRequest) {
 }
 
 export const config = {
-  matcher: ["/admin", "/admin/:path*", "/api/admin/:path*"],
+  matcher: ["/login", "/admin", "/admin/:path*", "/api/admin/:path*"],
 };

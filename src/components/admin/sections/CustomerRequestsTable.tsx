@@ -1,6 +1,6 @@
 "use client";
 
-import { useCallback, useEffect, useState } from "react";
+import { useCallback, useEffect, useMemo, useState } from "react";
 import { Trash2 } from "lucide-react";
 import SectionCard from "@/components/admin/ui/SectionCard";
 import Button from "@/components/admin/ui/Button";
@@ -17,6 +17,9 @@ import {
 } from "@/components/admin/ui/DataTable";
 import { adminApi } from "@/lib/admin/api-client";
 import { formatAdminDate, requestStatusLabel } from "@/lib/admin/format";
+import { useAdminDashboardSearch } from "@/components/admin/context/AdminDashboardContext";
+import { filterBySearch } from "@/lib/admin/search";
+import SearchNoResults from "@/components/admin/ui/SearchNoResults";
 
 type RequestRow = {
   id: string;
@@ -36,6 +39,21 @@ export default function CustomerRequestsTable() {
   const [error, setError] = useState<string | null>(null);
   const [success, setSuccess] = useState<string | null>(null);
   const [updatingId, setUpdatingId] = useState<string | null>(null);
+  const { searchQuery, isSearching } = useAdminDashboardSearch();
+
+  const displayItems = useMemo(
+    () =>
+      filterBySearch(items, searchQuery, (r) => [
+        r.reference,
+        r.name,
+        r.phone,
+        r.district,
+        r.service,
+        r.message,
+        requestStatusLabel(r.status),
+      ]),
+    [items, searchQuery]
+  );
 
   const load = useCallback(async () => {
     setLoading(true);
@@ -98,6 +116,8 @@ export default function CustomerRequestsTable() {
         <LoadingBlock />
       ) : items.length === 0 ? (
         <EmptyState message="Henüz müşteri talebi yok." />
+      ) : isSearching && displayItems.length === 0 ? (
+        <SearchNoResults />
       ) : (
         <DataTable>
           <DataTableHead>
@@ -109,7 +129,7 @@ export default function CustomerRequestsTable() {
             <DataTableHeaderCell className="text-right">İşlem</DataTableHeaderCell>
           </DataTableHead>
           <DataTableBody>
-            {items.map((req) => (
+            {displayItems.map((req) => (
               <DataTableRow key={req.id}>
                 <DataTableCell>
                   <span className="font-mono text-xs font-medium text-slate-500">
